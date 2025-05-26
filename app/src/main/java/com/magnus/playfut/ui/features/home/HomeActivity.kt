@@ -1,14 +1,12 @@
 package com.magnus.playfut.ui.features.home
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import android.view.Window
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
-import androidx.compose.ui.platform.LocalView
-import androidx.core.view.WindowCompat
+import com.magnus.playfut.ui.features.SetStatusBarIconsDark
 
 class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,12 +17,9 @@ class HomeActivity : AppCompatActivity() {
             HomeScreen()
         }
     }
-}
 
-@Composable
-private fun SetStatusBarIconsDark(window: Window) {
-    val view = LocalView.current
-    SideEffect {
-        WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = true
+    companion object {
+        fun createIntent(context: Context) =
+            Intent(context, HomeActivity::class.java)
     }
 }

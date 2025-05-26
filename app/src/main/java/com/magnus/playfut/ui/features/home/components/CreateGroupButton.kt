@@ -41,7 +41,6 @@ fun CreateGroupButton(
         ) {
             Icon(Icons.Outlined.AddCircle, contentDescription = null, tint = AppColor.green)
             Text(modifier = Modifier.weight(1f), text = "Criar Novo Grupo", fontWeight = FontWeight.Medium)
-            Icon(Icons.Default.ChevronRight, contentDescription = null)
         }
     }
 }
