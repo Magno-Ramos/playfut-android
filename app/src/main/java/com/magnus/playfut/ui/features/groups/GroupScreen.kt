@@ -1,4 +1,4 @@
-package com.magnus.playfut.ui.screens.groups
+package com.magnus.playfut.ui.features.groups
 
 import androidx.compose.runtime.Composable
 

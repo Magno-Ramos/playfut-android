@@ -1,4 +1,4 @@
-package com.magnus.playfut.ui.screens.home.components
+package com.magnus.playfut.ui.features.home.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues

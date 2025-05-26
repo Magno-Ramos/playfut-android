@@ -1,4 +1,4 @@
-package com.magnus.playfut.ui.screens.home
+package com.magnus.playfut.ui.features.home
 
 enum class HomeMenu {
     Groups,

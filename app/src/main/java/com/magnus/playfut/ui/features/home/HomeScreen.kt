@@ -1,4 +1,4 @@
-package com.magnus.playfut.ui.screens.home
+package com.magnus.playfut.ui.features.home
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -22,10 +22,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
-import com.magnus.playfut.ui.screens.home.components.BottomNavigationBarContent
-import com.magnus.playfut.ui.screens.home.components.CreateGroupButton
-import com.magnus.playfut.ui.screens.home.components.EmptyContent
-import com.magnus.playfut.ui.screens.home.components.TopAppBarContent
+import com.magnus.playfut.ui.features.home.components.BottomNavigationBarContent
+import com.magnus.playfut.ui.features.home.components.CreateGroupButton
+import com.magnus.playfut.ui.features.home.components.EmptyContent
+import com.magnus.playfut.ui.features.home.components.TopAppBarContent
 import com.magnus.playfut.ui.theme.AppColor
 import com.magnus.playfut.ui.theme.AppTheme
 

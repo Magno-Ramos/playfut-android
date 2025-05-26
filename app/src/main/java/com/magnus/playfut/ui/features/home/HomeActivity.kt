@@ -1,4 +1,4 @@
-package com.magnus.playfut.ui
+package com.magnus.playfut.ui.features.home
 
 import android.os.Bundle
 import android.view.Window
@@ -9,9 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
-import com.magnus.playfut.ui.screens.home.HomeScreen
 
-class MainActivity : AppCompatActivity() {
+class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)

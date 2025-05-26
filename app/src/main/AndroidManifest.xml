@@ -12,7 +12,7 @@
         android:theme="@style/Theme.PlayFut">
 
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.features.home.HomeActivity"
             android:exported="true">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />

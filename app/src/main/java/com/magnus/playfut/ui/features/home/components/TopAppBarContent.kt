@@ -1,4 +1,4 @@
-package com.magnus.playfut.ui.screens.home.components
+package com.magnus.playfut.ui.features.home.components
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Notifications
