@@ -9,16 +9,13 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import cafe.adriel.voyager.core.screen.Screen
 import com.magnus.playfut.ui.features.home.HomeMenu
-import com.magnus.playfut.ui.features.home.HomeScreenAccount
-import com.magnus.playfut.ui.features.home.HomeScreenGroups
 import com.magnus.playfut.ui.theme.AppColor
 import com.magnus.playfut.ui.theme.Color
 
 @Composable
 fun BottomNavigationBarContent(
-    currentScreen: Screen,
+    currentScreen: HomeMenu,
     onClickMenu: (HomeMenu) -> Unit
 ) {
     val itemColors = NavigationBarItemDefaults.colors(
@@ -29,14 +26,14 @@ fun BottomNavigationBarContent(
 
     NavigationBar(containerColor = AppColor.bgSecondary) {
         NavigationBarItem(
-            selected = currentScreen == HomeScreenGroups,
+            selected = currentScreen == HomeMenu.Groups,
             onClick = { onClickMenu(HomeMenu.Groups) },
             icon = { Icon(Icons.Outlined.People, contentDescription = null) },
             label = { Text("Grupos") },
             colors = itemColors,
         )
         NavigationBarItem(
-            selected = currentScreen == HomeScreenAccount,
+            selected = currentScreen == HomeMenu.Account,
             onClick = { onClickMenu(HomeMenu.Account) },
             icon = { Icon(Icons.Outlined.AccountCircle, contentDescription = null) },
             label = { Text("Conta") },
