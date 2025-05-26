@@ -48,12 +48,8 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     debugImplementation(libs.androidx.ui.tooling)
 
-    implementation("androidx.compose.material:material-icons-core")
-    implementation("androidx.compose.material:material-icons-extended")
-
-    val voyagerVersion = "1.1.0-beta02"
-    implementation("cafe.adriel.voyager:voyager-navigator:${voyagerVersion}")
-    implementation("cafe.adriel.voyager:voyager-transitions:${voyagerVersion}")
+    implementation(libs.androidx.material.icons.core)
+    implementation(libs.androidx.material.icons.extended)
 
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
