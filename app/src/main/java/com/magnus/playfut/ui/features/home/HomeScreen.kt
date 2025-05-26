@@ -29,49 +29,51 @@ import com.magnus.playfut.ui.features.home.components.TopAppBarContent
 import com.magnus.playfut.ui.theme.AppColor
 import com.magnus.playfut.ui.theme.AppTheme
 
-class HomeScreen : Screen {
-    @OptIn(ExperimentalAnimationApi::class)
-    @Composable
-    override fun Content() {
-        val screens = listOf(HomeScreenGroups, HomeScreenAccount)
-        var currentScreen by remember { mutableStateOf<Screen>(HomeScreenGroups) }
-        var previousIndex by remember { mutableIntStateOf(0) }
+private enum class HomeMenu {
+    Groups,
+    Account
+}
 
-        AppTheme {
-            Scaffold(
-                topBar = { TopAppBarContent() },
-                bottomBar = {
-                    BottomNavigationBarContent(
-                        currentScreen = currentScreen,
-                        onClickMenu = {
-                            currentScreen = when (it) {
-                                HomeMenu.Groups -> HomeScreenGroups
-                                HomeMenu.Account -> HomeScreenAccount
-                            }
+@Composable
+fun HomeScreen() {
+    val screens = listOf(HomeScreenGroups, HomeScreenAccount)
+    var currentScreen by remember { mutableStateOf<Screen>(HomeScreenGroups) }
+    var previousIndex by remember { mutableIntStateOf(0) }
+
+    AppTheme {
+        Scaffold(
+            topBar = { TopAppBarContent() },
+            bottomBar = {
+                BottomNavigationBarContent(
+                    currentScreen = currentScreen,
+                    onClickMenu = {
+                        currentScreen = when (it) {
+                            HomeMenu.Groups -> HomeScreenGroups
+                            HomeMenu.Account -> HomeScreenAccount
                         }
-                    )
-                },
-                containerColor = AppColor.bgPrimary
-            ) { innerPaddings ->
-                Box(
-                    modifier = Modifier
-                        .padding(paddingValues = innerPaddings)
-                        .fillMaxSize()
-                ) {
-                    AnimatedContent(
-                        label = "screen transition",
-                        targetState = currentScreen,
-                        transitionSpec = {
-                            if (screens.indexOf(targetState) > previousIndex) {
-                                slideInHorizontally { it } + fadeIn() togetherWith
-                                        slideOutHorizontally { -it } + fadeOut()
-                            } else {
-                                slideInHorizontally { -it } + fadeIn() togetherWith
-                                        slideOutHorizontally { it } + fadeOut()
-                            }
+                    }
+                )
+            },
+            containerColor = AppColor.bgPrimary
+        ) { innerPaddings ->
+            Box(
+                modifier = Modifier
+                    .padding(paddingValues = innerPaddings)
+                    .fillMaxSize()
+            ) {
+                AnimatedContent(
+                    label = "screen transition",
+                    targetState = currentScreen,
+                    transitionSpec = {
+                        if (screens.indexOf(targetState) > previousIndex) {
+                            slideInHorizontally { it } + fadeIn() togetherWith
+                                    slideOutHorizontally { -it } + fadeOut()
+                        } else {
+                            slideInHorizontally { -it } + fadeIn() togetherWith
+                                    slideOutHorizontally { it } + fadeOut()
                         }
-                    ) { screen -> screen.Content() }
-                }
+                    }
+                ) { screen -> screen.Content() }
             }
         }
     }
