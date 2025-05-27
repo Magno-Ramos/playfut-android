@@ -1,13 +1,17 @@
 package com.magnus.playfut.ui.di
 
+import com.magnus.playfut.ui.domain.database.AppDatabase
 import com.magnus.playfut.ui.domain.repository.GroupsRepository
 import com.magnus.playfut.ui.domain.repository.UserRepository
 import com.magnus.playfut.ui.features.groups.create.GroupsCreateViewModel
 import com.magnus.playfut.ui.features.home.HomeViewModel
+import org.koin.android.ext.koin.androidApplication
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
 val appModules = module {
+    single { AppDatabase.build(androidApplication()) }
+
     single { UserRepository() }
     single { GroupsRepository() }
 
