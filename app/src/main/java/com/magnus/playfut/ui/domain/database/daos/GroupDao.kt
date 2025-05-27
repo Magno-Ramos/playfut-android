@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface GroupDao {
     @Insert
-    suspend fun insertGroup(group: GroupEntity)
+    suspend fun insertGroup(group: GroupEntity): Long
 
     @Insert
     suspend fun insertPlayers(players: List<PlayerEntity>)
@@ -29,9 +29,8 @@ interface GroupDao {
     @Delete
     suspend fun deleteGroup(group: GroupEntity)
 
-    @Transaction
-    @Query("SELECT * FROM `groups` ORDER BY createdAt DESC")
-    fun observeAllGroupsWithDetails(): Flow<List<GroupWithPlayersAndRounds>>
+    @Query("SELECT * FROM `groups` WHERE id = :groupId")
+    suspend fun getGroupById(groupId: Long): GroupWithPlayersAndRounds?
 
     @Transaction
     @Query("SELECT * FROM `groups` ORDER BY createdAt DESC")
@@ -40,4 +39,12 @@ interface GroupDao {
     @Transaction
     @Query("SELECT * FROM `groups` WHERE id = :groupId")
     suspend fun getGroupWithDetails(groupId: Long): GroupWithPlayersAndRounds
+
+    @Transaction
+    @Query("SELECT * FROM `groups` ORDER BY createdAt DESC")
+    fun observeAllGroupsWithDetails(): Flow<List<GroupWithPlayersAndRounds>>
+
+    @Transaction
+    @Query("SELECT * FROM `groups` WHERE id = :groupId")
+    fun observeGroupWithDetails(groupId: Long): Flow<GroupWithPlayersAndRounds?>
 }

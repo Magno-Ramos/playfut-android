@@ -17,6 +17,7 @@ import com.magnus.playfut.ui.domain.state.UiState
 import com.magnus.playfut.ui.features.common.ErrorView
 import com.magnus.playfut.ui.features.common.LoadingView
 import com.magnus.playfut.ui.features.groups.create.GroupsCreateActivity
+import com.magnus.playfut.ui.features.groups.menu.GroupMenuActivity
 import com.magnus.playfut.ui.features.home.HomeViewModel
 import com.magnus.playfut.ui.features.home.components.CreateGroupButton
 import com.magnus.playfut.ui.features.home.components.EmptyContent
@@ -26,16 +27,28 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun HomeScreenGroups(viewModel: HomeViewModel = koinViewModel()) {
     val uiState by viewModel.uiState.collectAsState()
+    val context = LocalContext.current
+
+    fun onClickGroup(groupId: String) {
+        val intent = GroupMenuActivity.createIntent(context, groupId)
+        context.startActivity(intent)
+    }
 
     when (uiState) {
         is UiState.Loading -> LoadingView()
-        is UiState.Success -> SuccessState(uiState as UiState.Success<List<Group>>)
         is UiState.Error -> ErrorView(message = "Desculpe, ocorreu um erro")
+        is UiState.Success -> SuccessState(
+            state = uiState as UiState.Success<List<Group>>,
+            onClickGroup = ::onClickGroup
+        )
     }
 }
 
 @Composable
-private fun SuccessState(state: UiState.Success<List<Group>>) {
+private fun SuccessState(
+    state: UiState.Success<List<Group>>,
+    onClickGroup: (String) -> Unit = {}
+) {
     val context = LocalContext.current
     val groups = state.data
 
@@ -48,7 +61,8 @@ private fun SuccessState(state: UiState.Success<List<Group>>) {
     } else {
         GroupsStateList(
             groups = groups,
-            onClickCreateGroup = ::onClickCreateGroup
+            onClickCreateGroup = ::onClickCreateGroup,
+            onClickGroup = onClickGroup
         )
     }
 }
@@ -73,14 +87,18 @@ fun GroupsStateEmpty(
 fun GroupsStateList(
     modifier: Modifier = Modifier,
     groups: List<Group>,
-    onClickCreateGroup: () -> Unit
+    onClickCreateGroup: () -> Unit,
+    onClickGroup: (String) -> Unit = {}
 ) {
     LazyColumn(
         modifier = modifier.padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(groups) { group ->
-            GroupItem(group = group)
+            GroupItem(
+                group = group,
+                onClick = { onClickGroup(group.id) }
+            )
         }
         item {
             CreateGroupButton(onClick = { onClickCreateGroup() })

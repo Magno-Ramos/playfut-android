@@ -16,8 +16,8 @@ class GroupsCreateViewModel(
     private val auth: FirebaseAuth
 ) : ViewModel() {
 
-    private val _createGroupResult = MutableStateFlow<ActionResultState>(ActionResultState.Idle)
-    val createGroupResult: StateFlow<ActionResultState> = _createGroupResult
+    private val _createGroupResult = MutableStateFlow<ActionResultState<String>>(ActionResultState.Idle)
+    val createGroupResult: StateFlow<ActionResultState<String>> = _createGroupResult
 
     fun createGroup(name: String) {
         _createGroupResult.value = ActionResultState.Loading
@@ -26,12 +26,8 @@ class GroupsCreateViewModel(
 
         viewModelScope.launch {
             repo.createGroup(name)
-                .onSuccess {
-                    _createGroupResult.value = ActionResultState.Success
-                }
-                .onFailure {
-                    _createGroupResult.value = ActionResultState.Error(null)
-                }
+                .onSuccess { _createGroupResult.value = ActionResultState.Success(it) }
+                .onFailure { _createGroupResult.value = ActionResultState.Error(null) }
         }
     }
 }

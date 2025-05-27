@@ -12,6 +12,7 @@ object AppColor {
 
     val white = Color(0xFFFFFFFF)
     val green = Color(0xFF2FBC8A)
+    val red = Color(0xFFE95E56)
 }
 
 object Color {

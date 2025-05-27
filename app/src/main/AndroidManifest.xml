@@ -14,7 +14,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PlayFut">
-
         <activity
             android:name=".ui.features.home.HomeActivity"
             android:exported="true">
@@ -23,9 +22,14 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.features.groups.create.GroupsCreateActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.features.groups.menu.GroupMenuActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.features.groups.settings.GroupSettingsActivity"
             android:exported="false" />
     </application>
 </manifest>

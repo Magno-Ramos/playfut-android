@@ -6,6 +6,8 @@ import com.magnus.playfut.ui.domain.repository.LocalGroupRepository
 import com.magnus.playfut.ui.domain.repository.RemoteGroupRepository
 import com.magnus.playfut.ui.domain.repository.UserRepository
 import com.magnus.playfut.ui.features.groups.create.GroupsCreateViewModel
+import com.magnus.playfut.ui.features.groups.menu.GroupMenuViewModel
+import com.magnus.playfut.ui.features.groups.settings.GroupSettingsViewModel
 import com.magnus.playfut.ui.features.home.HomeViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.core.module.dsl.viewModel
@@ -22,4 +24,6 @@ val appModules = module {
 
     viewModel { HomeViewModel(get(), get(), get()) }
     viewModel { GroupsCreateViewModel(get(), get(), get()) }
+    viewModel { GroupMenuViewModel(get(), get(), get()) }
+    viewModel { GroupSettingsViewModel(get(), get(), get()) }
 }

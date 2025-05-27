@@ -1,0 +1,45 @@
+package com.magnus.playfut.ui.features.common
+
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.TextUnitType
+import com.magnus.playfut.ui.theme.AppColor
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AppToolbar(
+    title: String,
+    onClickBack: (() -> Unit)? = null
+) {
+    TopAppBar(
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = AppColor.bgPrimary,
+        ),
+        title = {
+            Text(
+                text = title,
+                fontSize = TextUnit(value = 16f, type = TextUnitType.Sp),
+                fontWeight = FontWeight.Bold
+            )
+        },
+        navigationIcon = {
+            if (onClickBack != null) {
+                IconButton(onClick = { onClickBack() }) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = "Voltar"
+                    )
+                }
+            }
+        }
+    )
+}

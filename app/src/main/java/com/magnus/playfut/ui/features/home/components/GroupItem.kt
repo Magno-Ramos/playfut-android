@@ -1,6 +1,7 @@
 package com.magnus.playfut.ui.features.home.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -27,9 +29,13 @@ import com.magnus.playfut.ui.theme.AppColor
 import com.magnus.playfut.ui.theme.AppTheme
 
 @Composable
-fun GroupItem(group: Group) {
+fun GroupItem(
+    group: Group,
+    onClick: () -> Unit = {}
+) {
     Column(
         modifier = Modifier
+            .clickable(enabled = true, onClick = { onClick() }, role = Role.Button)
             .background(AppColor.bgSecondary, RoundedCornerShape(8.dp))
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
