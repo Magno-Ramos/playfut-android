@@ -14,18 +14,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PlayFut">
+
         <activity
-            android:name=".ui.features.initializer.InitializerActivity"
+            android:name=".ui.features.home.HomeActivity"
             android:exported="true">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-
-        <activity
-            android:name=".ui.features.home.HomeActivity"
-            android:exported="false" />
 
         <activity
             android:name=".ui.features.groups.create.GroupsCreateActivity"

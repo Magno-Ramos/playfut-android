@@ -8,12 +8,15 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
@@ -31,18 +34,24 @@ fun GroupsCreateScreen(
     onClickBack: () -> Unit = {}
 ) {
     val createGroupResultState = viewModel.createGroupResult.collectAsState()
+    val snackBarHostState = remember { SnackbarHostState() }
 
-    LaunchedEffect(createGroupResultState) {
+    LaunchedEffect(createGroupResultState.value) {
         when (createGroupResultState.value) {
             ActionResultState.Idle -> Unit
-            ActionResultState.Error -> {}
             ActionResultState.Loading -> {}
-            ActionResultState.Success -> onClickBack()
+            ActionResultState.Success -> {
+                onClickBack()
+            }
+            is ActionResultState.Error -> {
+                snackBarHostState.showSnackbar(message = "Erro ao criar grupo")
+            }
         }
     }
 
     AppTheme {
         Scaffold(
+            snackbarHost = { SnackbarHost(snackBarHostState) },
             containerColor = AppColor.bgPrimary,
             topBar = {
                 TopAppBar(

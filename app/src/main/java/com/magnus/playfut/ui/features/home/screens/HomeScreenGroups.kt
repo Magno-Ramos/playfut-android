@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -27,10 +26,6 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun HomeScreenGroups(viewModel: HomeViewModel = koinViewModel()) {
     val uiState by viewModel.uiState.collectAsState()
-
-    LaunchedEffect(Unit) {
-        viewModel.fetchGroups()
-    }
 
     when (uiState) {
         is UiState.Loading -> LoadingView()

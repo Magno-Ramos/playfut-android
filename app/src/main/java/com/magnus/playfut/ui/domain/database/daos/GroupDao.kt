@@ -10,11 +10,12 @@ import com.magnus.playfut.ui.domain.database.entities.GroupEntity
 import com.magnus.playfut.ui.domain.database.entities.GroupWithPlayersAndRounds
 import com.magnus.playfut.ui.domain.database.entities.PlayerEntity
 import com.magnus.playfut.ui.domain.database.entities.RoundEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface GroupDao {
     @Insert
-    suspend fun insertGroup(group: GroupEntity): Long
+    suspend fun insertGroup(group: GroupEntity)
 
     @Insert
     suspend fun insertPlayers(players: List<PlayerEntity>)
@@ -29,7 +30,11 @@ interface GroupDao {
     suspend fun deleteGroup(group: GroupEntity)
 
     @Transaction
-    @Query("SELECT * FROM `groups`")
+    @Query("SELECT * FROM `groups` ORDER BY createdAt DESC")
+    fun observeAllGroupsWithDetails(): Flow<List<GroupWithPlayersAndRounds>>
+
+    @Transaction
+    @Query("SELECT * FROM `groups` ORDER BY createdAt DESC")
     suspend fun getAllGroupsWithDetails(): List<GroupWithPlayersAndRounds>
 
     @Transaction

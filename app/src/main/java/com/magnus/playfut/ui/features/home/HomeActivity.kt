@@ -1,7 +1,5 @@
 package com.magnus.playfut.ui.features.home
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -20,10 +18,5 @@ class HomeActivity : AppCompatActivity() {
                 HomeScreen()
             }
         }
-    }
-
-    companion object {
-        fun createIntent(context: Context) =
-            Intent(context, HomeActivity::class.java)
     }
 }

@@ -1,7 +1,9 @@
 package com.magnus.playfut.ui.di
 
+import com.google.firebase.auth.FirebaseAuth
 import com.magnus.playfut.ui.domain.database.AppDatabase
-import com.magnus.playfut.ui.domain.repository.GroupsRepository
+import com.magnus.playfut.ui.domain.repository.LocalGroupRepository
+import com.magnus.playfut.ui.domain.repository.RemoteGroupRepository
 import com.magnus.playfut.ui.domain.repository.UserRepository
 import com.magnus.playfut.ui.features.groups.create.GroupsCreateViewModel
 import com.magnus.playfut.ui.features.home.HomeViewModel
@@ -11,10 +13,13 @@ import org.koin.dsl.module
 
 val appModules = module {
     single { AppDatabase.build(androidApplication()) }
+    single { get<AppDatabase>().groupDao() }
+    single { FirebaseAuth.getInstance() }
 
     single { UserRepository() }
-    single { GroupsRepository(get()) }
+    single { RemoteGroupRepository(get()) }
+    single { LocalGroupRepository(get()) }
 
-    viewModel { HomeViewModel(get()) }
-    viewModel { GroupsCreateViewModel(get()) }
+    viewModel { HomeViewModel(get(), get(), get()) }
+    viewModel { GroupsCreateViewModel(get(), get(), get()) }
 }

@@ -4,5 +4,5 @@ sealed class ActionResultState {
     object Idle : ActionResultState()
     object Loading : ActionResultState()
     object Success : ActionResultState()
-    object Error : ActionResultState()
+    data class Error(val message: String? = null) : ActionResultState()
 }

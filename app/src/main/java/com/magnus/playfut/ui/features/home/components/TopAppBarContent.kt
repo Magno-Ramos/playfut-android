@@ -1,6 +1,8 @@
 package com.magnus.playfut.ui.features.home.components
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.AddCircle
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -19,7 +21,8 @@ import com.magnus.playfut.ui.theme.AppColor
 @Composable
 fun TopAppBarContent(
     modifier: Modifier = Modifier,
-    onClickNotification: () -> Unit = {}
+    onClickNotification: () -> Unit = {},
+    onClickCreate: () -> Unit = {}
 ) {
     TopAppBar(
         modifier = modifier,
@@ -34,6 +37,12 @@ fun TopAppBarContent(
             )
         },
         actions = {
+            IconButton(onClick = onClickCreate) {
+                Icon(
+                    imageVector = Icons.Outlined.Add,
+                    contentDescription = null
+                )
+            }
             IconButton(onClick = onClickNotification) {
                 Icon(
                     imageVector = Icons.Outlined.Notifications,

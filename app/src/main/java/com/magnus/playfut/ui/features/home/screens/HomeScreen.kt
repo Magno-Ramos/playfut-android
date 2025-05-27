@@ -10,6 +10,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import com.magnus.playfut.ui.features.groups.create.GroupsCreateActivity
 import com.magnus.playfut.ui.features.home.HomeMenu
 import com.magnus.playfut.ui.features.home.components.BottomNavigationBarContent
 import com.magnus.playfut.ui.features.home.components.TopAppBarContent
@@ -18,10 +20,21 @@ import com.magnus.playfut.ui.theme.AppColor
 @Composable
 fun HomeScreen() {
     var currentScreen by remember { mutableStateOf<HomeMenu>(HomeMenu.Groups) }
+    val context = LocalContext.current
 
     Scaffold(
         containerColor = AppColor.bgPrimary,
-        topBar = { TopAppBarContent() },
+        topBar = {
+            TopAppBarContent(
+                onClickNotification = {
+                    // TODO, implement notifications
+                },
+                onClickCreate = {
+                    val intent = GroupsCreateActivity.createIntent(context)
+                    context.startActivity(intent)
+                }
+            )
+        },
         bottomBar = {
             BottomNavigationBarContent(
                 currentScreen = currentScreen,

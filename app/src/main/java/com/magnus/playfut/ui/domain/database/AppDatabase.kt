@@ -22,7 +22,7 @@ abstract class AppDatabase : RoomDatabase() {
             return Room.databaseBuilder(
                 application,
                 AppDatabase::class.java,
-                "app-database"
+                "play-fut-database"
             ).build()
         }
     }
