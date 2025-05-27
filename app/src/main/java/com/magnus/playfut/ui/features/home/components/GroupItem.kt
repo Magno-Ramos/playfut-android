@@ -76,7 +76,7 @@ fun GroupItem(group: Group) {
                 tint = AppColor.primaryText
             )
             Text(
-                text = group.rounds.toRealizedRoundsString(),
+                text = group.rounds.size.toRealizedRoundsString(),
                 fontWeight = FontWeight.Normal,
                 color = AppColor.primaryText
             )
@@ -102,8 +102,8 @@ private fun GroupItemPreview() {
             group = Group(
                 id = "1",
                 name = "Grupo 1",
-                players = listOf("Jogador 1", "Jogador 2"),
-                rounds = 2
+                players = listOf(),
+                rounds = listOf()
             )
         )
     }

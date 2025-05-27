@@ -26,5 +26,9 @@
         <activity
             android:name=".ui.features.home.HomeActivity"
             android:exported="false" />
+
+        <activity
+            android:name=".ui.features.groups.create.GroupsCreateActivity"
+            android:exported="false" />
     </application>
 </manifest>

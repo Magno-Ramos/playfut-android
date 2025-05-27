@@ -2,6 +2,7 @@ package com.magnus.playfut.ui.di
 
 import com.magnus.playfut.ui.domain.repository.GroupsRepository
 import com.magnus.playfut.ui.domain.repository.UserRepository
+import com.magnus.playfut.ui.features.groups.create.GroupsCreateViewModel
 import com.magnus.playfut.ui.features.home.HomeViewModel
 import com.magnus.playfut.ui.features.initializer.InitializerViewModel
 import org.koin.core.module.dsl.viewModel
@@ -13,4 +14,5 @@ val appModules = module {
 
     viewModel { InitializerViewModel(get()) }
     viewModel { HomeViewModel(get()) }
+    viewModel { GroupsCreateViewModel(get()) }
 }

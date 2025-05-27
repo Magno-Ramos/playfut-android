@@ -2,6 +2,7 @@ package com.magnus.playfut.ui.features.initializer
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,14 +18,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
-import com.magnus.playfut.ui.features.SetStatusBarIconsDark
+import com.magnus.playfut.ui.extensions.setLightStatusBar
 import com.magnus.playfut.ui.features.home.HomeActivity
 
 class InitializerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
+        setLightStatusBar()
         super.onCreate(savedInstanceState)
         setContent {
-            SetStatusBarIconsDark(window)
             AppInitializer {
                 startActivity(HomeActivity.createIntent(this))
                 finish()
