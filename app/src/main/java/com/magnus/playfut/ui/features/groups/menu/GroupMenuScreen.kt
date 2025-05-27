@@ -26,6 +26,7 @@ import com.magnus.playfut.ui.extensions.activity
 import com.magnus.playfut.ui.features.common.AppToolbar
 import com.magnus.playfut.ui.features.groups.menu.components.MenuItem
 import com.magnus.playfut.ui.features.groups.settings.GroupSettingsActivity
+import com.magnus.playfut.ui.features.player.list.PlayerListActivity
 import com.magnus.playfut.ui.theme.AppColor
 import org.koin.androidx.compose.koinViewModel
 
@@ -61,6 +62,11 @@ fun GroupMenuScreen(
         context.startActivity(intent)
     }
 
+    fun openPlayers() {
+        val intent = PlayerListActivity.createIntent(context, groupId)
+        context.startActivity(intent)
+    }
+
     Scaffold(
         containerColor = AppColor.bgPrimary,
         topBar = { AppToolbar(title = title, onClickBack = onClickBack) }
@@ -83,11 +89,12 @@ fun GroupMenuScreen(
             )
             MenuItem(
                 icon = Icons.Outlined.PeopleAlt,
-                title = "Jogadores"
+                title = "Jogadores",
+                onClick = { openPlayers() }
             )
             MenuItem(
                 icon = Icons.Outlined.Edit,
-                title = "Editar Grupo"
+                title = "Editar Grupo",
             )
             MenuItem(
                 icon = Icons.Outlined.Delete,

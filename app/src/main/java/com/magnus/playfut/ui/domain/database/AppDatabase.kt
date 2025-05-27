@@ -6,13 +6,14 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.magnus.playfut.ui.domain.database.converters.DateConverter
+import com.magnus.playfut.ui.domain.database.converters.PlayerTypeConverter
 import com.magnus.playfut.ui.domain.database.daos.GroupDao
 import com.magnus.playfut.ui.domain.database.entities.GroupEntity
 import com.magnus.playfut.ui.domain.database.entities.PlayerEntity
 import com.magnus.playfut.ui.domain.database.entities.RoundEntity
 
 @Database(entities = [GroupEntity::class, PlayerEntity::class, RoundEntity::class], version = 1)
-@TypeConverters(DateConverter::class)
+@TypeConverters(DateConverter::class, PlayerTypeConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun groupDao(): GroupDao

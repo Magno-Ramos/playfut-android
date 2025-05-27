@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey
 import androidx.room.Relation
 import com.magnus.playfut.ui.domain.model.Group
 import com.magnus.playfut.ui.domain.model.Player
+import com.magnus.playfut.ui.domain.model.PlayerType
 import com.magnus.playfut.ui.domain.model.Round
 import java.util.Date
 
@@ -46,7 +47,8 @@ data class PlayerEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val name: String = "",
     val quality: Int = 0,
-    val groupId: Long
+    val groupId: Long,
+    val type: PlayerType
 )
 
 data class GroupWithPlayersAndRounds(
@@ -67,7 +69,8 @@ data class GroupWithPlayersAndRounds(
 
 fun PlayerEntity.toPlayer() = Player(
     name = name,
-    quality = quality
+    quality = quality,
+    type = type
 )
 
 fun RoundEntity.toRound() = Round(

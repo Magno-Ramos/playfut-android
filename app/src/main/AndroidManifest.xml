@@ -31,5 +31,8 @@
         <activity
             android:name=".ui.features.groups.settings.GroupSettingsActivity"
             android:exported="false" />
+        <activity
+            android:name=".ui.features.player.list.PlayerListActivity"
+            android:exported="false" />
     </application>
 </manifest>
