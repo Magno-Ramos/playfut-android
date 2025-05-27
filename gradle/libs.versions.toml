@@ -9,7 +9,8 @@ lifecycleViewmodelCompose = "2.9.0"
 material = "1.12.0"
 navigationCompose = "2.9.0"
 composeBom = "2025.05.01"
-googleServices = "4.4.1"
+googleServices = "4.4.2"
+googleKsp = "2.1.21-2.0.1"
 
 [libraries]
 androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
@@ -32,4 +33,5 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }
+google-ksp = { id = "com.google.devtools.ksp", version.ref = "googleKsp" }
 

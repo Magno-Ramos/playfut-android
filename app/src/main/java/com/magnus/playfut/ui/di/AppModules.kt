@@ -13,7 +13,7 @@ val appModules = module {
     single { AppDatabase.build(androidApplication()) }
 
     single { UserRepository() }
-    single { GroupsRepository() }
+    single { GroupsRepository(get()) }
 
     viewModel { HomeViewModel(get()) }
     viewModel { GroupsCreateViewModel(get()) }
