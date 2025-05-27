@@ -34,5 +34,8 @@
         <activity
             android:name=".ui.features.player.list.PlayerListActivity"
             android:exported="false" />
+        <activity
+            android:name=".ui.features.player.create.PlayerCreateActivity"
+            android:exported="false" />
     </application>
 </manifest>

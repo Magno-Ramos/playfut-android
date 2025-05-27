@@ -17,12 +17,10 @@ class Round(
 class Player(
     val name: String = "",
     val quality: Int = 0,
-    val type: PlayerType = PlayerType.DEFENDER
+    val type: PlayerType = PlayerType.LINE
 )
 
-enum class PlayerType {
-    GOALKEEPER,
-    DEFENDER,
-    MIDFIELDER,
-    ATTACKER
+enum class PlayerType (val type: String) {
+    GOALKEEPER("Goleiro"),
+    LINE("Linha"),
 }
