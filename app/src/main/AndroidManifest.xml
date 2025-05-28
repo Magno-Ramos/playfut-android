@@ -35,7 +35,7 @@
             android:name=".ui.features.player.list.PlayerListActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.features.player.create.PlayerCreateActivity"
+            android:name=".ui.features.player.form.PlayerFormActivity"
             android:exported="false" />
     </application>
 </manifest>

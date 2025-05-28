@@ -19,7 +19,8 @@ import com.magnus.playfut.ui.theme.AppTheme
 @Composable
 fun PlayerGroup(
     type: PlayerType,
-    group: List<Player>
+    group: List<Player>,
+    onClickPlayer: (Player) -> Unit = {}
 ) {
     Column {
         Text(
@@ -30,7 +31,7 @@ fun PlayerGroup(
         )
         Spacer(modifier = Modifier.height(12.dp))
         group.forEach { player ->
-            PlayerItem(player = player)
+            PlayerItem(player = player, onClick = { onClickPlayer(player) })
             Spacer(Modifier.height(4.dp))
         }
     }

@@ -47,7 +47,7 @@ fun PlayerItem(
             .fillMaxWidth()
             .clip(RoundedCornerShape(90.dp))
             .clickable(
-                onClick = {},
+                onClick = onClick,
                 role = Role.Button,
             )
             .background(AppColor.bgSecondary)

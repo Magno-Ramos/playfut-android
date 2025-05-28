@@ -11,10 +11,28 @@ interface PlayerRepository {
         type: PlayerType,
         quality: Int
     ): Result<Unit>
+
+    suspend fun editPlayer(
+        id: String,
+        groupId: String,
+        name: String,
+        type: PlayerType,
+        quality: Int
+    ): Result<Unit>
 }
 
 class RemotePlayerRepository : PlayerRepository {
     override suspend fun createPlayer(
+        groupId: String,
+        name: String,
+        type: PlayerType,
+        quality: Int
+    ): Result<Unit> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun editPlayer(
+        id: String,
         groupId: String,
         name: String,
         type: PlayerType,
@@ -38,6 +56,24 @@ class LocalPlayerRepository(
                 groupId = groupId.toLong(),
                 name = name,
                 type = type,
+                quality = quality
+            )
+        )
+    }
+
+    override suspend fun editPlayer(
+        id: String,
+        groupId: String,
+        name: String,
+        type: PlayerType,
+        quality: Int
+    )= runCatching {
+        dao.updatePlayer(
+            PlayerEntity(
+                id = id.toLong(),
+                name = name,
+                type = type,
+                groupId = groupId.toLong(),
                 quality = quality
             )
         )

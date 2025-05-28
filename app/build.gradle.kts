@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.google.services)
     alias(libs.plugins.google.ksp)
+    alias(libs.plugins.kotlin.parcelize)
 }
 
 android {
@@ -21,9 +22,6 @@ android {
     }
     buildFeatures {
         compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.3"
     }
     buildTypes {
         release {

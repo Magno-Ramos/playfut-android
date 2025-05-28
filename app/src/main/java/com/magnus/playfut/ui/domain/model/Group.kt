@@ -1,5 +1,7 @@
 package com.magnus.playfut.ui.domain.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import java.util.Date
 
 class Group(
@@ -14,11 +16,14 @@ class Round(
     val date: Date = Date()
 )
 
+@Parcelize
 class Player(
+    val id: String = "",
     val name: String = "",
     val quality: Int = 0,
-    val type: PlayerType = PlayerType.UNIVERSAL
-)
+    val type: PlayerType = PlayerType.UNIVERSAL,
+    val groupId: String = "",
+) : Parcelable
 
 enum class PlayerType(val type: String) {
     GOALKEEPER("Goleiro"),

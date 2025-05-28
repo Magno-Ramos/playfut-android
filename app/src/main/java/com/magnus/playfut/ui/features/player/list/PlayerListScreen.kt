@@ -28,7 +28,7 @@ import com.magnus.playfut.ui.extensions.activity
 import com.magnus.playfut.ui.features.common.AppToolbar
 import com.magnus.playfut.ui.features.common.ErrorView
 import com.magnus.playfut.ui.features.common.LoadingView
-import com.magnus.playfut.ui.features.player.create.PlayerCreateActivity
+import com.magnus.playfut.ui.features.player.form.PlayerFormActivity
 import com.magnus.playfut.ui.features.player.list.components.PlayerGroup
 import com.magnus.playfut.ui.theme.AppColor
 import org.koin.androidx.compose.koinViewModel
@@ -46,7 +46,12 @@ fun PlayerListScreen(
     }
 
     fun openPlayerCreate() {
-        val intent = PlayerCreateActivity.createIntent(context, groupId)
+        val intent = PlayerFormActivity.createIntentToCreate(context, groupId)
+        context.startActivity(intent)
+    }
+
+    fun openPlayerEdit(player: Player) {
+        val intent = PlayerFormActivity.createIntentToEdit(context, player)
         context.startActivity(intent)
     }
 
@@ -83,7 +88,10 @@ fun PlayerListScreen(
                     if (state.data.players.isEmpty()) {
                         PlayerListEmpty()
                     } else {
-                        PlayerListContent(players = state.data.players)
+                        PlayerListContent(
+                            players = state.data.players,
+                            onClickPlayer = { openPlayerEdit(it) }
+                        )
                     }
                 }
             }
@@ -109,7 +117,8 @@ private fun PlayerListEmpty() {
 @Composable
 private fun PlayerListContent(
     modifier: Modifier = Modifier,
-    players: List<Player>
+    players: List<Player>,
+    onClickPlayer: (Player) -> Unit = {}
 ) {
     val groups = players
         .groupBy { it.type }
@@ -123,7 +132,8 @@ private fun PlayerListContent(
         items(groups) {
             PlayerGroup(
                 type = it.first,
-                group = it.second
+                group = it.second,
+                onClickPlayer = onClickPlayer
             )
         }
     }

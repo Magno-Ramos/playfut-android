@@ -68,6 +68,8 @@ data class GroupWithPlayersAndRounds(
 )
 
 fun PlayerEntity.toPlayer() = Player(
+    id = id.toString(),
+    groupId = groupId.toString(),
     name = name,
     quality = quality,
     type = type
