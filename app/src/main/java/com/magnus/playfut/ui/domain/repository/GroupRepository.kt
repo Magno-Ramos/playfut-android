@@ -13,6 +13,8 @@ interface GroupRepository {
 
     suspend fun createGroup(name: String): Result<String>
 
+    suspend fun editGroup(id: String, name: String): Result<Unit>
+
     suspend fun fetchGroup(groupId: String): Result<Group?>
 
     suspend fun deleteGroup(groupId: String): Result<Unit>
@@ -29,6 +31,10 @@ class RemoteGroupRepository(
     override suspend fun createGroup(name: String): Result<String> {
         // TODO, create group in Firebase
         return Result.success("1")
+    }
+
+    override suspend fun editGroup(id: String, name: String): Result<Unit> {
+        TODO("Not yet implemented")
     }
 
     override suspend fun fetchGroup(groupId: String): Result<Group?> {
@@ -55,6 +61,10 @@ class LocalGroupRepository(
 
     override suspend fun createGroup(name: String) = runCatching {
         dao.insertGroup(GroupEntity(name = name)).toString()
+    }
+
+    override suspend fun editGroup(id: String, name: String): Result<Unit> = runCatching {
+        dao.updateGroup(GroupEntity(id = id.toLong(), name = name))
     }
 
     override suspend fun fetchGroup(groupId: String) = runCatching {

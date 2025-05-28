@@ -29,7 +29,7 @@ fun AppToolbar(
         title = {
             Text(
                 text = title,
-                fontSize = TextUnit(value = 16f, type = TextUnitType.Sp),
+                fontSize = TextUnit(value = 18f, type = TextUnitType.Sp),
                 fontWeight = FontWeight.Bold
             )
         },

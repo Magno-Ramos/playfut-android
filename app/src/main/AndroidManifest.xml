@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.features.groups.create.GroupsCreateActivity"
+            android:name=".ui.features.groups.form.GroupsFormActivity"
             android:exported="false" />
         <activity
             android:name=".ui.features.groups.menu.GroupMenuActivity"

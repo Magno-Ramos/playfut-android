@@ -11,7 +11,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import com.magnus.playfut.ui.features.groups.create.GroupsCreateActivity
+import com.magnus.playfut.ui.features.groups.form.GroupsFormActivity
 import com.magnus.playfut.ui.features.home.HomeMenu
 import com.magnus.playfut.ui.features.home.components.BottomNavigationBarContent
 import com.magnus.playfut.ui.features.home.components.TopAppBarContent
@@ -26,11 +26,16 @@ fun HomeScreen() {
         containerColor = AppColor.bgPrimary,
         topBar = {
             TopAppBarContent(
+                title = when {
+                    currentScreen == HomeMenu.Groups -> "Grupos"
+                    currentScreen == HomeMenu.Account -> "Conta"
+                    else -> ""
+                },
                 onClickNotification = {
                     // TODO, implement notifications
                 },
                 onClickCreate = {
-                    val intent = GroupsCreateActivity.createIntent(context)
+                    val intent = GroupsFormActivity.createIntent(context)
                     context.startActivity(intent)
                 }
             )

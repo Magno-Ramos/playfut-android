@@ -1,10 +1,15 @@
 package com.magnus.playfut.ui.features.player.form
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
@@ -19,6 +24,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.magnus.playfut.ui.domain.model.Player
 import com.magnus.playfut.ui.domain.state.ActionResultState
@@ -26,6 +32,7 @@ import com.magnus.playfut.ui.extensions.activity
 import com.magnus.playfut.ui.features.common.AppToolbar
 import com.magnus.playfut.ui.features.player.components.PlayerForm
 import com.magnus.playfut.ui.theme.AppColor
+import com.magnus.playfut.ui.theme.AppTheme
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
@@ -36,12 +43,13 @@ fun PLayerEditScreen(
 ) {
     val context = LocalContext.current
     val editState = viewModel.editPlayerResult.collectAsState()
+    val deleteState = viewModel.deletePlayerResult.collectAsState()
     val snackBarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
 
     var playerName = remember { mutableStateOf(player.name) }
     var playerType = remember { mutableStateOf(player.type) }
-    var playerQuality = remember { mutableIntStateOf(player.quality) }
+    var playerQuality = remember { mutableIntStateOf(player.skillLevel) }
 
     fun closeScreen() {
         context.activity?.onBackPressedDispatcher?.onBackPressed()
@@ -61,6 +69,10 @@ fun PLayerEditScreen(
         )
     }
 
+    fun deletePlayer() {
+        viewModel.deletePlayer(player.id)
+    }
+
     when (editState.value) {
         ActionResultState.Idle -> Unit
         ActionResultState.Loading -> Unit
@@ -68,6 +80,15 @@ fun PLayerEditScreen(
         is ActionResultState.Error -> showErrorSnack("Desculpe, ocorreu um erro")
     }
 
+    when (deleteState.value) {
+        ActionResultState.Idle -> Unit
+        ActionResultState.Loading -> Unit
+        is ActionResultState.Success<*> -> closeScreen()
+        is ActionResultState.Error -> showErrorSnack("Desculpe, ocorreu um erro")
+    }
+
+    val isLoading = editState.value is ActionResultState.Loading ||
+            deleteState.value is ActionResultState.Loading
 
     Scaffold(
         containerColor = AppColor.bgPrimary,
@@ -87,29 +108,75 @@ fun PLayerEditScreen(
             )
         },
         bottomBar = {
-            BottomAppBar {
-                Row (verticalAlignment = Alignment.CenterVertically) {
-                    Button(
-                        modifier = Modifier.fillMaxWidth(),
-                        enabled = editState.value != ActionResultState.Loading,
-                        onClick = { submitForm() }
-                    ) {
-                        Text(text = "Salvar")
-                    }
-                }
-            }
+            BottomEditPlayerBar(
+                clickEnabled = !isLoading,
+                onClickDelete = { deletePlayer() },
+                onClickSubmit = { submitForm() }
+            )
         }
     ) { paddings ->
         PlayerForm(
-            modifier = Modifier.padding(paddings).padding(horizontal = 16.dp),
             name = playerName.value,
             type = playerType.value,
             quality = playerQuality.intValue,
             onNameChange = { playerName.value = it },
             onTypeChange = { playerType.value = it },
             onQualityChange = { playerQuality.intValue = it },
-            requestNameFocus = false
+            requestNameFocus = false,
+            modifier = Modifier
+                .padding(paddings)
+                .padding(horizontal = 16.dp),
         )
+    }
+}
+
+@Composable
+fun BottomEditPlayerBar(
+    modifier: Modifier = Modifier,
+    onClickDelete: () -> Unit = {},
+    onClickSubmit: () -> Unit = {},
+    clickEnabled: Boolean = true
+) {
+    BottomAppBar(
+        modifier,
+        containerColor = AppColor.bgPrimary,
+        contentPadding = PaddingValues(16.dp)
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Button(
+                enabled = clickEnabled,
+                onClick = { onClickDelete() },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = AppColor.red
+                )
+            ) {
+                Text(text = "Excluir", color = AppColor.white)
+            }
+            Button(
+                modifier = Modifier.weight(1f),
+                enabled = clickEnabled,
+                onClick = { onClickSubmit() }
+            ) {
+                Text(text = "Salvar")
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun BottomEditBarPreview() {
+    AppTheme {
+        Box(
+            Modifier
+                .background(AppColor.bgPrimary)
+                .padding(16.dp)
+        ) {
+            BottomEditPlayerBar()
+        }
     }
 }
 

@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.magnus.playfut.ui.theme.AppColor
 import com.magnus.playfut.ui.theme.AppTheme
 import kotlin.math.roundToInt
@@ -27,7 +28,12 @@ fun PlayerQualityInput(
     onQualityChange: (Int) -> Unit = {}
 ) {
     Column {
-        Text(text = "Qualidade")
+        Text(
+            text = "Pontuação de habilidade",
+            fontWeight = FontWeight.Normal,
+            fontSize = 14.sp,
+            color = AppColor.secondaryText
+        )
         Spacer(Modifier.height(4.dp))
         Row(
             horizontalArrangement = Arrangement.spacedBy(16.dp),

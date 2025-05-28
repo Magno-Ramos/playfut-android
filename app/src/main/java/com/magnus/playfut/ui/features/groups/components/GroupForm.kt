@@ -1,6 +1,5 @@
-package com.magnus.playfut.ui.features.player.components
+package com.magnus.playfut.ui.features.groups.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Column
@@ -21,14 +20,25 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.magnus.playfut.ui.theme.AppColor
-import com.magnus.playfut.ui.theme.AppTheme
 
 @Composable
-fun PlayerNameInput(
+fun GroupForm(
+    name: String,
+    onNameChange: (String) -> Unit,
+) {
+    Column (Modifier.padding(16.dp)) {
+        GroupNameInput(
+            name = name,
+            onNameChange = onNameChange,
+        )
+    }
+}
+
+@Composable
+private fun GroupNameInput(
     name: String = "",
     onNameChange: (String) -> Unit = {},
     requestFocus: Boolean = false
@@ -70,22 +80,5 @@ fun PlayerNameInput(
                 unfocusedContainerColor = AppColor.white
             )
         )
-    }
-}
-
-@Preview
-@Composable
-private fun PlayerNameInputPreview() {
-    AppTheme {
-        Column(
-            Modifier
-                .background(AppColor.bgPrimary)
-                .padding(16.dp)
-        ) {
-            PlayerNameInput(
-                name = "Jorge",
-                onNameChange = {}
-            )
-        }
     }
 }

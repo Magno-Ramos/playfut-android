@@ -1,4 +1,4 @@
-package com.magnus.playfut.ui.features.groups.create.components
+package com.magnus.playfut.ui.features.groups.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

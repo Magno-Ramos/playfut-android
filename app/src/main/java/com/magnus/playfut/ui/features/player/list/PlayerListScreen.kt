@@ -2,12 +2,19 @@ package com.magnus.playfut.ui.features.player.list
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -75,6 +82,19 @@ fun PlayerListScreen(
                 }
             )
         },
+        bottomBar = {
+            BottomAppBar(
+                containerColor = AppColor.bgPrimary,
+                contentPadding = PaddingValues(16.dp)
+            ) {
+                Button(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = { openPlayerCreate() }
+                ) {
+                    Text(text = "Adicionar jogador")
+                }
+            }
+        }
     ) { paddings ->
         Box(
             modifier = Modifier
@@ -101,8 +121,9 @@ fun PlayerListScreen(
 
 @Composable
 private fun PlayerListEmpty() {
-    Box(
-        contentAlignment = Alignment.Center,
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)

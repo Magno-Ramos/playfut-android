@@ -16,7 +16,7 @@ import com.magnus.playfut.ui.domain.model.Group
 import com.magnus.playfut.ui.domain.state.UiState
 import com.magnus.playfut.ui.features.common.ErrorView
 import com.magnus.playfut.ui.features.common.LoadingView
-import com.magnus.playfut.ui.features.groups.create.GroupsCreateActivity
+import com.magnus.playfut.ui.features.groups.form.GroupsFormActivity
 import com.magnus.playfut.ui.features.groups.menu.GroupMenuActivity
 import com.magnus.playfut.ui.features.home.HomeViewModel
 import com.magnus.playfut.ui.features.home.components.CreateGroupButton
@@ -53,7 +53,7 @@ private fun SuccessState(
     val groups = state.data
 
     fun onClickCreateGroup() {
-        context.startActivity(GroupsCreateActivity.createIntent(context))
+        context.startActivity(GroupsFormActivity.createIntent(context))
     }
 
     if (groups.isEmpty()) {
