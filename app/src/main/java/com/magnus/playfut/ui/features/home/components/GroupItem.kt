@@ -43,7 +43,7 @@ fun GroupItem(
     val context = LocalContext.current
 
     GradientBorderBox(
-        cornerRadius = 8.dp,
+        cornerRadius = 12.dp,
         modifier = Modifier
             .clip(RoundedCornerShape(12.dp))
             .clickable(
@@ -54,9 +54,7 @@ fun GroupItem(
             .background(AppColor.bgSecondary)
     ) {
         Column(
-            modifier = Modifier
-                .clip(RoundedCornerShape(12.dp))
-                .padding(16.dp),
+            modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Row(
