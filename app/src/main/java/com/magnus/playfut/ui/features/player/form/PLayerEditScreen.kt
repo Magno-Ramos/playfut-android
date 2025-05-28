@@ -147,6 +147,7 @@ fun BottomEditPlayerBar(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Button(
+                modifier = Modifier.weight(1f),
                 enabled = clickEnabled,
                 onClick = { onClickDelete() },
                 colors = ButtonDefaults.buttonColors(

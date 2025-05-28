@@ -77,7 +77,8 @@ fun GroupsEditScreen(
             Box(modifier = Modifier.padding(paddings)) {
                 GroupForm(
                     name = name.value,
-                    onNameChange = { name.value = it }
+                    onNameChange = { name.value = it },
+                    requestFocus = false
                 )
             }
         }

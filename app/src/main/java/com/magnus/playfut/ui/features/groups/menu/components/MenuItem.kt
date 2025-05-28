@@ -17,12 +17,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.magnus.playfut.ui.theme.AppColor
 import com.magnus.playfut.ui.theme.AppTheme
 
@@ -34,17 +36,22 @@ fun MenuItem(
     isPrimary: Boolean = false,
     onClick: () -> Unit = {}
 ) {
-    val bgColor = if (isPrimary) AppColor.primary else AppColor.bgSecondary
     val primaryTextColor = if (isPrimary) AppColor.white else AppColor.primaryText
     val secondaryTextColor = if (isPrimary) AppColor.white else AppColor.secondaryText
 
+    var modifier = Modifier
+        .fillMaxWidth()
+        .clip(RoundedCornerShape(12.dp))
+        .clickable(enabled = true, onClick = onClick)
+
+    modifier = if (isPrimary) {
+        modifier.background(Brush.linearGradient(AppColor.primaryGradient))
+    } else {
+        modifier.background(AppColor.bgSecondary)
+    }
+
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(8.dp))
-            .clickable(enabled = true, onClick = onClick)
-            .background(bgColor)
-            .padding(16.dp),
+        modifier = modifier.padding(16.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
@@ -59,14 +66,16 @@ fun MenuItem(
                 text = title,
                 modifier = Modifier.weight(1f),
                 fontWeight = FontWeight.Medium,
-                color = primaryTextColor
+                color = primaryTextColor,
+                fontSize = 14.sp
             )
         } else {
             Column(Modifier.weight(1f)) {
                 Text(
                     text = title,
                     fontWeight = FontWeight.Medium,
-                    color = primaryTextColor
+                    color = primaryTextColor,
+                    fontSize = 14.sp
                 )
                 Text(
                     text = subtitle,
@@ -92,7 +101,8 @@ private fun MenuItemPreview() {
         MenuItem(
             icon = Icons.Default.Sports,
             title = "Nova Rodada",
-            subtitle = "Faça o sortei dos times para nova rodada"
+            subtitle = "Faça o sorteio dos times para nova rodada",
+            isPrimary = true
         )
     }
 }

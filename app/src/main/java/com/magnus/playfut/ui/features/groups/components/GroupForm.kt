@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -28,11 +29,13 @@ import com.magnus.playfut.ui.theme.AppColor
 fun GroupForm(
     name: String,
     onNameChange: (String) -> Unit,
+    requestFocus: Boolean = false
 ) {
     Column (Modifier.padding(16.dp)) {
         GroupNameInput(
             name = name,
             onNameChange = onNameChange,
+            requestFocus = requestFocus
         )
     }
 }
@@ -66,6 +69,7 @@ private fun GroupNameInput(
                 .fillMaxWidth()
                 .focusRequester(focusRequester),
             value = name,
+            shape = RoundedCornerShape(12.dp),
             onValueChange = { onNameChange(it) },
             singleLine = true,
             interactionSource = interactionSource,

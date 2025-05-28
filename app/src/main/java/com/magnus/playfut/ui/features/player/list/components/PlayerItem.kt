@@ -24,6 +24,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.magnus.playfut.R
 import com.magnus.playfut.ui.domain.model.Player
 import com.magnus.playfut.ui.domain.model.PlayerType
@@ -62,11 +63,13 @@ fun PlayerItem(
         Text(
             text = player.name,
             modifier = Modifier.weight(1f),
-            color = AppColor.primaryText
+            color = AppColor.primaryText,
+            fontSize = 14.sp
         )
         Text(
             text = player.skillLevel.toString(),
-            color = AppColor.primaryText
+            color = AppColor.primaryText,
+            fontSize = 14.sp
         )
         Icon(
             modifier = Modifier.size(20.dp),

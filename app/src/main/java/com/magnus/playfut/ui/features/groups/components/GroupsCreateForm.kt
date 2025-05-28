@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
@@ -60,6 +61,7 @@ fun GroupsCreateForm(
                 .fillMaxWidth()
                 .focusRequester(focusRequester),
             value = text.value,
+            shape = RoundedCornerShape(12.dp),
             onValueChange = { text.value = it },
             label = { Text("Nome do Grupo") },
             singleLine = true,

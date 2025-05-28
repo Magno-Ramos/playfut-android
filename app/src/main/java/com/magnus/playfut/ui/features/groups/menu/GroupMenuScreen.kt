@@ -101,7 +101,6 @@ private fun GroupMenu(
     openSettings: () -> Unit = {},
     openEditGroup: () -> Unit = {}
 ) {
-    val context = LocalContext.current
     Column(
         modifier = modifier.padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)

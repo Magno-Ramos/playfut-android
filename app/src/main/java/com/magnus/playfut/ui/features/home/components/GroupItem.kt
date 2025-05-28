@@ -1,6 +1,5 @@
 package com.magnus.playfut.ui.features.home.components
 
-import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -29,10 +28,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.magnus.playfut.R
+import androidx.compose.ui.unit.sp
 import com.magnus.playfut.ui.domain.model.Group
-import com.magnus.playfut.ui.domain.model.Player
-import com.magnus.playfut.ui.domain.model.Round
 import com.magnus.playfut.ui.domain.model.toPlayersCountString
 import com.magnus.playfut.ui.domain.model.toRealizedRoundsString
 import com.magnus.playfut.ui.theme.AppColor
@@ -48,7 +45,7 @@ fun GroupItem(
     GradientBorderBox(
         cornerRadius = 8.dp,
         modifier = Modifier
-            .clip(RoundedCornerShape(8.dp))
+            .clip(RoundedCornerShape(12.dp))
             .clickable(
                 enabled = true,
                 onClick = { onClick() },
@@ -73,7 +70,12 @@ fun GroupItem(
                     contentDescription = null,
                     tint = AppColor.primaryText
                 )
-                Text(text = group.name, fontWeight = FontWeight.SemiBold, color = AppColor.primaryText)
+                Text(
+                    text = group.name,
+                    fontWeight = FontWeight.SemiBold,
+                    color = AppColor.primaryText,
+                    fontSize = 14.sp
+                )
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -89,7 +91,8 @@ fun GroupItem(
                 Text(
                     text = group.players.toPlayersCountString(context),
                     fontWeight = FontWeight.Normal,
-                    color = AppColor.primaryText
+                    color = AppColor.primaryText,
+                    fontSize = 14.sp
                 )
             }
             Row(
@@ -106,7 +109,8 @@ fun GroupItem(
                 Text(
                     text = group.rounds.toRealizedRoundsString(context),
                     fontWeight = FontWeight.Normal,
-                    color = AppColor.primaryText
+                    color = AppColor.primaryText,
+                    fontSize = 14.sp
                 )
             }
         }

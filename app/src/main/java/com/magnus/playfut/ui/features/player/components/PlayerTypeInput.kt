@@ -41,7 +41,7 @@ fun PlayerTypeInput(
         Column(
             modifier = Modifier
                 .selectableGroup()
-                .background(AppColor.white, RoundedCornerShape(8.dp))
+                .background(AppColor.white, RoundedCornerShape(12.dp))
                 .padding(16.dp, 4.dp)
         ) {
             typeOptions.forEach { text ->
@@ -63,7 +63,8 @@ fun PlayerTypeInput(
                     Text(
                         text = text,
                         modifier = Modifier.padding(start = 16.dp),
-                        color = AppColor.primaryText
+                        color = AppColor.primaryText,
+                        fontSize = 14.sp
                     )
                 }
             }

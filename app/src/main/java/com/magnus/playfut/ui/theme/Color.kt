@@ -14,6 +14,12 @@ object AppColor {
     val green = Color(0xFF2FBC8A)
     val red = Color(0xFFE95E56)
     val yellow = Color(0xFFFFCC00)
+    val blue = Color(0xFF007AFF)
+
+    val primaryGradient = listOf(
+        Color(0xFF0491C4),
+        Color(0xFF1B88AF)
+    )
 }
 
 object Color {

@@ -34,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.magnus.playfut.ui.domain.state.ActionResultState
 import com.magnus.playfut.ui.extensions.setLightStatusBar
 import com.magnus.playfut.ui.features.common.AppToolbar
@@ -131,6 +132,7 @@ fun DeleteButton(
             text = if (!isLoading) "Excluir Grupo" else "Excluindo Grupo",
             color = if (isLoading) AppColor.white.copy(alpha = 0.5f) else AppColor.white,
             fontWeight = FontWeight.Medium,
+            fontSize = 14.sp
         )
 
         if (isLoading) {
