@@ -8,9 +8,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.magnus.playfut.ui.domain.model.Player
 import com.magnus.playfut.ui.domain.model.PlayerType
 import com.magnus.playfut.ui.theme.AppColor
@@ -22,7 +22,12 @@ fun PlayerGroup(
     group: List<Player>
 ) {
     Column {
-        Text(modifier = Modifier.padding(start = 8.dp), text = type.type, fontWeight = FontWeight.Medium)
+        Text(
+            modifier = Modifier.padding(start = 8.dp),
+            text = type.type,
+            fontSize = 14.sp,
+            color = AppColor.secondaryText
+        )
         Spacer(modifier = Modifier.height(12.dp))
         group.forEach { player ->
             PlayerItem(player = player)

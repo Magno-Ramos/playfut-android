@@ -61,7 +61,6 @@ private fun SuccessState(
     } else {
         GroupsStateList(
             groups = groups,
-            onClickCreateGroup = ::onClickCreateGroup,
             onClickGroup = onClickGroup
         )
     }
@@ -87,7 +86,6 @@ fun GroupsStateEmpty(
 fun GroupsStateList(
     modifier: Modifier = Modifier,
     groups: List<Group>,
-    onClickCreateGroup: () -> Unit,
     onClickGroup: (String) -> Unit = {}
 ) {
     LazyColumn(

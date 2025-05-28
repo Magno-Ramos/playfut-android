@@ -109,7 +109,7 @@ fun PlayerCreateScreen(
             )
         },
         bottomBar = {
-            Column(modifier = Modifier.padding(16.dp)) {
+            BottomAppBar {
                 Button(
                     modifier = Modifier.fillMaxWidth(),
                     enabled = createState.value != ActionResultState.Loading,
@@ -144,6 +144,10 @@ private fun PlayerCreateForm(
 ) {
     val focusRequester = remember { FocusRequester() }
     val typeOptions = PlayerType.entries.map { it.type }
+
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
+    }
 
     Column(
         modifier = modifier.padding(16.dp)
