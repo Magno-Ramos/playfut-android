@@ -17,10 +17,18 @@ class Round(
 class Player(
     val name: String = "",
     val quality: Int = 0,
-    val type: PlayerType = PlayerType.LINE
+    val type: PlayerType = PlayerType.UNIVERSAL
 )
 
-enum class PlayerType (val type: String) {
+enum class PlayerType(val type: String) {
     GOALKEEPER("Goleiro"),
-    LINE("Linha"),
+    DEFENDER("Zagueiro"),
+    WINGER("Ala ou Lateral"),
+    MIDFIELDER("Meia"),
+    FORWARD("Atacante, Pivô ou Centroavante"),
+    UNIVERSAL("Jogador que faz várias funções");
+
+    companion object {
+        fun fromType(type: String) = entries.first { it.type == type }
+    }
 }

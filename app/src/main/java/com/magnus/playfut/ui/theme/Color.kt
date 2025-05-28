@@ -6,13 +6,14 @@ object AppColor {
     val primary = Color(0xFF0491C4)
     val bgPrimary = Color(0xFFF0F1F2)
     val bgSecondary = Color(0xFFFFFFFF)
-    val primaryText = Color(0xFF434343)
+    val primaryText = Color(0xFF333333)
     val secondaryText = Color(0xFF666666)
     val tertiaryText = Color(0xFF999999)
 
     val white = Color(0xFFFFFFFF)
     val green = Color(0xFF2FBC8A)
     val red = Color(0xFFE95E56)
+    val yellow = Color(0xFFFFCC00)
 }
 
 object Color {

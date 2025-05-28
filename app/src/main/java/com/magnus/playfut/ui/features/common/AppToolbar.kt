@@ -1,5 +1,6 @@
 package com.magnus.playfut.ui.features.common
 
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -18,7 +19,8 @@ import com.magnus.playfut.ui.theme.AppColor
 @Composable
 fun AppToolbar(
     title: String,
-    onClickBack: (() -> Unit)? = null
+    onClickBack: (() -> Unit)? = null,
+    actions: @Composable RowScope.() -> Unit = {}
 ) {
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
@@ -40,6 +42,7 @@ fun AppToolbar(
                     )
                 }
             }
-        }
+        },
+        actions = actions
     )
 }

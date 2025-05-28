@@ -100,8 +100,5 @@ fun GroupsStateList(
                 onClick = { onClickGroup(group.id) }
             )
         }
-        item {
-            CreateGroupButton(onClick = { onClickCreateGroup() })
-        }
     }
 }

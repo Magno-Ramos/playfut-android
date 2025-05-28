@@ -5,19 +5,11 @@ import com.magnus.playfut.ui.domain.database.daos.GroupDao
 import com.magnus.playfut.ui.domain.database.entities.GroupEntity
 import com.magnus.playfut.ui.domain.database.entities.toGroup
 import com.magnus.playfut.ui.domain.model.Group
-import com.magnus.playfut.ui.domain.model.PlayerType
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 
 interface GroupRepository {
-
-    suspend fun createPlayer(
-        groupId: Long,
-        name: String,
-        type: PlayerType,
-        quality: Int
-    ): Result<String>
 
     suspend fun createGroup(name: String): Result<String>
 
@@ -33,15 +25,6 @@ interface GroupRepository {
 class RemoteGroupRepository(
     private val auth: FirebaseAuth
 ) : GroupRepository {
-
-    override suspend fun createPlayer(
-        groupId: Long,
-        name: String,
-        type: PlayerType,
-        quality: Int
-    ): Result<String> {
-        TODO("Not yet implemented")
-    }
 
     override suspend fun createGroup(name: String): Result<String> {
         // TODO, create group in Firebase
@@ -69,15 +52,6 @@ class RemoteGroupRepository(
 class LocalGroupRepository(
     private val dao: GroupDao
 ) : GroupRepository {
-
-    override suspend fun createPlayer(
-        groupId: Long,
-        name: String,
-        type: PlayerType,
-        quality: Int
-    ): Result<String> {
-        TODO("Not yet implemented")
-    }
 
     override suspend fun createGroup(name: String) = runCatching {
         dao.insertGroup(GroupEntity(name = name)).toString()

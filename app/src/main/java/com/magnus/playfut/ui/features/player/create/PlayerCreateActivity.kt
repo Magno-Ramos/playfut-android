@@ -14,9 +14,11 @@ class PlayerCreateActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setLightStatusBar()
         super.onCreate(savedInstanceState)
+
+        val groupId = intent.getStringExtra(EXTRA_GROUP_ID) ?: return finish()
         setContent {
             AppTheme {
-                PlayerCreateScreen()
+                PlayerCreateScreen(groupId = groupId)
             }
         }
     }

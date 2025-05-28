@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">PlayFut</string>
+    <string name="no_rounds_realized">0 Rodadas realizadas</string>
+    <string name="no_players">0 Jogadores</string>
 </resources>

@@ -19,12 +19,17 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -40,6 +45,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.magnus.playfut.ui.domain.model.PlayerType
+import com.magnus.playfut.ui.domain.state.ActionResultState
 import com.magnus.playfut.ui.extensions.activity
 import com.magnus.playfut.ui.features.common.AppToolbar
 import com.magnus.playfut.ui.theme.AppColor
@@ -49,12 +55,53 @@ import kotlin.math.roundToInt
 
 @Composable
 fun PlayerCreateScreen(
-    viewModel: PlayerCreateViewModel = koinViewModel()
+    viewModel: PlayerCreateViewModel = koinViewModel(),
+    groupId: String
 ) {
     val context = LocalContext.current
+    val createState = viewModel.createPlayerResult.collectAsState()
+    val snackBarHostState = remember { SnackbarHostState() }
+
+    val text = remember { mutableStateOf("") }
+    val (playerType, onPlayerTypeChange) = remember { mutableStateOf(PlayerType.UNIVERSAL) }
+    var quality: Int by remember { mutableIntStateOf(3) }
+
+    fun submitForm() {
+        viewModel.createPlayer(
+            groupId = groupId,
+            name = text.value,
+            type = playerType,
+            quality = quality
+        )
+    }
+
+    when (createState.value) {
+        ActionResultState.Idle -> Unit
+        ActionResultState.Loading -> Unit
+        is ActionResultState.Success<*> -> {
+            LaunchedEffect(Unit) {
+                context.activity?.onBackPressedDispatcher?.onBackPressed()
+            }
+        }
+
+        is ActionResultState.Error -> {
+            LaunchedEffect(Unit) {
+                snackBarHostState.showSnackbar(message = "Desculpe, ocorreu um erro ao adicionar o jogador.")
+            }
+        }
+    }
 
     Scaffold(
         containerColor = AppColor.bgPrimary,
+        snackbarHost = {
+            SnackbarHost(hostState = snackBarHostState) { data ->
+                Snackbar(
+                    snackbarData = data,
+                    containerColor = AppColor.red,
+                    contentColor = AppColor.white
+                )
+            }
+        },
         topBar = {
             AppToolbar(
                 title = "Adicionar Jogador",
@@ -62,11 +109,12 @@ fun PlayerCreateScreen(
             )
         },
         bottomBar = {
-            BottomAppBar(
-                modifier = Modifier.padding(16.dp),
-                containerColor = AppColor.bgPrimary
-            ) {
-                Button(onClick = {}) {
+            Column(modifier = Modifier.padding(16.dp)) {
+                Button(
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = createState.value != ActionResultState.Loading,
+                    onClick = { submitForm() }
+                ) {
                     Text(text = "Adicionar Jogador")
                 }
             }
@@ -74,7 +122,12 @@ fun PlayerCreateScreen(
     ) { paddings ->
         PlayerCreateForm(
             modifier = Modifier.padding(paddings),
-            onFormSubmit = {  }
+            name = text.value,
+            type = playerType,
+            quality = quality,
+            onNameChange = { text.value = it },
+            onTypeChange = { onPlayerTypeChange(it) },
+            onQualityChange = { quality = it }
         )
     }
 }
@@ -82,13 +135,15 @@ fun PlayerCreateScreen(
 @Composable
 private fun PlayerCreateForm(
     modifier: Modifier = Modifier,
-    onFormSubmit: () -> Unit = {}
+    name: String = "",
+    type: PlayerType = PlayerType.UNIVERSAL,
+    quality: Int = 3,
+    onNameChange: (String) -> Unit = {},
+    onQualityChange: (Int) -> Unit = {},
+    onTypeChange: (PlayerType) -> Unit = {},
 ) {
-    val typeOptions = PlayerType.entries.map { it.type }
     val focusRequester = remember { FocusRequester() }
-    val text = remember { mutableStateOf("") }
-    val (selectedOption, onOptionSelected) = remember { mutableStateOf(typeOptions[0]) }
-    var sliderValue by remember { mutableFloatStateOf(3f) }
+    val typeOptions = PlayerType.entries.map { it.type }
 
     Column(
         modifier = modifier.padding(16.dp)
@@ -99,8 +154,8 @@ private fun PlayerCreateForm(
             modifier = Modifier
                 .fillMaxWidth()
                 .focusRequester(focusRequester),
-            value = text.value,
-            onValueChange = { text.value = it },
+            value = name,
+            onValueChange = { onNameChange(it) },
             singleLine = true,
             keyboardOptions = KeyboardOptions(
                 capitalization = KeyboardCapitalization.Words,
@@ -127,14 +182,14 @@ private fun PlayerCreateForm(
                         .fillMaxWidth()
                         .height(56.dp)
                         .selectable(
-                            selected = (text == selectedOption),
-                            onClick = { onOptionSelected(text) },
+                            selected = (text == type.type),
+                            onClick = { onTypeChange(PlayerType.fromType(text)) },
                             role = Role.RadioButton
                         ),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     RadioButton(
-                        selected = (text == selectedOption),
+                        selected = (text == type.type),
                         onClick = null
                     )
                     Text(
@@ -157,8 +212,8 @@ private fun PlayerCreateForm(
         ) {
             Slider(
                 modifier = Modifier.weight(1f),
-                value = sliderValue,
-                onValueChange = { sliderValue = it.roundToInt().toFloat() },
+                value = quality.toFloat(),
+                onValueChange = { onQualityChange(it.roundToInt()) },
                 valueRange = 1f..5f,
                 steps = 3,
                 colors = SliderDefaults.colors(
@@ -168,7 +223,7 @@ private fun PlayerCreateForm(
                 )
             )
             Text(
-                text = sliderValue.toInt().toString(),
+                text = quality.toString(),
                 fontWeight = FontWeight.SemiBold
             )
         }
@@ -179,8 +234,8 @@ private fun PlayerCreateForm(
 @Composable
 private fun PlayerCreateFormPreview() {
     AppTheme {
-        Surface (Modifier.background(AppColor.bgPrimary)) {
-            Column (Modifier.padding(16.dp)) {
+        Surface(Modifier.background(AppColor.bgPrimary)) {
+            Column(Modifier.padding(16.dp)) {
                 PlayerCreateForm()
             }
         }
