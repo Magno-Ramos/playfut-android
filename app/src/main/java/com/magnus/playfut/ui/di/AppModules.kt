@@ -9,6 +9,7 @@ import com.magnus.playfut.ui.features.groups.create.GroupsCreateViewModel
 import com.magnus.playfut.ui.features.groups.menu.GroupMenuViewModel
 import com.magnus.playfut.ui.features.groups.settings.GroupSettingsViewModel
 import com.magnus.playfut.ui.features.home.HomeViewModel
+import com.magnus.playfut.ui.features.player.create.PlayerCreateViewModel
 import com.magnus.playfut.ui.features.player.list.PlayerListViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.core.module.dsl.viewModel
@@ -28,4 +29,5 @@ val appModules = module {
     viewModel { GroupMenuViewModel(get(), get(), get()) }
     viewModel { GroupSettingsViewModel(get(), get(), get()) }
     viewModel { PlayerListViewModel(get(), get(), get()) }
+    viewModel { PlayerCreateViewModel(get(), get(), get()) }
 }

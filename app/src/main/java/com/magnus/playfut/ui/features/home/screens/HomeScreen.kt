@@ -19,7 +19,7 @@ import com.magnus.playfut.ui.theme.AppColor
 
 @Composable
 fun HomeScreen() {
-    var currentScreen by remember { mutableStateOf<HomeMenu>(HomeMenu.Groups) }
+    var currentScreen by remember { mutableStateOf(HomeMenu.Groups) }
     val context = LocalContext.current
 
     Scaffold(

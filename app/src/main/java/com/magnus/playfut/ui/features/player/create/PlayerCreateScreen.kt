@@ -16,12 +16,11 @@ import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
-import androidx.compose.material3.RangeSlider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -33,23 +32,27 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.magnus.playfut.ui.domain.model.PlayerType
 import com.magnus.playfut.ui.extensions.activity
 import com.magnus.playfut.ui.features.common.AppToolbar
 import com.magnus.playfut.ui.theme.AppColor
+import com.magnus.playfut.ui.theme.AppTheme
+import org.koin.androidx.compose.koinViewModel
 import kotlin.math.roundToInt
 
 @Composable
-fun PlayerCreateScreen() {
+fun PlayerCreateScreen(
+    viewModel: PlayerCreateViewModel = koinViewModel()
+) {
     val context = LocalContext.current
+
     Scaffold(
         containerColor = AppColor.bgPrimary,
         topBar = {
@@ -69,24 +72,21 @@ fun PlayerCreateScreen() {
             }
         }
     ) { paddings ->
-        PlayerCreateForm(modifier = Modifier.padding(paddings))
+        PlayerCreateForm(
+            modifier = Modifier.padding(paddings),
+            onFormSubmit = {  }
+        )
     }
 }
 
 @Composable
 private fun PlayerCreateForm(
     modifier: Modifier = Modifier,
-    name: String = "",
-    type: PlayerType = PlayerType.LINE,
-    quality: Int = 3,
-    onChangeName: (String) -> Unit = {},
-    onChangeType: (PlayerType) -> Unit = {},
-    onChangeQuality: (Int) -> Unit = {}
+    onFormSubmit: () -> Unit = {}
 ) {
+    val typeOptions = PlayerType.entries.map { it.type }
     val focusRequester = remember { FocusRequester() }
     val text = remember { mutableStateOf("") }
-
-    val typeOptions = PlayerType.entries.map { it.type }
     val (selectedOption, onOptionSelected) = remember { mutableStateOf(typeOptions[0]) }
     var sliderValue by remember { mutableFloatStateOf(3f) }
 
@@ -171,6 +171,18 @@ private fun PlayerCreateForm(
                 text = sliderValue.toInt().toString(),
                 fontWeight = FontWeight.SemiBold
             )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun PlayerCreateFormPreview() {
+    AppTheme {
+        Surface (Modifier.background(AppColor.bgPrimary)) {
+            Column (Modifier.padding(16.dp)) {
+                PlayerCreateForm()
+            }
         }
     }
 }

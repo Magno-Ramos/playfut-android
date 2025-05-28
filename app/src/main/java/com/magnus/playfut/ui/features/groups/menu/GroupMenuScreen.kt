@@ -9,7 +9,6 @@ import androidx.compose.material.icons.filled.Sports
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.PeopleAlt
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -30,7 +29,6 @@ import com.magnus.playfut.ui.features.player.list.PlayerListActivity
 import com.magnus.playfut.ui.theme.AppColor
 import org.koin.androidx.compose.koinViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GroupMenuScreen(
     viewModel: GroupMenuViewModel = koinViewModel(),
