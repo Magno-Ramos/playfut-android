@@ -65,7 +65,7 @@ fun PlayerItem(
             color = AppColor.primaryText
         )
         Text(
-            text = player.quality.toString(),
+            text = player.skillLevel.toString(),
             color = AppColor.primaryText
         )
         Icon(
@@ -95,7 +95,7 @@ private fun PlayerItemPreview() {
             PlayerItem(
                 player = Player(
                     name = "Magno",
-                    quality = 4,
+                    skillLevel = 4,
                     type = PlayerType.FORWARD
                 )
             )

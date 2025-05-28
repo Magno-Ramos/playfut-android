@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -39,12 +40,13 @@ fun MenuItem(
 
     Row(
         modifier = Modifier
-            .clickable(enabled = true, onClick = onClick)
             .fillMaxWidth()
-            .background(bgColor, RoundedCornerShape(8.dp))
+            .clip(RoundedCornerShape(8.dp))
+            .clickable(enabled = true, onClick = onClick)
+            .background(bgColor)
             .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+        horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         Icon(
             imageVector = icon,
@@ -68,8 +70,9 @@ fun MenuItem(
                 )
                 Text(
                     text = subtitle,
-                    color = primaryTextColor,
-                    fontSize = TextUnit(value = 12f, type = TextUnitType.Sp)
+                    color = secondaryTextColor,
+                    fontSize = TextUnit(value = 12f, type = TextUnitType.Sp),
+                    fontWeight = FontWeight.Normal
                 )
             }
         }

@@ -18,10 +18,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.magnus.playfut.ui.theme.AppColor
 import com.magnus.playfut.ui.theme.AppTheme
 
@@ -42,7 +44,12 @@ fun PlayerNameInput(
     }
 
     Column {
-        Text(text = "Nome", color = if (isFocused.value) AppColor.primary else AppColor.primaryText)
+        Text(
+            text = "Nome",
+            color = if (isFocused.value) AppColor.primary else AppColor.secondaryText,
+            fontWeight = FontWeight.Normal,
+            fontSize = 14.sp
+        )
         Spacer(Modifier.height(4.dp))
         OutlinedTextField(
             modifier = Modifier

@@ -19,6 +19,8 @@ interface PlayerRepository {
         type: PlayerType,
         quality: Int
     ): Result<Unit>
+
+    suspend fun deletePlayer(id: String): Result<Unit>
 }
 
 class RemotePlayerRepository : PlayerRepository {
@@ -40,6 +42,10 @@ class RemotePlayerRepository : PlayerRepository {
     ): Result<Unit> {
         TODO("Not yet implemented")
     }
+
+    override suspend fun deletePlayer(id: String): Result<Unit> {
+        TODO("Not yet implemented")
+    }
 }
 
 class LocalPlayerRepository(
@@ -56,7 +62,7 @@ class LocalPlayerRepository(
                 groupId = groupId.toLong(),
                 name = name,
                 type = type,
-                quality = quality
+                skillLevel = quality
             )
         )
     }
@@ -67,15 +73,19 @@ class LocalPlayerRepository(
         name: String,
         type: PlayerType,
         quality: Int
-    )= runCatching {
+    ) = runCatching {
         dao.updatePlayer(
             PlayerEntity(
                 id = id.toLong(),
                 name = name,
                 type = type,
                 groupId = groupId.toLong(),
-                quality = quality
+                skillLevel = quality
             )
         )
+    }
+
+    override suspend fun deletePlayer(id: String): Result<Unit> = runCatching {
+        dao.deletePlayer(PlayerEntity(id = id.toLong()))
     }
 }

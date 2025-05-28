@@ -21,6 +21,7 @@ import com.magnus.playfut.ui.theme.AppColor
 @Composable
 fun TopAppBarContent(
     modifier: Modifier = Modifier,
+    title: String = "",
     onClickNotification: () -> Unit = {},
     onClickCreate: () -> Unit = {}
 ) {
@@ -31,8 +32,8 @@ fun TopAppBarContent(
         ),
         title = {
             Text(
-                text = "Seus Grupos",
-                fontSize = TextUnit(value = 16f, type = TextUnitType.Sp),
+                text = title,
+                fontSize = TextUnit(value = 19f, type = TextUnitType.Sp),
                 fontWeight = FontWeight.Bold
             )
         },

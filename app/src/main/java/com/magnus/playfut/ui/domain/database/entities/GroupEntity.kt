@@ -46,9 +46,9 @@ data class RoundEntity(
 data class PlayerEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val name: String = "",
-    val quality: Int = 0,
-    val groupId: Long,
-    val type: PlayerType
+    val skillLevel: Int = 0,
+    val groupId: Long = 0,
+    val type: PlayerType = PlayerType.UNIVERSAL
 )
 
 data class GroupWithPlayersAndRounds(
@@ -71,7 +71,7 @@ fun PlayerEntity.toPlayer() = Player(
     id = id.toString(),
     groupId = groupId.toString(),
     name = name,
-    quality = quality,
+    skillLevel = skillLevel,
     type = type
 )
 

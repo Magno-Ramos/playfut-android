@@ -26,6 +26,11 @@ fun HomeScreen() {
         containerColor = AppColor.bgPrimary,
         topBar = {
             TopAppBarContent(
+                title = when {
+                    currentScreen == HomeMenu.Groups -> "Grupos"
+                    currentScreen == HomeMenu.Account -> "Conta"
+                    else -> ""
+                },
                 onClickNotification = {
                     // TODO, implement notifications
                 },

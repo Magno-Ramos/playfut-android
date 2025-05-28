@@ -51,11 +51,11 @@ private fun PlayerGroupPreview() {
                 group = listOf(
                     Player(
                         name = "Magno",
-                        quality = 4
+                        skillLevel = 4
                     ),
                     Player(
                         name = "Lucas",
-                        quality = 3
+                        skillLevel = 3
                     )
                 )
             )

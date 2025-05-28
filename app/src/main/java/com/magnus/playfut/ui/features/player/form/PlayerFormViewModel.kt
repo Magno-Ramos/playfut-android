@@ -23,6 +23,9 @@ class PlayerFormViewModel(
     private val _editPlayerResult = MutableStateFlow<ActionResultState<Unit>>(ActionResultState.Idle)
     val editPlayerResult: StateFlow<ActionResultState<Unit>> = _editPlayerResult
 
+    private val _deletePlayerResult = MutableStateFlow<ActionResultState<Unit>>(ActionResultState.Idle)
+    val deletePlayerResult: StateFlow<ActionResultState<Unit>> = _deletePlayerResult
+
     fun createPlayer(groupId: String, name: String, type: PlayerType, quality: Int) {
         val repo = if (auth.currentUser != null) remoteRepository else localRepository
         viewModelScope.launch {
@@ -40,6 +43,16 @@ class PlayerFormViewModel(
             repo.editPlayer(id, groupId, name, type, quality)
                 .onSuccess { _editPlayerResult.value = ActionResultState.Success(Unit) }
                 .onFailure { _editPlayerResult.value = ActionResultState.Error(null) }
+        }
+    }
+
+    fun deletePlayer(id: String) {
+        val repo = if (auth.currentUser != null) remoteRepository else localRepository
+        viewModelScope.launch {
+            _deletePlayerResult.value = ActionResultState.Loading
+            repo.deletePlayer(id)
+                .onSuccess { _deletePlayerResult.value = ActionResultState.Success(Unit) }
+                .onFailure { _deletePlayerResult.value = ActionResultState.Error(null) }
         }
     }
 }

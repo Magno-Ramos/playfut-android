@@ -33,6 +33,8 @@ import com.magnus.playfut.R
 import com.magnus.playfut.ui.domain.model.Group
 import com.magnus.playfut.ui.domain.model.Player
 import com.magnus.playfut.ui.domain.model.Round
+import com.magnus.playfut.ui.domain.model.toPlayersCountString
+import com.magnus.playfut.ui.domain.model.toRealizedRoundsString
 import com.magnus.playfut.ui.theme.AppColor
 import com.magnus.playfut.ui.theme.AppTheme
 
@@ -130,22 +132,6 @@ fun GradientBorderBox(
                 shape = RoundedCornerShape(cornerRadius - borderWidth)
             )
     ) { content() }
-}
-
-fun List<Round>.toRealizedRoundsString(context: Context): String {
-    return if (isEmpty()) {
-        context.getString(R.string.no_rounds_realized)
-    } else {
-        context.resources.getQuantityString(R.plurals.rounds_realized, size, size)
-    }
-}
-
-fun List<Player>.toPlayersCountString(context: Context): String {
-    return if (isEmpty()) {
-        context.getString(R.string.no_players)
-    } else {
-        context.resources.getQuantityString(R.plurals.players_count, size, size)
-    }
 }
 
 @Preview

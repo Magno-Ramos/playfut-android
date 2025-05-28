@@ -1,5 +1,6 @@
 package com.magnus.playfut.ui.features.player.form
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.BottomAppBar
@@ -83,7 +84,10 @@ fun PlayerCreateScreen(
             )
         },
         bottomBar = {
-            BottomAppBar {
+            BottomAppBar(
+                containerColor = AppColor.bgPrimary,
+                contentPadding = PaddingValues(16.dp)
+            ) {
                 Button(
                     modifier = Modifier.fillMaxWidth(),
                     enabled = createState.value != ActionResultState.Loading,
@@ -95,7 +99,9 @@ fun PlayerCreateScreen(
         }
     ) { paddings ->
         PlayerForm(
-            modifier = Modifier.padding(paddings).padding(horizontal = 16.dp),
+            modifier = Modifier
+                .padding(paddings)
+                .padding(horizontal = 16.dp),
             name = playerName.value,
             type = playerType.value,
             quality = playerQuality.intValue,
