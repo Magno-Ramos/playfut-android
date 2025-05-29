@@ -40,7 +40,7 @@ fun GroupMenuScreen(
     }
 
     fun openNewRound() {
-        val intent = RoundSortFormActivity.createIntent(context)
+        val intent = RoundSortFormActivity.createIntent(context, groupId)
         context.startActivity(intent)
     }
 

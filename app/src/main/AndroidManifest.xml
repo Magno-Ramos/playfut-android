@@ -43,5 +43,8 @@
         <activity
             android:name=".ui.features.rounds.sorting.result.RoundSortResultActivity"
             android:exported="false" />
+        <activity
+            android:name=".ui.features.rounds.sorting.form.RoundSortPlayerSelectionActivity"
+            android:exported="false" />
     </application>
 </manifest>

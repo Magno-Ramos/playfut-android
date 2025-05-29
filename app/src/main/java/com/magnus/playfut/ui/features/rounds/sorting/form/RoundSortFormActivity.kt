@@ -9,19 +9,24 @@ import androidx.appcompat.app.AppCompatActivity
 import com.magnus.playfut.ui.theme.AppTheme
 
 class RoundSortFormActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
+        val groupId = intent.getStringExtra(EXTRA_GROUP_ID) ?: return finish()
         setContent {
             AppTheme {
-                RoundSortFormScreen()
+                RoundSortFormScreen(groupId = groupId)
             }
         }
     }
 
     companion object {
-        fun createIntent(context: Context): Intent {
-            return Intent(context, RoundSortFormActivity::class.java)
+        private const val EXTRA_GROUP_ID = "EXTRA_GROUP_ID"
+        fun createIntent(context: Context, groupId: String): Intent {
+            return Intent(context, RoundSortFormActivity::class.java).apply {
+                putExtra(EXTRA_GROUP_ID, groupId)
+            }
         }
     }
 }

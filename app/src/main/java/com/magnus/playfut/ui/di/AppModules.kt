@@ -6,13 +6,13 @@ import com.magnus.playfut.ui.domain.repository.LocalGroupRepository
 import com.magnus.playfut.ui.domain.repository.LocalPlayerRepository
 import com.magnus.playfut.ui.domain.repository.RemoteGroupRepository
 import com.magnus.playfut.ui.domain.repository.RemotePlayerRepository
-import com.magnus.playfut.ui.domain.repository.UserRepository
 import com.magnus.playfut.ui.features.groups.form.GroupsFormViewModel
 import com.magnus.playfut.ui.features.groups.menu.GroupMenuViewModel
 import com.magnus.playfut.ui.features.groups.settings.GroupSettingsViewModel
 import com.magnus.playfut.ui.features.home.HomeViewModel
 import com.magnus.playfut.ui.features.player.form.PlayerFormViewModel
 import com.magnus.playfut.ui.features.player.list.PlayerListViewModel
+import com.magnus.playfut.ui.features.rounds.sorting.form.RoundSortFormViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
@@ -23,7 +23,6 @@ val appModules = module {
     single { get<AppDatabase>().playerDao() }
     single { FirebaseAuth.getInstance() }
 
-    single { UserRepository() }
     single { RemoteGroupRepository(get()) }
     single { LocalGroupRepository(get()) }
 
@@ -36,4 +35,5 @@ val appModules = module {
     viewModel { GroupSettingsViewModel(get(), get(), get()) }
     viewModel { PlayerListViewModel(get(), get(), get()) }
     viewModel { PlayerFormViewModel(get(), get(), get()) }
+    viewModel { RoundSortFormViewModel(get(), get(), get()) }
 }

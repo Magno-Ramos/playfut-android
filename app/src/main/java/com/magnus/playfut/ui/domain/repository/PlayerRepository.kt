@@ -2,6 +2,8 @@ package com.magnus.playfut.ui.domain.repository
 
 import com.magnus.playfut.ui.domain.database.daos.PlayerDao
 import com.magnus.playfut.ui.domain.database.entities.PlayerEntity
+import com.magnus.playfut.ui.domain.database.entities.toPlayer
+import com.magnus.playfut.ui.domain.model.Player
 import com.magnus.playfut.ui.domain.model.PlayerType
 
 interface PlayerRepository {
@@ -21,6 +23,8 @@ interface PlayerRepository {
     ): Result<Unit>
 
     suspend fun deletePlayer(id: String): Result<Unit>
+
+    suspend fun fetchPlayers(groupId: String): Result<List<Player>>
 }
 
 class RemotePlayerRepository : PlayerRepository {
@@ -44,6 +48,10 @@ class RemotePlayerRepository : PlayerRepository {
     }
 
     override suspend fun deletePlayer(id: String): Result<Unit> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun fetchPlayers(groupId: String): Result<List<Player>> {
         TODO("Not yet implemented")
     }
 }
@@ -87,5 +95,9 @@ class LocalPlayerRepository(
 
     override suspend fun deletePlayer(id: String): Result<Unit> = runCatching {
         dao.deletePlayer(PlayerEntity(id = id.toLong()))
+    }
+
+    override suspend fun fetchPlayers(groupId: String) = runCatching {
+        dao.getPlayersByGroupId(groupId.toLong()).map { it.toPlayer() }
     }
 }
