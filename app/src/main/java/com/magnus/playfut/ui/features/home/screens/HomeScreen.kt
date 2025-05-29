@@ -15,7 +15,6 @@ import com.magnus.playfut.ui.features.groups.form.GroupsFormActivity
 import com.magnus.playfut.ui.features.home.HomeMenu
 import com.magnus.playfut.ui.features.home.components.BottomNavigationBarContent
 import com.magnus.playfut.ui.features.home.components.TopAppBarContent
-import com.magnus.playfut.ui.theme.AppColor
 
 @Composable
 fun HomeScreen() {
@@ -23,13 +22,11 @@ fun HomeScreen() {
     val context = LocalContext.current
 
     Scaffold(
-        containerColor = AppColor.bgPrimary,
         topBar = {
             TopAppBarContent(
-                title = when {
-                    currentScreen == HomeMenu.Groups -> "Grupos"
-                    currentScreen == HomeMenu.Account -> "Conta"
-                    else -> ""
+                title = when (currentScreen) {
+                    HomeMenu.Groups -> "Grupos"
+                    HomeMenu.Account -> "Conta"
                 },
                 onClickNotification = {
                     // TODO, implement notifications

@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -67,7 +66,6 @@ fun PlayerListScreen(
     }
 
     Scaffold(
-        containerColor = AppColor.bgPrimary,
         topBar = {
             AppToolbar(
                 title = "Jogadores",
@@ -85,10 +83,10 @@ fun PlayerListScreen(
         bottomBar = {
             BottomAppBar(
                 containerColor = AppColor.bgPrimary,
-                contentPadding = PaddingValues(16.dp)
+                contentPadding = PaddingValues(horizontal =  16.dp)
             ) {
                 Button(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth().height(48.dp),
                     onClick = { openPlayerCreate() }
                 ) {
                     Text(text = "Adicionar jogador")

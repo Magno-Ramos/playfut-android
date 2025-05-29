@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
@@ -91,7 +91,6 @@ fun PLayerEditScreen(
             deleteState.value is ActionResultState.Loading
 
     Scaffold(
-        containerColor = AppColor.bgPrimary,
         snackbarHost = {
             SnackbarHost(hostState = snackBarHostState) { data ->
                 Snackbar(
@@ -138,8 +137,7 @@ fun BottomEditPlayerBar(
     clickEnabled: Boolean = true
 ) {
     BottomAppBar(
-        modifier,
-        containerColor = AppColor.bgPrimary,
+        modifier = modifier,
         contentPadding = PaddingValues(16.dp)
     ) {
         Row(
@@ -147,7 +145,7 @@ fun BottomEditPlayerBar(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Button(
-                modifier = Modifier.weight(1f),
+                modifier = Modifier.weight(1f).height(48.dp),
                 enabled = clickEnabled,
                 onClick = { onClickDelete() },
                 colors = ButtonDefaults.buttonColors(
@@ -157,7 +155,7 @@ fun BottomEditPlayerBar(
                 Text(text = "Excluir", color = AppColor.white)
             }
             Button(
-                modifier = Modifier.weight(1f),
+                modifier = Modifier.weight(1f).height(48.dp),
                 enabled = clickEnabled,
                 onClick = { onClickSubmit() }
             ) {

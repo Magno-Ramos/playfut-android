@@ -3,6 +3,7 @@ package com.magnus.playfut.ui.features.groups.form
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
@@ -63,7 +64,6 @@ fun GroupsEditScreen(
     AppTheme {
         Scaffold(
             snackbarHost = { SnackbarHost(snackBarHostState) },
-            containerColor = AppColor.bgPrimary,
             topBar = {
                 AppToolbar(title = "Editar Grupo", onClickBack = { closeScreen() })
             },
@@ -95,10 +95,10 @@ private fun AppBottomBar(
     BottomAppBar(
         modifier = modifier,
         containerColor = AppColor.bgPrimary,
-        contentPadding = PaddingValues(16.dp)
+        contentPadding = PaddingValues(horizontal = 16.dp)
     ) {
         Button(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().height(48.dp),
             enabled = isButtonEnabled,
             onClick = { onClickSaveGroup() }
         ) {

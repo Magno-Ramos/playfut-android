@@ -90,7 +90,6 @@ private fun GroupSettingsScreen(
     }
 
     Scaffold(
-        containerColor = AppColor.bgPrimary,
         snackbarHost = { SnackbarHost(snackBarHostState) },
         topBar = { AppToolbar(title = "Configurações", onClickBack = onClickBack) }
     ) { paddings ->

@@ -4,6 +4,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,7 +25,8 @@ fun PlayerForm(
     onQualityChange: (Int) -> Unit = {},
     requestNameFocus: Boolean = false
 ) {
-    Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(16.dp)) {
+    val scrollState = rememberScrollState()
+    Column(modifier = modifier.verticalScroll(scrollState), verticalArrangement = Arrangement.spacedBy(16.dp)) {
         PlayerNameInput(name = name, onNameChange = onNameChange, requestFocus = requestNameFocus)
         PlayerTypeInput(type = type, onTypeChange = onTypeChange)
         PlayerQualityInput(quality = quality, onQualityChange = onQualityChange)

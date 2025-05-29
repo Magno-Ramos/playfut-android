@@ -2,6 +2,7 @@ package com.magnus.playfut.ui.features.player.form
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
@@ -67,7 +68,6 @@ fun PlayerCreateScreen(
     }
 
     Scaffold(
-        containerColor = AppColor.bgPrimary,
         snackbarHost = {
             SnackbarHost(hostState = snackBarHostState) { data ->
                 Snackbar(
@@ -84,12 +84,9 @@ fun PlayerCreateScreen(
             )
         },
         bottomBar = {
-            BottomAppBar(
-                containerColor = AppColor.bgPrimary,
-                contentPadding = PaddingValues(16.dp)
-            ) {
+            BottomAppBar(contentPadding = PaddingValues(horizontal = 16.dp)) {
                 Button(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth().height(48.dp),
                     enabled = createState.value != ActionResultState.Loading,
                     onClick = { submitForm() }
                 ) {
