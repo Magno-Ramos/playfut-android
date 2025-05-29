@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
@@ -24,7 +25,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.magnus.playfut.ui.domain.model.Player
 import com.magnus.playfut.ui.domain.state.ActionResultState
@@ -165,13 +166,13 @@ fun BottomEditPlayerBar(
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun BottomEditBarPreview() {
     AppTheme {
         Box(
             Modifier
-                .background(AppColor.bgPrimary)
+                .background(MaterialTheme.colorScheme.background)
                 .padding(16.dp)
         ) {
             BottomEditPlayerBar()

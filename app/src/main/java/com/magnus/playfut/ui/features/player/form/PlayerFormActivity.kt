@@ -8,13 +8,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.magnus.playfut.ui.domain.model.Player
 import com.magnus.playfut.ui.extensions.getParcelableExtraCompat
-import com.magnus.playfut.ui.extensions.setLightStatusBar
 import com.magnus.playfut.ui.theme.AppTheme
 
 class PlayerFormActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
-        setLightStatusBar()
         super.onCreate(savedInstanceState)
 
         val groupId = intent.getStringExtra(EXTRA_GROUP_ID)

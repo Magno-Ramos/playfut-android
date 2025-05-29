@@ -16,6 +16,7 @@ import androidx.compose.material.icons.outlined.Groups
 import androidx.compose.material.icons.outlined.Handshake
 import androidx.compose.material.icons.outlined.Sports
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,7 +26,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -51,10 +52,11 @@ fun GroupItem(
                 onClick = { onClick() },
                 role = Role.Button
             )
-            .background(AppColor.bgSecondary)
     ) {
         Column(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier
+                .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(12.dp))
+                .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Row(
@@ -66,12 +68,12 @@ fun GroupItem(
                     modifier = Modifier.size(20.dp),
                     imageVector = Icons.Outlined.Handshake,
                     contentDescription = null,
-                    tint = AppColor.primaryText
+                    tint = MaterialTheme.colorScheme.onBackground
                 )
                 Text(
                     text = group.name,
                     fontWeight = FontWeight.SemiBold,
-                    color = AppColor.primaryText,
+                    color = MaterialTheme.colorScheme.onBackground,
                     fontSize = 14.sp
                 )
             }
@@ -84,12 +86,12 @@ fun GroupItem(
                     modifier = Modifier.size(20.dp),
                     imageVector = Icons.Outlined.Groups,
                     contentDescription = null,
-                    tint = AppColor.primaryText
+                    tint = MaterialTheme.colorScheme.onBackground
                 )
                 Text(
                     text = group.players.toPlayersCountString(context),
                     fontWeight = FontWeight.Normal,
-                    color = AppColor.primaryText,
+                    color = MaterialTheme.colorScheme.onBackground,
                     fontSize = 14.sp
                 )
             }
@@ -102,12 +104,12 @@ fun GroupItem(
                     modifier = Modifier.size(20.dp),
                     imageVector = Icons.Outlined.Sports,
                     contentDescription = null,
-                    tint = AppColor.primaryText
+                    tint = MaterialTheme.colorScheme.onBackground
                 )
                 Text(
                     text = group.rounds.toRealizedRoundsString(context),
                     fontWeight = FontWeight.Normal,
-                    color = AppColor.primaryText,
+                    color = MaterialTheme.colorScheme.onBackground,
                     fontSize = 14.sp
                 )
             }
@@ -130,19 +132,19 @@ fun GradientBorderBox(
             )
             .padding(borderWidth)
             .background(
-                color = AppColor.white,
+                color = MaterialTheme.colorScheme.background,
                 shape = RoundedCornerShape(cornerRadius - borderWidth)
             )
     ) { content() }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun GroupItemPreview() {
     AppTheme {
         Column(
             Modifier
-                .background(AppColor.bgPrimary)
+                .background(MaterialTheme.colorScheme.background)
                 .padding(16.dp)
         ) {
             GroupItem(

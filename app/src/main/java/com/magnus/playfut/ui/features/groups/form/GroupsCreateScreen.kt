@@ -25,7 +25,6 @@ import com.magnus.playfut.ui.extensions.activity
 import com.magnus.playfut.ui.features.common.AppToolbar
 import com.magnus.playfut.ui.features.groups.components.GroupForm
 import com.magnus.playfut.ui.features.groups.menu.GroupMenuActivity
-import com.magnus.playfut.ui.theme.AppColor
 import com.magnus.playfut.ui.theme.AppTheme
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
@@ -101,7 +100,6 @@ private fun AppBottomBar(
 ) {
     BottomAppBar(
         modifier = modifier,
-        containerColor = AppColor.bgPrimary,
         contentPadding = PaddingValues(horizontal = 16.dp)
     ) {
         Button(

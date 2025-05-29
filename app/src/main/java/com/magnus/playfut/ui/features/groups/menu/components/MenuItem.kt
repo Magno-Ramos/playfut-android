@@ -12,20 +12,19 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Sports
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.magnus.playfut.ui.theme.AppColor
 import com.magnus.playfut.ui.theme.AppTheme
 
 @Composable
@@ -36,8 +35,11 @@ fun MenuItem(
     isPrimary: Boolean = false,
     onClick: () -> Unit = {}
 ) {
-    val primaryTextColor = if (isPrimary) AppColor.white else AppColor.primaryText
-    val secondaryTextColor = if (isPrimary) AppColor.white else AppColor.secondaryText
+    val primaryTextColor = if (isPrimary) MaterialTheme.colorScheme.onTertiary
+    else MaterialTheme.colorScheme.onBackground
+
+    val secondaryTextColor = if (isPrimary) MaterialTheme.colorScheme.onSecondary
+    else MaterialTheme.colorScheme.onSurface
 
     var modifier = Modifier
         .fillMaxWidth()
@@ -45,9 +47,9 @@ fun MenuItem(
         .clickable(enabled = true, onClick = onClick)
 
     modifier = if (isPrimary) {
-        modifier.background(Brush.linearGradient(AppColor.primaryGradient))
+        modifier.background(MaterialTheme.colorScheme.tertiary)
     } else {
-        modifier.background(AppColor.bgSecondary)
+        modifier.background(MaterialTheme.colorScheme.surface)
     }
 
     Row(
@@ -94,15 +96,23 @@ fun MenuItem(
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun MenuItemPreview() {
     AppTheme {
-        MenuItem(
-            icon = Icons.Default.Sports,
-            title = "Nova Rodada",
-            subtitle = "Faça o sorteio dos times para nova rodada",
-            isPrimary = true
-        )
+        Column (verticalArrangement = Arrangement.spacedBy(16.dp)) {
+            MenuItem(
+                icon = Icons.Default.Sports,
+                title = "Nova Rodada",
+                subtitle = "Faça o sorteio dos times para nova rodada",
+                isPrimary = true
+            )
+            MenuItem(
+                icon = Icons.Default.Sports,
+                title = "Nova Rodada",
+                subtitle = "Faça o sorteio dos times para nova rodada",
+                isPrimary = false
+            )
+        }
     }
 }

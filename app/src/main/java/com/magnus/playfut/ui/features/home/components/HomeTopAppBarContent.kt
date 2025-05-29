@@ -6,31 +6,21 @@ import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.TextUnitType
+import com.magnus.playfut.ui.features.common.AppToolbar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopAppBarContent(
+fun HomeTopAppBarContent(
     modifier: Modifier = Modifier,
     title: String = "",
     onClickNotification: () -> Unit = {},
     onClickCreate: () -> Unit = {}
 ) {
-    TopAppBar(
+    AppToolbar(
         modifier = modifier,
-        title = {
-            Text(
-                text = title,
-                fontSize = TextUnit(value = 19f, type = TextUnitType.Sp),
-                fontWeight = FontWeight.Bold
-            )
-        },
+        title = title,
         actions = {
             IconButton(onClick = onClickCreate) {
                 Icon(

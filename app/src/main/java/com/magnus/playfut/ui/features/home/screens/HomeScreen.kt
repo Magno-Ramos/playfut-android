@@ -14,7 +14,7 @@ import androidx.compose.ui.platform.LocalContext
 import com.magnus.playfut.ui.features.groups.form.GroupsFormActivity
 import com.magnus.playfut.ui.features.home.HomeMenu
 import com.magnus.playfut.ui.features.home.components.BottomNavigationBarContent
-import com.magnus.playfut.ui.features.home.components.TopAppBarContent
+import com.magnus.playfut.ui.features.home.components.HomeTopAppBarContent
 
 @Composable
 fun HomeScreen() {
@@ -23,7 +23,7 @@ fun HomeScreen() {
 
     Scaffold(
         topBar = {
-            TopAppBarContent(
+            HomeTopAppBarContent(
                 title = when (currentScreen) {
                     HomeMenu.Groups -> "Grupos"
                     HomeMenu.Account -> "Conta"

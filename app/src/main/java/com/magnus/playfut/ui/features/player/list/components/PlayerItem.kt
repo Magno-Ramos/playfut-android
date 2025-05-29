@@ -14,6 +14,7 @@ import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.SportsMma
 import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,7 +23,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.magnus.playfut.R
@@ -51,24 +52,24 @@ fun PlayerItem(
                 onClick = onClick,
                 role = Role.Button,
             )
-            .background(AppColor.bgSecondary)
+            .background(MaterialTheme.colorScheme.surface)
             .padding(horizontal = 16.dp, vertical = 12.dp)
     ) {
         Icon(
             modifier = Modifier.size(20.dp),
             painter = typeIcon,
             contentDescription = null,
-            tint = AppColor.tertiaryText
+            tint = MaterialTheme.colorScheme.onSurface
         )
         Text(
             text = player.name,
             modifier = Modifier.weight(1f),
-            color = AppColor.primaryText,
+            color = MaterialTheme.colorScheme.onSurface,
             fontSize = 14.sp
         )
         Text(
             text = player.skillLevel.toString(),
-            color = AppColor.primaryText,
+            color = MaterialTheme.colorScheme.onSurface,
             fontSize = 14.sp
         )
         Icon(
@@ -81,18 +82,18 @@ fun PlayerItem(
             modifier = Modifier.size(20.dp),
             imageVector = Icons.Default.ChevronRight,
             contentDescription = null,
-            tint = AppColor.secondaryText
+            tint = MaterialTheme.colorScheme.onSurface
         )
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun PlayerItemPreview() {
     AppTheme {
         Box(
             modifier = Modifier
-                .background(AppColor.bgPrimary)
+                .background(MaterialTheme.colorScheme.background)
                 .padding(16.dp)
         ) {
             PlayerItem(

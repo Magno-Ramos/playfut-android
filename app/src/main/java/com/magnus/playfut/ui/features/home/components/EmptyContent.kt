@@ -1,34 +1,60 @@
 package com.magnus.playfut.ui.features.home.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.SportsScore
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import com.magnus.playfut.ui.theme.AppColor
+import com.magnus.playfut.ui.theme.AppTheme
 
 @Composable
 fun EmptyContent(modifier: Modifier = Modifier) {
     Column(
-        modifier = modifier.padding(16.dp).fillMaxSize(),
+        modifier = modifier
+            .padding(16.dp)
+            .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Icon(imageVector = Icons.Outlined.SportsScore, contentDescription = null)
+        Icon(
+            imageVector = Icons.Outlined.SportsScore,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.onBackground
+        )
+        Spacer(Modifier.height(8.dp))
         Text(
             text = "Você ainda não faz parte\n de nenhum grupo.",
             textAlign = TextAlign.Center,
-            color = AppColor.primaryText,
+            color = MaterialTheme.colorScheme.onBackground,
             fontWeight = FontWeight.Bold
         )
+    }
+}
+
+@PreviewLightDark
+@Composable
+private fun EmptyContentPreview() {
+    AppTheme {
+        Column(
+            Modifier
+                .background(MaterialTheme.colorScheme.background)
+                .padding(16.dp)
+        ) {
+            EmptyContent()
+        }
     }
 }

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -25,7 +26,6 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.magnus.playfut.ui.theme.AppColor
 
 @Composable
 fun TextInput(
@@ -49,7 +49,7 @@ fun TextInput(
     Column {
         Text(
             text = label,
-            color = if (isFocused.value) AppColor.primary else AppColor.secondaryText,
+            color = if (isFocused.value) MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.onBackground,
             fontWeight = FontWeight.Normal,
             fontSize = 14.sp
         )
@@ -74,10 +74,10 @@ fun TextInput(
                 keyboardType = keyboardType
             ),
             colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = AppColor.primary,
-                unfocusedBorderColor = AppColor.bgPrimary,
-                focusedContainerColor = AppColor.white,
-                unfocusedContainerColor = AppColor.white
+                focusedBorderColor = MaterialTheme.colorScheme.primary,
+                unfocusedBorderColor = MaterialTheme.colorScheme.surface,
+                focusedContainerColor = MaterialTheme.colorScheme.surface,
+                unfocusedContainerColor = MaterialTheme.colorScheme.surface
             )
         )
     }

@@ -1,12 +1,14 @@
 package com.magnus.playfut.ui.features.rounds.sorting.form.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.magnus.playfut.ui.features.common.TextInput
 import com.magnus.playfut.ui.theme.AppTheme
@@ -49,14 +51,16 @@ fun RoundSortingForm(
     }
 }
 
-@Preview(showBackground = true, backgroundColor = 0xFFF0F1F2)
+@PreviewLightDark
 @Composable
 private fun RoundSortingFormPreview() {
     AppTheme {
-        RoundSortingForm(
-            totalPlayers = "1",
-            teamsCount = "2",
-            playersCount = "5"
-        )
+        Column (Modifier.background(MaterialTheme.colorScheme.background)) {
+            RoundSortingForm(
+                totalPlayers = "1",
+                teamsCount = "2",
+                playersCount = "5"
+            )
+        }
     }
 }

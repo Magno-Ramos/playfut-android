@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
@@ -15,10 +16,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.magnus.playfut.ui.theme.AppColor
 import com.magnus.playfut.ui.theme.AppTheme
 import kotlin.math.roundToInt
 
@@ -32,14 +32,14 @@ fun PlayerQualityInput(
             text = "Pontuação de habilidade",
             fontWeight = FontWeight.Normal,
             fontSize = 14.sp,
-            color = AppColor.secondaryText
+            color = MaterialTheme.colorScheme.onBackground
         )
         Spacer(Modifier.height(4.dp))
         Row(
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .background(AppColor.white, RoundedCornerShape(12.dp))
+                .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(12.dp))
                 .padding(16.dp, 8.dp)
         ) {
             Slider(
@@ -49,9 +49,8 @@ fun PlayerQualityInput(
                 valueRange = 1f..5f,
                 steps = 3,
                 colors = SliderDefaults.colors(
-                    thumbColor = AppColor.primary,
-                    activeTrackColor = AppColor.primary,
-                    inactiveTrackColor = AppColor.bgPrimary
+                    inactiveTrackColor = MaterialTheme.colorScheme.background,
+                    activeTickColor = MaterialTheme.colorScheme.onTertiary
                 )
             )
             Text(
@@ -62,13 +61,13 @@ fun PlayerQualityInput(
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun PlayerQualityInputPreview() {
     AppTheme {
         Column(
             Modifier
-                .background(AppColor.bgPrimary)
+                .background(MaterialTheme.colorScheme.background)
                 .padding(16.dp)
         ) {
             PlayerQualityInput()

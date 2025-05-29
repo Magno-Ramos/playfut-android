@@ -5,15 +5,15 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.magnus.playfut.ui.domain.model.Player
 import com.magnus.playfut.ui.domain.model.PlayerType
-import com.magnus.playfut.ui.theme.AppColor
 import com.magnus.playfut.ui.theme.AppTheme
 
 @Composable
@@ -27,7 +27,7 @@ fun PlayerGroup(
             modifier = Modifier.padding(start = 8.dp),
             text = type.type,
             fontSize = 14.sp,
-            color = AppColor.secondaryText
+            color = MaterialTheme.colorScheme.onBackground
         )
         Spacer(modifier = Modifier.height(12.dp))
         group.forEach { player ->
@@ -37,13 +37,13 @@ fun PlayerGroup(
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun PlayerGroupPreview() {
     AppTheme {
         Column(
             modifier = Modifier
-                .background(AppColor.bgPrimary)
+                .background(MaterialTheme.colorScheme.background)
                 .padding(16.dp)
         ) {
             PlayerGroup(

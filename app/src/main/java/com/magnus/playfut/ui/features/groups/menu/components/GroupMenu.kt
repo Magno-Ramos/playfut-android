@@ -11,12 +11,12 @@ import androidx.compose.material.icons.filled.Sports
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.PeopleAlt
 import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.magnus.playfut.ui.domain.model.Group
-import com.magnus.playfut.ui.theme.AppColor
 import com.magnus.playfut.ui.theme.AppTheme
 
 @Composable
@@ -73,11 +73,11 @@ fun GroupMenu(
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun GroupMenuPreview() {
     AppTheme {
-        Box(Modifier.background(AppColor.bgPrimary)) {
+        Box(Modifier.background(MaterialTheme.colorScheme.background)) {
             GroupMenu(
                 group = Group(
                     name = "Grupo 1",

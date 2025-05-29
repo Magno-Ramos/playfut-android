@@ -36,7 +36,6 @@ import com.magnus.playfut.ui.features.common.ErrorView
 import com.magnus.playfut.ui.features.common.LoadingView
 import com.magnus.playfut.ui.features.player.form.PlayerFormActivity
 import com.magnus.playfut.ui.features.player.list.components.PlayerGroup
-import com.magnus.playfut.ui.theme.AppColor
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -81,10 +80,7 @@ fun PlayerListScreen(
             )
         },
         bottomBar = {
-            BottomAppBar(
-                containerColor = AppColor.bgPrimary,
-                contentPadding = PaddingValues(horizontal =  16.dp)
-            ) {
+            BottomAppBar(contentPadding = PaddingValues(horizontal =  16.dp)) {
                 Button(
                     modifier = Modifier.fillMaxWidth().height(48.dp),
                     onClick = { openPlayerCreate() }
