@@ -13,11 +13,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class RoundSortFormViewModel (
+class RoundSortViewModel(
     private val remoteRepository: RemotePlayerRepository,
     private val localRepository: LocalPlayerRepository,
     private val auth: FirebaseAuth
 ) : ViewModel() {
+
+    private var playersLoaded: Boolean = false
 
     private val _playersState = MutableStateFlow<UiState<List<Player>>>(UiState.Loading)
     val playersState = _playersState.asStateFlow()
@@ -25,11 +27,21 @@ class RoundSortFormViewModel (
     private val _selectablePlayers = MutableStateFlow<List<SelectablePlayer>>(emptyList())
     val selectablePlayers = _selectablePlayers.asStateFlow()
 
-    fun setPlayers(players: List<SelectablePlayer>) {
-        _selectablePlayers.value = players
+    fun toggleSelection(player: SelectablePlayer) {
+        _selectablePlayers.value = _selectablePlayers.value.map {
+            if (it.id == player.id) {
+                it.copy(selected = !it.selected)
+            } else {
+                it
+            }
+        }
     }
 
     fun fetchPlayers(groupId: String) {
+        if (playersLoaded) {
+            return
+        }
+
         val repo = if (auth.currentUser != null) remoteRepository else localRepository
         viewModelScope.launch {
             _playersState.value = UiState.Loading
@@ -37,8 +49,11 @@ class RoundSortFormViewModel (
                 .onSuccess { players ->
                     _playersState.value = UiState.Success(players)
                     _selectablePlayers.value = players.map { it.toSelectablePlayer() }
+                    playersLoaded = true
                 }
-                .onFailure { _playersState.value = UiState.Error(it.message ?: "Desculpe, ocorreu um erro") }
+                .onFailure {
+                    _playersState.value = UiState.Error(it.message ?: "Desculpe, ocorreu um erro")
+                }
         }
     }
 }

@@ -18,7 +18,7 @@ import com.magnus.playfut.ui.features.groups.form.GroupsFormActivity
 import com.magnus.playfut.ui.features.groups.menu.components.GroupMenu
 import com.magnus.playfut.ui.features.groups.settings.GroupSettingsActivity
 import com.magnus.playfut.ui.features.player.list.PlayerListActivity
-import com.magnus.playfut.ui.features.rounds.sorting.form.RoundSortFormActivity
+import com.magnus.playfut.ui.features.rounds.sorting.form.RoundSortActivity
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -40,7 +40,7 @@ fun GroupMenuScreen(
     }
 
     fun openNewRound() {
-        val intent = RoundSortFormActivity.createIntent(context, groupId)
+        val intent = RoundSortActivity.createIntent(context, groupId)
         context.startActivity(intent)
     }
 

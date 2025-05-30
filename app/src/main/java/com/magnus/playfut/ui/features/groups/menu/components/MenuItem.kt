@@ -35,7 +35,7 @@ fun MenuItem(
     isPrimary: Boolean = false,
     onClick: () -> Unit = {}
 ) {
-    val primaryTextColor = if (isPrimary) MaterialTheme.colorScheme.onTertiary
+    val primaryTextColor = if (isPrimary) MaterialTheme.colorScheme.onPrimary
     else MaterialTheme.colorScheme.onBackground
 
     val secondaryTextColor = if (isPrimary) MaterialTheme.colorScheme.onSecondary
@@ -47,7 +47,7 @@ fun MenuItem(
         .clickable(enabled = true, onClick = onClick)
 
     modifier = if (isPrimary) {
-        modifier.background(MaterialTheme.colorScheme.tertiary)
+        modifier.background(MaterialTheme.colorScheme.primary)
     } else {
         modifier.background(MaterialTheme.colorScheme.surface)
     }

@@ -12,7 +12,7 @@ import com.magnus.playfut.ui.features.groups.settings.GroupSettingsViewModel
 import com.magnus.playfut.ui.features.home.HomeViewModel
 import com.magnus.playfut.ui.features.player.form.PlayerFormViewModel
 import com.magnus.playfut.ui.features.player.list.PlayerListViewModel
-import com.magnus.playfut.ui.features.rounds.sorting.form.RoundSortFormViewModel
+import com.magnus.playfut.ui.features.rounds.sorting.form.RoundSortViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
@@ -35,5 +35,5 @@ val appModules = module {
     viewModel { GroupSettingsViewModel(get(), get(), get()) }
     viewModel { PlayerListViewModel(get(), get(), get()) }
     viewModel { PlayerFormViewModel(get(), get(), get()) }
-    viewModel { RoundSortFormViewModel(get(), get(), get()) }
+    viewModel { RoundSortViewModel(get(), get(), get()) }
 }
