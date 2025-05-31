@@ -4,18 +4,12 @@ import android.content.Context
 import android.os.Parcelable
 import com.magnus.playfut.R
 import kotlinx.parcelize.Parcelize
-import java.util.Date
 
 class Group(
     val id: String = "",
     val name: String = "",
     val players: List<Player> = listOf(),
     val rounds: List<Round> = listOf()
-)
-
-class Round(
-    val winner: String = "",
-    val date: Date = Date()
 )
 
 @Parcelize

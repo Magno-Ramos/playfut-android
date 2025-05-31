@@ -19,22 +19,6 @@ data class GroupEntity(
 )
 
 @Entity(
-    tableName = "rounds",
-    foreignKeys = [ForeignKey(
-        entity = GroupEntity::class,
-        parentColumns = ["id"],
-        childColumns = ["groupId"],
-        onDelete = ForeignKey.CASCADE
-    )]
-)
-data class RoundEntity(
-    @PrimaryKey(autoGenerate = true) val id: Long = 0,
-    val winner: String = "",
-    val date: Date = Date(),
-    val groupId: Long
-)
-
-@Entity(
     tableName = "players",
     foreignKeys = [ForeignKey(
         entity = GroupEntity::class,
@@ -76,8 +60,8 @@ fun PlayerEntity.toPlayer() = Player(
 )
 
 fun RoundEntity.toRound() = Round(
-    winner = winner,
-    date = date
+    date = date,
+    teams = listOf()
 )
 
 fun GroupWithPlayersAndRounds.toGroup() = Group(
