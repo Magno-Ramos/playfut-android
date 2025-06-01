@@ -17,8 +17,15 @@ object PlayerDistributor {
             "Jogadores insuficientes para os titulares dos times"
         }
 
-        val goalkeepers = players.filter { it.type == PlayerType.GOALKEEPER }.sortedByDescending { it.skillLevel }.toMutableList()
-        val fieldPlayers = players.filter { it.type != PlayerType.GOALKEEPER }.sortedByDescending { it.skillLevel }.toMutableList()
+        val goalkeepers =
+            players.filter { it.type == PlayerType.GOALKEEPER }.sortedByDescending { it.skillLevel }
+                .shuffled()
+                .toMutableList()
+
+        val fieldPlayers =
+            players.filter { it.type != PlayerType.GOALKEEPER }.sortedByDescending { it.skillLevel }
+                .shuffled()
+                .toMutableList()
 
         val teamsSchema = createEmptyTeams(teamCount)
 
@@ -110,7 +117,7 @@ object PlayerDistributor {
                 }
             }
         }
-
+2
         // Depois distribui os outros titulares, excluindo goleiros (eles já foram alocados ou não entram)
         repeat(remainingSpots) {
             teams.sortedBy { team ->
@@ -196,7 +203,7 @@ object PlayerDistributor {
 
             // Finaliza
             (team.replacementSuggestions as MutableList).clear()
-            (team.replacementSuggestions as MutableList).addAll(suggestions)
+            team.replacementSuggestions.addAll(suggestions)
         }
     }
 }

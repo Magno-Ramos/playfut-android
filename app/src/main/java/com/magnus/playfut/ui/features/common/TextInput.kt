@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun TextInput(
+    modifier: Modifier = Modifier,
     label: String,
     value: String = "",
     onChangeValue: (String) -> Unit = {},
@@ -46,7 +47,7 @@ fun TextInput(
         }
     }
 
-    Column {
+    Column(modifier = modifier) {
         Text(
             text = label,
             color = if (isFocused.value) MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.onBackground,
