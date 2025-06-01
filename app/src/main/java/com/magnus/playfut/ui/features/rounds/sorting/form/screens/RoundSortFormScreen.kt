@@ -55,13 +55,17 @@ fun RoundSortFormScreen(
     }
 
     fun sortPlayersInTeams() {
-        viewModel.teams = PlayerDistributor.distributeTeamsWithSubstitutions(
-            players = selectablePlayers.filter { it.selected }.map { it.toPlayer() },
-            teamCount = teamsCount.toInt(),
-            startersPerTeam = playersCount.toInt()
-        )
-
-        navController.navigate(RoundSortRoutes.FormConfirmation.route)
+        runCatching {
+            viewModel.teams = PlayerDistributor.distributeTeamsWithSubstitutions(
+                players = selectablePlayers.filter { it.selected }.map { it.toPlayer() },
+                teamCount = teamsCount.toInt(),
+                startersPerTeam = playersCount.toInt()
+            )
+        }.onSuccess {
+            navController.navigate(RoundSortRoutes.FormConfirmation.route)
+        }.onFailure {
+            // Handle error
+        }
     }
 
     Scaffold(
