@@ -1,6 +1,5 @@
 package com.magnus.playfut.ui.features.rounds.sorting.form.screens
 
-import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -56,13 +55,17 @@ fun RoundSortFormScreen(
     }
 
     fun sortPlayersInTeams() {
-        viewModel.teams = PlayerDistributor.distributeTeamsWithSubstitutions(
-            players = selectablePlayers.filter { it.selected }.map { it.toPlayer() },
-            teamCount = teamsCount.toInt(),
-            startersPerTeam = playersCount.toInt()
-        )
-
-        navController.navigate(RoundSortRoutes.FormConfirmation.route)
+        runCatching {
+            viewModel.teams = PlayerDistributor.distributeTeamsWithSubstitutions(
+                players = selectablePlayers.filter { it.selected }.map { it.toPlayer() },
+                teamCount = teamsCount.toInt(),
+                startersPerTeam = playersCount.toInt()
+            )
+        }.onSuccess {
+            navController.navigate(RoundSortRoutes.FormConfirmation.route)
+        }.onFailure {
+            // Handle error
+        }
     }
 
     Scaffold(

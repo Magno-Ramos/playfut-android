@@ -28,6 +28,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.magnus.playfut.R
 import com.magnus.playfut.ui.domain.model.Player
 import com.magnus.playfut.ui.domain.model.Team
@@ -49,7 +50,7 @@ fun RoundTeam(
         Row(
             modifier = Modifier
                 .clickable { onClickEditTeam(team) }
-                .padding(12.dp),
+                .padding(16.dp, vertical = 16.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
@@ -62,32 +63,36 @@ fun RoundTeam(
                 modifier = Modifier.weight(1f),
                 text = team.name,
                 fontWeight = FontWeight.SemiBold,
-                color = MaterialTheme.colorScheme.onSurface
+                color = MaterialTheme.colorScheme.onSurface,
+                fontSize = 14.sp
             )
             Text(
                 text = "Editar",
                 fontWeight = FontWeight.Bold,
-                color = AppColor.blue
+                color = AppColor.blue,
+                fontSize = 14.sp
             )
         }
 
         HorizontalDivider()
         TeamPlayerSchema(
             title = "Goleiros",
-            players = team.schema.goalKeepers
+            players = team.schema.goalKeepers,
+            opened = false
         )
 
         HorizontalDivider()
         TeamPlayerSchema(
             title = "Titulares",
             players = team.schema.startPlaying,
-            opened = true
+            opened = false
         )
 
         HorizontalDivider()
         TeamPlayerSchema(
             title = "Reservas",
-            players = team.schema.substitutes
+            players = team.schema.substitutes,
+            opened = false
         )
     }
 }
@@ -112,7 +117,8 @@ fun TeamPlayerSchema(
             modifier = Modifier.weight(1f),
             text = "$title (${players.size})",
             fontWeight = FontWeight.Normal,
-            color = MaterialTheme.colorScheme.onSurface
+            color = MaterialTheme.colorScheme.onSurface,
+            fontSize = 14.sp
         )
         Icon(
             imageVector = if (contentOpen) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
@@ -131,6 +137,7 @@ fun TeamPlayerSchema(
                         .padding(horizontal = 16.dp, vertical = 4.dp),
                     text = player.name,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    fontSize = 14.sp
                 )
             }
         }
@@ -146,29 +153,18 @@ private fun RoundTeamPreview() {
                 .background(MaterialTheme.colorScheme.background)
                 .padding(24.dp)
         ) {
-//            RoundTeam(
-//                team = Team(
-//                    id = "1",
-//                    name = "Time Azul",
-//                    schema = TeamSchema(
-//                        id = "1",
-//                        goalKeepers = listOf(
-//                            "Buffon"
-//                        ),
-//                        startPlaying = listOf(
-//                            "Ronaldo",
-//                            "Messi",
-//                            "Neymar",
-//                            "Mbappe",
-//                        ),
-//                        substitutes = listOf(
-//                            "Vini Jr.",
-//                            "Bruno"
-//                        ),
-//                        replacementSuggestions = emptyList()
-//                    )
-//                )
-//            )
+            RoundTeam(
+                team = Team(
+                    id = "1",
+                    name = "Time Azul",
+                    schema = TeamSchema(
+                        goalKeepers = emptyList(),
+                        startPlaying = emptyList(),
+                        substitutes = emptyList(),
+                        replacementSuggestions = emptyList()
+                    )
+                )
+            )
         }
     }
 }

@@ -17,11 +17,11 @@ import androidx.compose.ui.unit.dp
 import com.magnus.playfut.ui.theme.AppTheme
 
 @Composable
-fun RoundConfirmationHeader() {
+fun RoundConfirmationHeader(modifier: Modifier = Modifier) {
     Column(
         verticalArrangement = Arrangement.spacedBy(4.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(8.dp))
             .padding(16.dp),
