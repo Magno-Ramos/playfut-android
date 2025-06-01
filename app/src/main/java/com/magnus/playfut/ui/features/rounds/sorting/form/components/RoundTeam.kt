@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.sp
 import com.magnus.playfut.R
 import com.magnus.playfut.ui.domain.model.Player
 import com.magnus.playfut.ui.domain.model.Team
+import com.magnus.playfut.ui.domain.model.TeamSchema
 import com.magnus.playfut.ui.theme.AppColor
 import com.magnus.playfut.ui.theme.AppTheme
 
