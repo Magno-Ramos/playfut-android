@@ -14,7 +14,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.magnus.playfut.ui.domain.model.Team
-import com.magnus.playfut.ui.domain.model.TeamSchema
 import com.magnus.playfut.ui.features.common.AppToolbar
 import com.magnus.playfut.ui.features.rounds.sorting.form.RoundSortViewModel
 import com.magnus.playfut.ui.features.rounds.sorting.form.components.RoundConfirmationHeader

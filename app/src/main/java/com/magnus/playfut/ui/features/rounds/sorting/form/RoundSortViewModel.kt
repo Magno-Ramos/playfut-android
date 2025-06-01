@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.magnus.playfut.ui.domain.model.Player
 import com.magnus.playfut.ui.domain.model.Team
-import com.magnus.playfut.ui.domain.model.TeamSchema
 import com.magnus.playfut.ui.domain.repository.LocalPlayerRepository
 import com.magnus.playfut.ui.domain.repository.RemotePlayerRepository
 import com.magnus.playfut.ui.domain.state.UiState
