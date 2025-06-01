@@ -14,16 +14,15 @@ class Team(
 )
 
 class TeamSchema(
-    val id: String,
-    val goalKeepers: List<String>,
-    val startPlaying: List<String>,
-    val substitutes: List<String>,
+    val goalKeepers: List<Player>,
+    val startPlaying: List<Player>,
+    val substitutes: List<Player>,
     val replacementSuggestions: List<ReplacementSuggestion>
 )
 
 class ReplacementSuggestion(
-    val playerIn: String,
-    val playerOut: String
+    val playerIn: Player,
+    val playerOut: Player
 )
 
 // NEXT STEP

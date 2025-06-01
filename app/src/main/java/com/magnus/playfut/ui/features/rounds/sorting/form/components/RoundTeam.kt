@@ -29,6 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.magnus.playfut.R
+import com.magnus.playfut.ui.domain.model.Player
 import com.magnus.playfut.ui.domain.model.Team
 import com.magnus.playfut.ui.domain.model.TeamSchema
 import com.magnus.playfut.ui.theme.AppColor
@@ -95,7 +96,7 @@ fun RoundTeam(
 fun TeamPlayerSchema(
     modifier: Modifier = Modifier,
     title: String,
-    players: List<String>,
+    players: List<Player>,
     opened: Boolean = false
 ) {
     var contentOpen by remember { mutableStateOf(opened) }
@@ -128,7 +129,7 @@ fun TeamPlayerSchema(
                         .fillMaxWidth()
                         .background(MaterialTheme.colorScheme.surfaceVariant)
                         .padding(horizontal = 16.dp, vertical = 4.dp),
-                    text = player,
+                    text = player.name,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
@@ -145,29 +146,29 @@ private fun RoundTeamPreview() {
                 .background(MaterialTheme.colorScheme.background)
                 .padding(24.dp)
         ) {
-            RoundTeam(
-                team = Team(
-                    id = "1",
-                    name = "Time Azul",
-                    schema = TeamSchema(
-                        id = "1",
-                        goalKeepers = listOf(
-                            "Buffon"
-                        ),
-                        startPlaying = listOf(
-                            "Ronaldo",
-                            "Messi",
-                            "Neymar",
-                            "Mbappe",
-                        ),
-                        substitutes = listOf(
-                            "Vini Jr.",
-                            "Bruno"
-                        ),
-                        replacementSuggestions = emptyList()
-                    )
-                )
-            )
+//            RoundTeam(
+//                team = Team(
+//                    id = "1",
+//                    name = "Time Azul",
+//                    schema = TeamSchema(
+//                        id = "1",
+//                        goalKeepers = listOf(
+//                            "Buffon"
+//                        ),
+//                        startPlaying = listOf(
+//                            "Ronaldo",
+//                            "Messi",
+//                            "Neymar",
+//                            "Mbappe",
+//                        ),
+//                        substitutes = listOf(
+//                            "Vini Jr.",
+//                            "Bruno"
+//                        ),
+//                        replacementSuggestions = emptyList()
+//                    )
+//                )
+//            )
         }
     }
 }

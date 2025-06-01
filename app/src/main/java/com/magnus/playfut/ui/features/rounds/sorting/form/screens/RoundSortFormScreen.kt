@@ -1,5 +1,6 @@
 package com.magnus.playfut.ui.features.rounds.sorting.form.screens
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,10 +16,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.magnus.playfut.ui.domain.helper.PlayerDistributor
 import com.magnus.playfut.ui.domain.state.isError
 import com.magnus.playfut.ui.domain.state.isLoading
 import com.magnus.playfut.ui.domain.state.isSuccess
@@ -27,6 +30,7 @@ import com.magnus.playfut.ui.features.common.AppToolbar
 import com.magnus.playfut.ui.features.rounds.sorting.form.RoundSortRoutes
 import com.magnus.playfut.ui.features.rounds.sorting.form.RoundSortViewModel
 import com.magnus.playfut.ui.features.rounds.sorting.form.components.RoundSortingForm
+import com.magnus.playfut.ui.features.rounds.sorting.form.model.toPlayer
 import com.magnus.playfut.ui.features.rounds.sorting.form.state.ErrorState
 import com.magnus.playfut.ui.features.rounds.sorting.form.state.LoadingState
 
@@ -40,8 +44,8 @@ fun RoundSortFormScreen(
     val playersState by viewModel.playersState.collectAsState()
     val selectablePlayers by viewModel.selectablePlayers.collectAsState()
 
-    val teamsCount = remember { mutableStateOf("2") }
-    val playersCount = remember { mutableStateOf("7") }
+    var teamsCount by remember { mutableStateOf("2") }
+    var playersCount by remember { mutableStateOf("7") }
 
     LaunchedEffect(Unit) {
         viewModel.fetchPlayers(groupId)
@@ -49,6 +53,16 @@ fun RoundSortFormScreen(
 
     fun openSelectionScreen() {
         navController.navigate(RoundSortRoutes.PlayerSelection.route)
+    }
+
+    fun sortPlayersInTeams() {
+        viewModel.teams = PlayerDistributor.distributeTeamsWithSubstitutions(
+            players = selectablePlayers.filter { it.selected }.map { it.toPlayer() },
+            teamCount = teamsCount.toInt(),
+            startersPerTeam = playersCount.toInt()
+        )
+
+        navController.navigate(RoundSortRoutes.FormConfirmation.route)
     }
 
     Scaffold(
@@ -65,7 +79,7 @@ fun RoundSortFormScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(48.dp),
-                        onClick = {}
+                        onClick = { sortPlayersInTeams() }
                     ) {
                         Text(text = "Sortear")
                     }
@@ -79,10 +93,10 @@ fun RoundSortFormScreen(
                 playersState.isError() -> ErrorState()
                 playersState.isSuccess() -> RoundSortingForm(
                     totalPlayers = selectablePlayers.filter { it.selected }.size.toString(),
-                    teamsCount = teamsCount.value,
-                    playersCount = playersCount.value,
-                    onChangeTeamsCount = { teamsCount.value = it },
-                    onChangePlayersCount = { playersCount.value = it },
+                    teamsCount = teamsCount,
+                    playersCount = playersCount,
+                    onChangeTeamsCount = { teamsCount = it },
+                    onChangePlayersCount = { playersCount = it },
                     onClickChangePlayers = { openSelectionScreen() }
                 )
             }

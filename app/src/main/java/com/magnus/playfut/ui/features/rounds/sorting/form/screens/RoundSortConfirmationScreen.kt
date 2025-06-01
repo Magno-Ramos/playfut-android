@@ -27,67 +27,55 @@ fun RoundSortConfirmationScreen(
     Scaffold(
         topBar = {
             AppToolbar(title = "Confirmação") {
-                navController.popBackStack()
+                // navController.popBackStack()
             }
         }
     ) { paddings ->
-        RoundSortConfirmationContent(Modifier.padding(paddings))
+        viewModel.teams?.let { mTeams ->
+            RoundSortConfirmationContent(
+                modifier = Modifier.padding(paddings),
+                teams = mTeams
+            )
+        }
     }
 }
 
 @Composable
-private fun RoundSortConfirmationContent(modifier: Modifier = Modifier) {
+private fun RoundSortConfirmationContent(
+    modifier: Modifier = Modifier,
+    teams: List<Team> = emptyList()
+) {
     Column (
         modifier = modifier.padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         RoundConfirmationHeader()
-        RoundTeam(
-            team = Team(
-                id = "1",
-                name = "Time Azul",
-                schema = TeamSchema(
-                    id = "1",
-                    goalKeepers = listOf(
-                        "Buffon"
-                    ),
-                    startPlaying = listOf(
-                        "Ronaldo",
-                        "Messi",
-                        "Neymar",
-                        "Mbappe",
-                    ),
-                    substitutes = listOf(
-                        "Vini Jr.",
-                        "Bruno"
-                    ),
-                    replacementSuggestions = emptyList()
-                )
-            )
-        )
-        RoundTeam(
-            team = Team(
-                id = "1",
-                name = "Time Preto",
-                schema = TeamSchema(
-                    id = "1",
-                    goalKeepers = listOf(
-                        "Buffon"
-                    ),
-                    startPlaying = listOf(
-                        "Gabriel",
-                        "Lucas",
-                        "Júnior",
-                        "Márcio",
-                    ),
-                    substitutes = listOf(
-                        "Vini Jr.",
-                        "Bruno"
-                    ),
-                    replacementSuggestions = emptyList()
-                )
-            )
-        )
+        teams.forEach { team ->
+            RoundTeam(team = team)
+        }
+//        RoundTeam(
+//            team = Team(
+//                id = "1",
+//                name = "Time Preto",
+//                schema = TeamSchema(
+//                    id = "1",
+//                    goalKeepers = listOf(
+//                        "Buffon"
+//                    ),
+//                    startPlaying = listOf(
+//                        "Gabriel",
+//                        "Lucas",
+//                        "Júnior",
+//                        "Márcio",
+//                    ),
+//                    substitutes = listOf(
+//                        "Vini Jr.",
+//                        "Bruno"
+//                    ),
+//                    replacementSuggestions = emptyList()
+//                )
+//            )
+//        )
     }
 }
 

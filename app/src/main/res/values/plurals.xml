@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <plurals name="rounds_realized">
-        <item quantity="zero">Nenhuma rodada realizada</item>
+        <item quantity="one">1 rodada realizada</item>
         <item quantity="other">%d Rodadas realizadas</item>
     </plurals>
 

@@ -23,3 +23,11 @@ fun Player.toSelectablePlayer() = SelectablePlayer(
     groupId = groupId,
     selected = true
 )
+
+fun SelectablePlayer.toPlayer() = Player(
+    id = id,
+    name = name,
+    skillLevel = skillLevel,
+    type = type,
+    groupId = groupId
+)

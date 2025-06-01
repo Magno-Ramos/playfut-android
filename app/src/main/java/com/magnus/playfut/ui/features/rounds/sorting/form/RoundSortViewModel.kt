@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.magnus.playfut.ui.domain.model.Player
+import com.magnus.playfut.ui.domain.model.Team
+import com.magnus.playfut.ui.domain.model.TeamSchema
 import com.magnus.playfut.ui.domain.repository.LocalPlayerRepository
 import com.magnus.playfut.ui.domain.repository.RemotePlayerRepository
 import com.magnus.playfut.ui.domain.state.UiState
@@ -26,6 +28,8 @@ class RoundSortViewModel(
 
     private val _selectablePlayers = MutableStateFlow<List<SelectablePlayer>>(emptyList())
     val selectablePlayers = _selectablePlayers.asStateFlow()
+
+    var teams: List<Team>? = null
 
     fun toggleSelection(player: SelectablePlayer) {
         _selectablePlayers.value = _selectablePlayers.value.map {
