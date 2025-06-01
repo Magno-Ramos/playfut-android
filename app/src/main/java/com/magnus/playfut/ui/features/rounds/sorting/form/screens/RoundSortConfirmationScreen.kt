@@ -4,6 +4,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -45,37 +47,15 @@ private fun RoundSortConfirmationContent(
     modifier: Modifier = Modifier,
     teams: List<Team> = emptyList()
 ) {
+    val scrollState = rememberScrollState()
     Column (
-        modifier = modifier.padding(16.dp),
+        modifier = modifier.verticalScroll(scrollState).padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         RoundConfirmationHeader()
         teams.forEach { team ->
             RoundTeam(team = team)
         }
-//        RoundTeam(
-//            team = Team(
-//                id = "1",
-//                name = "Time Preto",
-//                schema = TeamSchema(
-//                    id = "1",
-//                    goalKeepers = listOf(
-//                        "Buffon"
-//                    ),
-//                    startPlaying = listOf(
-//                        "Gabriel",
-//                        "Lucas",
-//                        "Júnior",
-//                        "Márcio",
-//                    ),
-//                    substitutes = listOf(
-//                        "Vini Jr.",
-//                        "Bruno"
-//                    ),
-//                    replacementSuggestions = emptyList()
-//                )
-//            )
-//        )
     }
 }
 
