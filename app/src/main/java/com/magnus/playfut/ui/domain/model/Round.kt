@@ -7,13 +7,13 @@ class Round(
     val teams: List<Team>
 )
 
-class Team(
+data class Team(
     val id: String,
     val name: String,
     val schema: TeamSchema
 )
 
-class TeamSchema(
+data class TeamSchema(
     val goalKeepers: List<Player>,
     val startPlaying: List<Player>,
     val substitutes: List<Player>,

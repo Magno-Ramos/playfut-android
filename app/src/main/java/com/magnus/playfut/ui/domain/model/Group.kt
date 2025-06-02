@@ -13,7 +13,7 @@ class Group(
 )
 
 @Parcelize
-class Player(
+data class Player(
     val id: String = "",
     val name: String = "",
     val skillLevel: Int = 0,

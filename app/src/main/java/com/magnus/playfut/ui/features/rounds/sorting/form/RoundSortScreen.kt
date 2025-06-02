@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.magnus.playfut.ui.features.rounds.sorting.form.screens.RoundEditTeamScreen
 import com.magnus.playfut.ui.features.rounds.sorting.form.screens.RoundSortConfirmationScreen
 import com.magnus.playfut.ui.features.rounds.sorting.form.screens.RoundSortFormScreen
 import com.magnus.playfut.ui.features.rounds.sorting.form.screens.RoundSortPlayerSelectionScreen
@@ -45,6 +46,13 @@ fun RoundSortScreen(
 
         composable(RoundSortRoutes.FormConfirmation.route) {
             RoundSortConfirmationScreen(
+                viewModel = viewModel,
+                navController = navController
+            )
+        }
+
+        composable(RoundSortRoutes.EditTeam.route) {
+            RoundEditTeamScreen(
                 viewModel = viewModel,
                 navController = navController
             )
