@@ -13,18 +13,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.unit.dp
 import com.magnus.playfut.ui.theme.AppTheme
+import com.magnus.playfut.ui.theme.spacing
 
 @Composable
 fun RoundConfirmationHeader(modifier: Modifier = Modifier) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(4.dp),
+        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.tiny),
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(8.dp))
-            .padding(16.dp),
+            .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(MaterialTheme.spacing.small))
+            .padding(MaterialTheme.spacing.medium),
     ) {
         Text(text = "Rodada 02", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface)
         Text(text = "16/02/2025", fontWeight = FontWeight.Light, color = MaterialTheme.colorScheme.onSurface)
@@ -38,7 +38,7 @@ private fun RoundConfirmationHeaderPreview() {
         Column(
             Modifier
                 .background(MaterialTheme.colorScheme.background)
-                .padding(16.dp)
+                .padding(MaterialTheme.spacing.medium)
         ) {
             RoundConfirmationHeader()
         }

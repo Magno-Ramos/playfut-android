@@ -5,6 +5,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 
 private val lightScheme = lightColorScheme(
     primary = primaryLight,
@@ -85,16 +86,20 @@ private val darkScheme = darkColorScheme(
 @Composable
 fun AppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
+    spacing: Spacing = Spacing(),
     content: @Composable() () -> Unit
 ) {
     val colorScheme = when {
         darkTheme -> darkScheme
         else -> lightScheme
     }
-    MaterialTheme(
-        colorScheme = colorScheme,
-        content = content,
-        typography = AppTypography
-    )
+
+    CompositionLocalProvider(LocalSpacing provides spacing) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            content = content,
+            typography = AppTypography
+        )
+    }
 }
 
