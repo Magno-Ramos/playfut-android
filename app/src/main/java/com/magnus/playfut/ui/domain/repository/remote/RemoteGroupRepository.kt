@@ -1,42 +1,34 @@
-package com.magnus.playfut.ui.domain.repository
+package com.magnus.playfut.ui.domain.repository.remote
 
 import com.google.firebase.auth.FirebaseAuth
 import com.magnus.playfut.ui.domain.model.Group
 import com.magnus.playfut.ui.domain.datasource.GroupDataSource
-import com.magnus.playfut.ui.domain.repository.local.LocalGroupRepository
-import com.magnus.playfut.ui.domain.repository.remote.RemoteGroupRepository
 import kotlinx.coroutines.flow.Flow
 
-class GroupRepository(
-    private val localRepository: LocalGroupRepository,
-    private val remoteRepository: RemoteGroupRepository,
+class RemoteGroupRepository (
     private val auth: FirebaseAuth
 ) : GroupDataSource {
-
-    private val source
-        get() = if (auth.currentUser != null) remoteRepository else localRepository
-
     override suspend fun createGroup(name: String): Result<String> {
-        return source.createGroup(name)
+        TODO("Not yet implemented")
     }
 
     override suspend fun editGroup(id: String, name: String): Result<Unit> {
-        return source.editGroup(id, name)
+        TODO("Not yet implemented")
     }
 
     override suspend fun fetchGroup(groupId: String): Result<Group?> {
-        return source.fetchGroup(groupId)
+        TODO("Not yet implemented")
     }
 
     override suspend fun deleteGroup(groupId: String): Result<Unit> {
-        return source.deleteGroup(groupId)
+        TODO("Not yet implemented")
     }
 
     override fun observeGroup(groupId: String): Flow<Group?> {
-        return source.observeGroup(groupId)
+        TODO("Not yet implemented")
     }
 
     override fun observeGroups(): Flow<List<Group>> {
-        return source.observeGroups()
+        TODO("Not yet implemented")
     }
 }

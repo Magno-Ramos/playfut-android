@@ -5,9 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.magnus.playfut.ui.domain.model.Group
-import com.magnus.playfut.ui.domain.repository.GroupRepository
-import com.magnus.playfut.ui.domain.repository.LocalGroupRepository
-import com.magnus.playfut.ui.domain.repository.RemoteGroupRepository
+import com.magnus.playfut.ui.domain.repository.local.LocalGroupRepository
+import com.magnus.playfut.ui.domain.repository.remote.RemoteGroupRepository
 import com.magnus.playfut.ui.domain.state.UiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -33,7 +32,7 @@ class HomeViewModel(
         viewModelScope.launch {
             snapshotFlow { auth.currentUser }
                 .collectLatest { user ->
-                    val repo: GroupRepository = if (user != null) remoteRepo else roomRepo
+                    val repo = if (user != null) remoteRepo else roomRepo
                     repo.observeGroups()
                         .onStart { _uiState.value = UiState.Loading }
                         .catch { _uiState.value = UiState.Error(it.message ?: "Unknown error") }

@@ -28,7 +28,6 @@ import com.magnus.playfut.ui.theme.AppTheme
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GroupsEditScreen(
     viewModel: GroupsFormViewModel = koinViewModel(),

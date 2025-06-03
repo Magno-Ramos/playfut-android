@@ -40,5 +40,8 @@
         <activity
             android:name=".ui.features.rounds.sorting.form.RoundSortActivity"
             android:exported="false" />
+        <activity
+            android:name=".ui.features.rounds.playing.RoundPlayingActivity"
+            android:exported="false" />
     </application>
 </manifest>
