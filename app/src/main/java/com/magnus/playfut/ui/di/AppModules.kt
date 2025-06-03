@@ -19,12 +19,14 @@ import com.magnus.playfut.ui.features.player.list.PlayerListViewModel
 import com.magnus.playfut.ui.features.rounds.sorting.form.RoundSortViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.core.module.dsl.viewModel
+import com.magnus.playfut.ui.features.rounds.playing.RoundPlayingViewModel
 import org.koin.dsl.module
 
 val appModules = module {
     single { AppDatabase.build(androidApplication()) }
     single { get<AppDatabase>().groupDao() }
     single { get<AppDatabase>().playerDao() }
+    single { get<AppDatabase>().roundDao() }
     single { FirebaseAuth.getInstance() }
 
     single { RemoteGroupRepository(get()) }
@@ -45,4 +47,5 @@ val appModules = module {
     viewModel { PlayerListViewModel(get()) }
     viewModel { PlayerFormViewModel(get(), get(), get()) }
     viewModel { RoundSortViewModel(get(), get(), get()) }
+    viewModel { RoundPlayingViewModel(get()) }
 }

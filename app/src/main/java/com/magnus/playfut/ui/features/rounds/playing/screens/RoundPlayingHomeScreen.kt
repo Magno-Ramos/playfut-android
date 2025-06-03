@@ -13,8 +13,11 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import com.magnus.playfut.ui.domain.model.Round
 import com.magnus.playfut.ui.domain.state.UiState
+import com.magnus.playfut.ui.extensions.activity
+import com.magnus.playfut.ui.features.common.AppToolbar
 import com.magnus.playfut.ui.features.common.ErrorView
 import com.magnus.playfut.ui.features.common.LoadingView
 import com.magnus.playfut.ui.features.common.MenuItem
@@ -32,7 +35,9 @@ fun RoundPlayingHomeScreen(
         viewModel.fetchRunningRound(groupId)
     }
 
-    Scaffold { paddings ->
+    Scaffold(
+        topBar = { AppBar() }
+    ) { paddings ->
         Box(modifier = Modifier.padding(paddings)) {
             when (val state = roundState) {
                 UiState.Loading -> LoadingView()
@@ -56,4 +61,13 @@ private fun RoundPlayingHomeMenu(round: Round?) {
             isPrimary = true
         )
     }
+}
+
+@Composable
+private fun AppBar() {
+    val context = LocalContext.current
+    AppToolbar(
+        title = "Rodada",
+        onClickBack = { context.activity?.finish() }
+    )
 }
