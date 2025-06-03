@@ -17,11 +17,14 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.magnus.playfut.ui.domain.model.Team
+import com.magnus.playfut.ui.extensions.activity
 import com.magnus.playfut.ui.features.common.AppToolbar
+import com.magnus.playfut.ui.features.rounds.playing.RoundPlayingActivity
 import com.magnus.playfut.ui.features.rounds.sorting.form.RoundSortRoutes
 import com.magnus.playfut.ui.features.rounds.sorting.form.RoundSortViewModel
 import com.magnus.playfut.ui.features.rounds.sorting.form.components.RoundConfirmationHeader
@@ -33,13 +36,17 @@ fun RoundSortConfirmationScreen(
     viewModel: RoundSortViewModel,
     navController: NavController
 ) {
+    val context = LocalContext.current
+
     fun onClickEditTeam(team: Team) {
         viewModel.editableTeam = team
         navController.navigate(RoundSortRoutes.EditTeam.route)
     }
 
     fun onClickStartRound() {
-        // next, start round
+        val intent = RoundPlayingActivity.createIntent(context, viewModel.groupId)
+        context.startActivity(intent)
+        context.activity?.finish()
     }
 
     Scaffold(

@@ -1,4 +1,4 @@
-package com.magnus.playfut.ui.features.groups.menu.components
+package com.magnus.playfut.ui.features.common
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

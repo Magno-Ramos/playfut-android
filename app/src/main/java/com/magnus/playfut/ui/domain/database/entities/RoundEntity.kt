@@ -17,5 +17,6 @@ import java.util.Date
 data class RoundEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val groupId: Long,
-    val date: Date = Date()
+    val date: Date = Date(),
+    val opened: Boolean = false
 )

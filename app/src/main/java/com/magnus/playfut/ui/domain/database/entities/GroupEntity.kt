@@ -61,6 +61,7 @@ fun PlayerEntity.toPlayer() = Player(
 
 fun RoundEntity.toRound() = Round(
     date = date,
+    opened = opened,
     teams = listOf()
 )
 

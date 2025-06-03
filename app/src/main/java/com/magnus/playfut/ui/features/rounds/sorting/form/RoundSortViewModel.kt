@@ -28,6 +28,7 @@ class RoundSortViewModel(
     private val _selectablePlayers = MutableStateFlow<List<SelectablePlayer>>(emptyList())
     val selectablePlayers = _selectablePlayers.asStateFlow()
 
+    var groupId: String = ""
     var editableTeam: Team? = null
     var teams: List<Team>? = null
 

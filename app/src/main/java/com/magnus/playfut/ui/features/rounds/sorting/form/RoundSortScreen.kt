@@ -20,6 +20,7 @@ fun RoundSortScreen(
     groupId: String
 ) {
     val navController = rememberNavController()
+    viewModel.groupId = groupId
 
     NavHost(
         navController = navController,

@@ -1,9 +1,11 @@
 package com.magnus.playfut.ui.domain.model
 
+import com.magnus.playfut.ui.domain.database.entities.RoundEntity
 import java.util.Date
 
 class Round(
     val date: Date,
+    val opened: Boolean,
     val teams: List<Team>
 )
 
@@ -23,6 +25,12 @@ data class TeamSchema(
 class ReplacementSuggestion(
     val playerIn: Player,
     val playerOut: Player
+)
+
+fun RoundEntity.toRound() = Round(
+    date = date,
+    opened = opened,
+    teams = emptyList()
 )
 
 // NEXT STEP

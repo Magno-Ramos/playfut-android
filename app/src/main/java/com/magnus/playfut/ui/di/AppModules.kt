@@ -31,7 +31,7 @@ val appModules = module {
     single { LocalGroupRepository(get()) }
     single { GroupRepository(get(), get(), get()) }
 
-    single { LocalRoundRepository() }
+    single { LocalRoundRepository(get()) }
     single { RemoteRoundRepository() }
     single { RoundRepository(get(), get(), get()) }
 
