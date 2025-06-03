@@ -3,7 +3,7 @@ package com.magnus.playfut.ui.features.groups.menu
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -11,6 +11,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import com.magnus.playfut.ui.domain.model.GroupWithOpenedRound
 import com.magnus.playfut.ui.domain.state.UiState
 import com.magnus.playfut.ui.extensions.activity
 import com.magnus.playfut.ui.features.common.AppToolbar
@@ -18,6 +22,7 @@ import com.magnus.playfut.ui.features.groups.form.GroupsFormActivity
 import com.magnus.playfut.ui.features.groups.menu.components.GroupMenu
 import com.magnus.playfut.ui.features.groups.settings.GroupSettingsActivity
 import com.magnus.playfut.ui.features.player.list.PlayerListActivity
+import com.magnus.playfut.ui.features.rounds.playing.RoundPlayingActivity
 import com.magnus.playfut.ui.features.rounds.sorting.form.RoundSortActivity
 import org.koin.androidx.compose.koinViewModel
 
@@ -28,20 +33,35 @@ fun GroupMenuScreen(
     onClickBack: () -> Unit = {}
 ) {
     val context = LocalContext.current
-    var title by remember { mutableStateOf("") }
-    val groupState = viewModel.uiState.collectAsState()
+    val groupState by viewModel.uiState.collectAsState()
+    var groupName by remember { mutableStateOf("") }
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                viewModel.fetchGroup(groupId)
+            }
+        }
+
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
+    }
 
     fun closeScreen() {
         context.activity?.onBackPressedDispatcher?.onBackPressed()
     }
 
-    LaunchedEffect(Unit) {
-        viewModel.observeGroup(groupId)
-    }
-
     fun openNewRound() {
-        val intent = RoundSortActivity.createIntent(context, groupId)
-        context.startActivity(intent)
+        (groupState as? UiState.Success<GroupWithOpenedRound>)?.data?.let { data ->
+            if (data.runningRound != null) {
+                val intent = RoundPlayingActivity.createIntent(context, groupId)
+                context.startActivity(intent)
+            } else {
+                val intent = RoundSortActivity.createIntent(context, groupId)
+                context.startActivity(intent)
+            }
+        }
     }
 
     fun openRoundsHistory() {
@@ -59,20 +79,18 @@ fun GroupMenuScreen(
     }
 
     fun openEditGroup() {
-        val intent = GroupsFormActivity.createIntentToEdit(context, groupId, title)
+        val intent = GroupsFormActivity.createIntentToEdit(context, groupId, groupName)
         context.startActivity(intent)
     }
 
     Scaffold(
-        topBar = { AppToolbar(title = title, onClickBack = onClickBack) }
+        topBar = { AppToolbar(title = groupName, onClickBack = onClickBack) }
     ) { paddings ->
-
-        when (val state = groupState.value) {
+        when (val state = groupState) {
             UiState.Loading -> Unit
             is UiState.Error -> closeScreen()
             is UiState.Success -> {
-                val group = state.data
-                title = group.name
+                groupName = state.data.group.name
                 GroupMenu(
                     modifier = Modifier.padding(paddings),
                     group = state.data,

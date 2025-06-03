@@ -13,14 +13,20 @@ class RoundPlayingViewModel(
     private val repository: RoundRepository
 ) : ViewModel() {
 
-    private val _roundState = MutableStateFlow<UiState<Round?>>(UiState.Loading)
+    private val _roundState = MutableStateFlow<UiState<Round>>(UiState.Loading)
     val roundState = _roundState.asStateFlow()
 
     fun fetchRunningRound(groupId: String) {
         viewModelScope.launch {
             repository.fetchRunningRound(groupId)
                 .onFailure { _roundState.value = UiState.Error(null) }
-                .onSuccess { _roundState.value = UiState.Success(it) }
+                .onSuccess { round ->
+                    if (round != null) {
+                        _roundState.value = UiState.Success(round)
+                    } else {
+                        _roundState.value = UiState.Error("No running round found")
+                    }
+                }
         }
     }
 }

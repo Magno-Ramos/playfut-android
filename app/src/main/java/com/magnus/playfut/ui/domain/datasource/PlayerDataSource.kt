@@ -1,0 +1,25 @@
+package com.magnus.playfut.ui.domain.datasource
+
+import com.magnus.playfut.ui.domain.model.Player
+import com.magnus.playfut.ui.domain.model.PlayerType
+
+interface PlayerDataSource {
+    suspend fun createPlayer(
+        groupId: String,
+        name: String,
+        type: PlayerType,
+        quality: Int
+    ): Result<Unit>
+
+    suspend fun editPlayer(
+        id: String,
+        groupId: String,
+        name: String,
+        type: PlayerType,
+        quality: Int
+    ): Result<Unit>
+
+    suspend fun deletePlayer(id: String): Result<Unit>
+
+    suspend fun fetchPlayers(groupId: String): Result<List<Player>>
+}

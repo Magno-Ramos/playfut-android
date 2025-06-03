@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Flag
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Sports
 import androidx.compose.material.icons.outlined.Edit
@@ -17,13 +18,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.magnus.playfut.ui.domain.model.Group
+import com.magnus.playfut.ui.domain.model.GroupWithOpenedRound
 import com.magnus.playfut.ui.features.common.MenuItem
 import com.magnus.playfut.ui.theme.AppTheme
 
 @Composable
 fun GroupMenu(
     modifier: Modifier = Modifier,
-    group: Group,
+    group: GroupWithOpenedRound,
     openNewRound: () -> Unit = {},
     openPlayers: () -> Unit = {},
     openSettings: () -> Unit = {},
@@ -35,9 +37,9 @@ fun GroupMenu(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         MenuItem(
-            icon = Icons.Default.Sports,
-            title = "Nova Rodada",
-            subtitle = "Quem vencerá hoje?",
+            icon = if (group.runningRound != null) Icons.Default.Flag else Icons.Default.Sports,
+            title = if (group.runningRound != null) "Rodada em andamento" else "Nova Rodada",
+            subtitle = if (group.runningRound != null) "Finalize para ver o resultado" else "Quem vencerá hoje?",
             isPrimary = true,
             onClick = { openNewRound() }
         )
@@ -45,9 +47,9 @@ fun GroupMenu(
             icon = Icons.Outlined.PeopleAlt,
             title = "Jogadores",
             subtitle = when {
-                group.players.isEmpty() -> "Adicione jogadores do grupo"
-                group.players.size == 1 -> "1 jogador adicionado"
-                else -> "${group.players.size} jogadores"
+                group.group.players.isEmpty() -> "Adicione jogadores do grupo"
+                group.group.players.size == 1 -> "1 jogador adicionado"
+                else -> "${group.group.players.size} jogadores"
             },
             onClick = { openPlayers() }
         )
@@ -56,9 +58,9 @@ fun GroupMenu(
             title = "Histórico de rodadas",
             onClick = { openRoundsHistory() },
             subtitle = when {
-                group.rounds.isEmpty() -> "Nenhuma rodada realizada"
-                group.rounds.size == 1 -> "1 rodada realizada"
-                else -> "${group.rounds.size} rodadas realizadas"
+                group.group.rounds.isEmpty() -> "Nenhuma rodada realizada"
+                group.group.rounds.size == 1 -> "1 rodada realizada"
+                else -> "${group.group.rounds.size} rodadas realizadas"
             }
         )
         MenuItem(
@@ -80,10 +82,13 @@ private fun GroupMenuPreview() {
     AppTheme {
         Box(Modifier.background(MaterialTheme.colorScheme.background)) {
             GroupMenu(
-                group = Group(
-                    name = "Grupo 1",
-                    players = listOf(),
-                    rounds = listOf()
+                group = GroupWithOpenedRound(
+                    runningRound = null,
+                    group = Group(
+                        name = "Grupo 1",
+                        players = listOf(),
+                        rounds = listOf()
+                    )
                 )
             )
         }

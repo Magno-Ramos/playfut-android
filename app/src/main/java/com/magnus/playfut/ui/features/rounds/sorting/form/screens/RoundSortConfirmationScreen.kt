@@ -16,12 +16,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.magnus.playfut.ui.domain.model.Team
+import com.magnus.playfut.ui.domain.state.ActionResultState
 import com.magnus.playfut.ui.extensions.activity
 import com.magnus.playfut.ui.features.common.AppToolbar
 import com.magnus.playfut.ui.features.rounds.playing.RoundPlayingActivity
@@ -30,6 +34,7 @@ import com.magnus.playfut.ui.features.rounds.sorting.form.RoundSortViewModel
 import com.magnus.playfut.ui.features.rounds.sorting.form.components.RoundConfirmationHeader
 import com.magnus.playfut.ui.features.rounds.sorting.form.components.RoundTeam
 import com.magnus.playfut.ui.theme.AppTheme
+import kotlinx.coroutines.launch
 
 @Composable
 fun RoundSortConfirmationScreen(
@@ -37,6 +42,14 @@ fun RoundSortConfirmationScreen(
     navController: NavController
 ) {
     val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
+    val createRoundState by viewModel.createRoundState.collectAsState()
+
+    if (createRoundState is ActionResultState.Success<*>) {
+        val intent = RoundPlayingActivity.createIntent(context, viewModel.groupId)
+        context.startActivity(intent)
+        context.activity?.finish()
+    }
 
     fun onClickEditTeam(team: Team) {
         viewModel.editableTeam = team
@@ -44,9 +57,9 @@ fun RoundSortConfirmationScreen(
     }
 
     fun onClickStartRound() {
-        val intent = RoundPlayingActivity.createIntent(context, viewModel.groupId)
-        context.startActivity(intent)
-        context.activity?.finish()
+        coroutineScope.launch {
+            viewModel.createRound()
+        }
     }
 
     Scaffold(

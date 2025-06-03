@@ -6,11 +6,10 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
-import com.magnus.playfut.ui.domain.database.entities.GroupEntity
-import com.magnus.playfut.ui.domain.database.entities.GroupWithPlayersAndRounds
-import com.magnus.playfut.ui.domain.database.entities.PlayerEntity
-import com.magnus.playfut.ui.domain.database.entities.RoundEntity
-import kotlinx.coroutines.flow.Flow
+import com.magnus.playfut.ui.domain.database.entities.relations.GroupWithOpenedRoundEntity
+import com.magnus.playfut.ui.domain.database.entities.structure.GroupEntity
+import com.magnus.playfut.ui.domain.database.entities.structure.PlayerEntity
+import com.magnus.playfut.ui.domain.database.entities.structure.RoundEntity
 
 @Dao
 interface GroupDao {
@@ -29,22 +28,10 @@ interface GroupDao {
     @Delete
     suspend fun deleteGroup(group: GroupEntity)
 
-    @Query("SELECT * FROM `groups` WHERE id = :groupId")
-    suspend fun getGroupById(groupId: Long): GroupWithPlayersAndRounds?
+    @Query("SELECT * FROM `groups`")
+    suspend fun getGroups(): List<GroupEntity>
 
     @Transaction
-    @Query("SELECT * FROM `groups` ORDER BY createdAt DESC")
-    suspend fun getAllGroupsWithDetails(): List<GroupWithPlayersAndRounds>
-
-    @Transaction
-    @Query("SELECT * FROM `groups` WHERE id = :groupId")
-    suspend fun getGroupWithDetails(groupId: Long): GroupWithPlayersAndRounds
-
-    @Transaction
-    @Query("SELECT * FROM `groups` ORDER BY createdAt DESC")
-    fun observeAllGroupsWithDetails(): Flow<List<GroupWithPlayersAndRounds>>
-
-    @Transaction
-    @Query("SELECT * FROM `groups` WHERE id = :groupId")
-    fun observeGroupWithDetails(groupId: Long): Flow<GroupWithPlayersAndRounds?>
+    @Query("SELECT g.*, r.* FROM `groups` g LEFT JOIN rounds r ON g.id = r.groupId AND r.opened = 1 WHERE g.id = :groupId LIMIT 1 ")
+    suspend fun getGroupWithOpenedRound(groupId: Long): GroupWithOpenedRoundEntity?
 }

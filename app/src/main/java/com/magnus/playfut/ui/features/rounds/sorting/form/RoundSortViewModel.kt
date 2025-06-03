@@ -2,11 +2,11 @@ package com.magnus.playfut.ui.features.rounds.sorting.form
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.auth.FirebaseAuth
 import com.magnus.playfut.ui.domain.model.Player
 import com.magnus.playfut.ui.domain.model.Team
-import com.magnus.playfut.ui.domain.repository.LocalPlayerRepository
-import com.magnus.playfut.ui.domain.repository.RemotePlayerRepository
+import com.magnus.playfut.ui.domain.repository.PlayerRepository
+import com.magnus.playfut.ui.domain.repository.RoundRepository
+import com.magnus.playfut.ui.domain.state.ActionResultState
 import com.magnus.playfut.ui.domain.state.UiState
 import com.magnus.playfut.ui.features.rounds.sorting.form.model.SelectablePlayer
 import com.magnus.playfut.ui.features.rounds.sorting.form.model.toSelectablePlayer
@@ -15,9 +15,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class RoundSortViewModel(
-    private val remoteRepository: RemotePlayerRepository,
-    private val localRepository: LocalPlayerRepository,
-    private val auth: FirebaseAuth
+    private val playerRepository: PlayerRepository,
+    private val roundRepository: RoundRepository
 ) : ViewModel() {
 
     private var playersLoaded: Boolean = false
@@ -27,6 +26,9 @@ class RoundSortViewModel(
 
     private val _selectablePlayers = MutableStateFlow<List<SelectablePlayer>>(emptyList())
     val selectablePlayers = _selectablePlayers.asStateFlow()
+
+    private val _createRoundState = MutableStateFlow<ActionResultState<Long>>(ActionResultState.Idle)
+    val createRoundState = _createRoundState.asStateFlow()
 
     var groupId: String = ""
     var editableTeam: Team? = null
@@ -47,18 +49,31 @@ class RoundSortViewModel(
             return
         }
 
-        val repo = if (auth.currentUser != null) remoteRepository else localRepository
         viewModelScope.launch {
             _playersState.value = UiState.Loading
-            repo.fetchPlayers(groupId)
+            playerRepository.fetchPlayers(groupId)
+                .onFailure { _playersState.value = UiState.Error(it.message) }
                 .onSuccess { players ->
                     _playersState.value = UiState.Success(players)
                     _selectablePlayers.value = players.map { it.toSelectablePlayer() }
                     playersLoaded = true
                 }
-                .onFailure {
-                    _playersState.value = UiState.Error(it.message ?: "Desculpe, ocorreu um erro")
-                }
+        }
+    }
+
+    fun createRound() {
+        viewModelScope.launch {
+            _createRoundState.value = ActionResultState.Loading
+            val mTeams = teams?.filterNotNull()
+
+            if (mTeams.isNullOrEmpty()) {
+                _createRoundState.value = ActionResultState.Error("No teams selected")
+                return@launch
+            }
+
+            roundRepository.createRound(groupId, mTeams)
+                .onFailure { _createRoundState.value = ActionResultState.Error(it.message) }
+                .onSuccess { _createRoundState.value = ActionResultState.Success(it) }
         }
     }
 }

@@ -1,6 +1,6 @@
 package com.magnus.playfut.ui.domain.model
 
-import com.magnus.playfut.ui.domain.database.entities.RoundEntity
+import com.magnus.playfut.ui.domain.database.entities.structure.RoundEntity
 import java.util.Date
 
 class Round(

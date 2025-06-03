@@ -21,8 +21,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.magnus.playfut.ui.theme.AppTheme
@@ -75,14 +73,14 @@ fun MenuItem(
             Column(Modifier.weight(1f)) {
                 Text(
                     text = title,
-                    fontWeight = FontWeight.Medium,
+                    fontWeight = if (isPrimary) FontWeight.Bold else FontWeight.Medium,
                     color = primaryTextColor,
                     fontSize = 14.sp
                 )
                 Text(
                     text = subtitle,
                     color = secondaryTextColor,
-                    fontSize = TextUnit(value = 12f, type = TextUnitType.Sp),
+                    fontSize = 14.sp,
                     fontWeight = FontWeight.Normal
                 )
             }

@@ -22,6 +22,7 @@ import com.magnus.playfut.ui.features.common.ErrorView
 import com.magnus.playfut.ui.features.common.LoadingView
 import com.magnus.playfut.ui.features.common.MenuItem
 import com.magnus.playfut.ui.features.rounds.playing.RoundPlayingViewModel
+import com.magnus.playfut.ui.features.rounds.playing.components.TeamGroup
 import com.magnus.playfut.ui.theme.spacing
 
 @Composable
@@ -42,14 +43,14 @@ fun RoundPlayingHomeScreen(
             when (val state = roundState) {
                 UiState.Loading -> LoadingView()
                 is UiState.Error -> ErrorView("Desculpe, ocorreu um erro!")
-                is UiState.Success<Round?> -> RoundPlayingHomeMenu(state.data)
+                is UiState.Success<Round> -> RoundPlayingHomeMenu(state.data)
             }
         }
     }
 }
 
 @Composable
-private fun RoundPlayingHomeMenu(round: Round?) {
+private fun RoundPlayingHomeMenu(round: Round) {
     Column(
         modifier = Modifier.padding(MaterialTheme.spacing.medium),
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
@@ -60,6 +61,8 @@ private fun RoundPlayingHomeMenu(round: Round?) {
             subtitle = "Qual time ganhará dessa vez?",
             isPrimary = true
         )
+
+        TeamGroup(teams = round.teams)
     }
 }
 

@@ -1,41 +1,27 @@
 package com.magnus.playfut.ui.domain.repository
 
-import com.magnus.playfut.ui.domain.database.daos.PlayerDao
-import com.magnus.playfut.ui.domain.database.entities.PlayerEntity
-import com.magnus.playfut.ui.domain.database.entities.toPlayer
+import com.google.firebase.auth.FirebaseAuth
+import com.magnus.playfut.ui.domain.datasource.PlayerDataSource
 import com.magnus.playfut.ui.domain.model.Player
 import com.magnus.playfut.ui.domain.model.PlayerType
+import com.magnus.playfut.ui.domain.repository.local.LocalPlayerRepository
+import com.magnus.playfut.ui.domain.repository.remote.RemotePlayerRepository
 
-interface PlayerRepository {
-    suspend fun createPlayer(
-        groupId: String,
-        name: String,
-        type: PlayerType,
-        quality: Int
-    ): Result<Unit>
+class PlayerRepository(
+    private val localRepository: LocalPlayerRepository,
+    private val remoteRepository: RemotePlayerRepository,
+    private val auth: FirebaseAuth
+) : PlayerDataSource {
 
-    suspend fun editPlayer(
-        id: String,
-        groupId: String,
-        name: String,
-        type: PlayerType,
-        quality: Int
-    ): Result<Unit>
+    private val source
+        get() = if (auth.currentUser != null) remoteRepository else localRepository
 
-    suspend fun deletePlayer(id: String): Result<Unit>
-
-    suspend fun fetchPlayers(groupId: String): Result<List<Player>>
-}
-
-class RemotePlayerRepository : PlayerRepository {
     override suspend fun createPlayer(
         groupId: String,
         name: String,
         type: PlayerType,
         quality: Int
-    ): Result<Unit> {
-        TODO("Not yet implemented")
-    }
+    ): Result<Unit> = source.createPlayer(groupId, name, type, quality)
 
     override suspend fun editPlayer(
         id: String,
@@ -43,61 +29,13 @@ class RemotePlayerRepository : PlayerRepository {
         name: String,
         type: PlayerType,
         quality: Int
-    ): Result<Unit> {
-        TODO("Not yet implemented")
-    }
+    ): Result<Unit> = source.editPlayer(id, groupId, name, type, quality)
 
     override suspend fun deletePlayer(id: String): Result<Unit> {
-        TODO("Not yet implemented")
+        return source.deletePlayer(id)
     }
 
     override suspend fun fetchPlayers(groupId: String): Result<List<Player>> {
-        TODO("Not yet implemented")
-    }
-}
-
-class LocalPlayerRepository(
-    private val dao: PlayerDao
-) : PlayerRepository {
-    override suspend fun createPlayer(
-        groupId: String,
-        name: String,
-        type: PlayerType,
-        quality: Int
-    ) = runCatching {
-        dao.insertPlayer(
-            PlayerEntity(
-                groupId = groupId.toLong(),
-                name = name,
-                type = type,
-                skillLevel = quality
-            )
-        )
-    }
-
-    override suspend fun editPlayer(
-        id: String,
-        groupId: String,
-        name: String,
-        type: PlayerType,
-        quality: Int
-    ) = runCatching {
-        dao.updatePlayer(
-            PlayerEntity(
-                id = id.toLong(),
-                name = name,
-                type = type,
-                groupId = groupId.toLong(),
-                skillLevel = quality
-            )
-        )
-    }
-
-    override suspend fun deletePlayer(id: String): Result<Unit> = runCatching {
-        dao.deletePlayer(PlayerEntity(id = id.toLong()))
-    }
-
-    override suspend fun fetchPlayers(groupId: String) = runCatching {
-        dao.getPlayersByGroupId(groupId.toLong()).map { it.toPlayer() }
+        return source.fetchPlayers(groupId)
     }
 }
