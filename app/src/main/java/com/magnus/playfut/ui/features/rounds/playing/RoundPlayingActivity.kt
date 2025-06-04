@@ -21,15 +21,15 @@ class RoundPlayingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
-        val groupId = intent.getStringExtra("groupId") ?: return finish()
-        setContent { RoundPlayingScreen(groupId) }
+        val roundId = intent.getStringExtra("roundId") ?: return finish()
+        setContent { RoundPlayingScreen(roundId) }
     }
 
     companion object {
-        private const val GROUP_ID = "groupId"
-        fun createIntent(context: Context, groupId: String): Intent {
+        private const val ROUND_ID = "roundId"
+        fun createIntent(context: Context, roundId: String): Intent {
             return Intent(context, RoundPlayingActivity::class.java).apply {
-                putExtra(GROUP_ID, groupId)
+                putExtra(ROUND_ID, roundId)
             }
         }
     }
@@ -37,16 +37,16 @@ class RoundPlayingActivity : AppCompatActivity() {
 
 @Composable
 private fun RoundPlayingScreen(
-    groupId: String,
+    roundId: String,
     viewModel: RoundPlayingViewModel = koinViewModel()
 ) {
     AppTheme {
-        RoundPlayingNavigation(groupId, viewModel)
+        RoundPlayingNavigation(roundId, viewModel)
     }
 }
 
 @Composable
-private fun RoundPlayingNavigation(groupId: String, viewModel: RoundPlayingViewModel) {
+private fun RoundPlayingNavigation(roundId: String, viewModel: RoundPlayingViewModel) {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
@@ -58,7 +58,7 @@ private fun RoundPlayingNavigation(groupId: String, viewModel: RoundPlayingViewM
     ) {
         composable(RoundPlayingRoutes.Home.route) {
             RoundPlayingHomeScreen(
-                groupId = groupId,
+                roundId = roundId,
                 viewModel = viewModel
             )
         }

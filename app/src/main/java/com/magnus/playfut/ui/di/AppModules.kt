@@ -28,6 +28,7 @@ val appModules = module {
     single { get<AppDatabase>().groupDao() }
     single { get<AppDatabase>().playerDao() }
     single { get<AppDatabase>().roundDao() }
+    single { get<AppDatabase>().matchDao() }
     single { FirebaseAuth.getInstance() }
 
     single { RemoteGroupRepository(get()) }
@@ -41,7 +42,6 @@ val appModules = module {
     single { RemotePlayerRepository() }
     single { LocalPlayerRepository(get()) }
     single { PlayerRepository(get(), get(), get()) }
-
 
     viewModel { HomeViewModel(get()) }
     viewModel { GroupsFormViewModel(get()) }

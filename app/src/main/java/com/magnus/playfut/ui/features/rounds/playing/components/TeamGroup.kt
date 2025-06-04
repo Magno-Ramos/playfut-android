@@ -11,13 +11,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.sp
-import com.magnus.playfut.ui.domain.model.Team
-import com.magnus.playfut.ui.domain.model.TeamSchema
 import com.magnus.playfut.ui.theme.AppTheme
 import com.magnus.playfut.ui.theme.spacing
 
 @Composable
-fun TeamGroup(teams: List<Team>) {
+fun TeamGroup(teams: List<String>) {
     Column (verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)) {
         Text(
             text = "Equipes",
@@ -42,26 +40,8 @@ private fun TeamGroupPreview() {
         ) {
             TeamGroup(
                 teams = listOf(
-                    Team(
-                        id = "1",
-                        name = "Time A",
-                        schema = TeamSchema(
-                            goalKeepers = listOf(),
-                            startPlaying = listOf(),
-                            substitutes = listOf(),
-                            replacementSuggestions = listOf()
-                        )
-                    ),
-                    Team(
-                        id = "1",
-                        name = "Time B",
-                        schema = TeamSchema(
-                            goalKeepers = listOf(),
-                            startPlaying = listOf(),
-                            substitutes = listOf(),
-                            replacementSuggestions = listOf()
-                        )
-                    )
+                    "Time A",
+                    "Time B"
                 )
             )
         }

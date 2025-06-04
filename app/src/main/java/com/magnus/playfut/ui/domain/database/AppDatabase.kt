@@ -8,12 +8,15 @@ import androidx.room.TypeConverters
 import com.magnus.playfut.ui.domain.database.converters.DateConverter
 import com.magnus.playfut.ui.domain.database.converters.PlayerTypeConverter
 import com.magnus.playfut.ui.domain.database.daos.GroupDao
+import com.magnus.playfut.ui.domain.database.daos.MatchDao
 import com.magnus.playfut.ui.domain.database.daos.PlayerDao
 import com.magnus.playfut.ui.domain.database.daos.RoundDao
 import com.magnus.playfut.ui.domain.database.entities.relations.RoundTeamCrossRefEntity
 import com.magnus.playfut.ui.domain.database.entities.structure.GroupEntity
+import com.magnus.playfut.ui.domain.database.entities.structure.MatchEntity
 import com.magnus.playfut.ui.domain.database.entities.structure.PlayerEntity
 import com.magnus.playfut.ui.domain.database.entities.structure.RoundEntity
+import com.magnus.playfut.ui.domain.database.entities.structure.ScoreEntity
 import com.magnus.playfut.ui.domain.database.entities.structure.TeamEntity
 
 @Database(
@@ -22,7 +25,9 @@ import com.magnus.playfut.ui.domain.database.entities.structure.TeamEntity
         PlayerEntity::class,
         RoundEntity::class,
         TeamEntity::class,
-        RoundTeamCrossRefEntity::class
+        MatchEntity::class,
+        ScoreEntity::class,
+        RoundTeamCrossRefEntity::class,
     ], version = 1
 )
 @TypeConverters(DateConverter::class, PlayerTypeConverter::class)
@@ -33,6 +38,8 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun playerDao(): PlayerDao
 
     abstract fun roundDao(): RoundDao
+
+    abstract fun matchDao(): MatchDao
 
     companion object {
         fun build(application: Application): AppDatabase {

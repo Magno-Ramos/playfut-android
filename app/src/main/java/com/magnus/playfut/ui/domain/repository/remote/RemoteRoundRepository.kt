@@ -1,5 +1,6 @@
 package com.magnus.playfut.ui.domain.repository.remote
 
+import com.magnus.playfut.ui.domain.database.entities.relations.PojoRoundWithDetails
 import com.magnus.playfut.ui.domain.datasource.RoundDataSource
 import com.magnus.playfut.ui.domain.model.Round
 import com.magnus.playfut.ui.domain.model.Team
@@ -13,6 +14,10 @@ class RemoteRoundRepository : RoundDataSource {
     }
 
     override suspend fun fetchRunningRound(groupId: String): Result<Round?> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun fetchRoundDetails(roundId: String): Result<PojoRoundWithDetails> {
         TODO("Not yet implemented")
     }
 }

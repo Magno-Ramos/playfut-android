@@ -1,6 +1,7 @@
 package com.magnus.playfut.ui.domain.repository.local
 
 import com.magnus.playfut.ui.domain.database.daos.RoundDao
+import com.magnus.playfut.ui.domain.database.entities.relations.PojoRoundWithDetails
 import com.magnus.playfut.ui.domain.database.entities.relations.toRound
 import com.magnus.playfut.ui.domain.database.entities.structure.RoundEntity
 import com.magnus.playfut.ui.domain.database.entities.structure.TeamEntity
@@ -19,5 +20,9 @@ class LocalRoundRepository(
 
     override suspend fun fetchRunningRound(groupId: String): Result<Round?> = runCatching {
         dao.getRunningRound(groupId.toLong())?.toRound()
+    }
+
+    override suspend fun fetchRoundDetails(roundId: String): Result<PojoRoundWithDetails> = runCatching {
+        dao.getRoundDetails(roundId.toLong()) ?: throw Exception("Round not found")
     }
 }

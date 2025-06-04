@@ -45,8 +45,9 @@ fun RoundSortConfirmationScreen(
     val coroutineScope = rememberCoroutineScope()
     val createRoundState by viewModel.createRoundState.collectAsState()
 
-    if (createRoundState is ActionResultState.Success<*>) {
-        val intent = RoundPlayingActivity.createIntent(context, viewModel.groupId)
+    if (createRoundState is ActionResultState.Success<Long>) {
+        val roundId = (createRoundState as ActionResultState.Success<Long>).data
+        val intent = RoundPlayingActivity.createIntent(context, roundId.toString())
         context.startActivity(intent)
         context.activity?.finish()
     }

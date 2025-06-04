@@ -1,6 +1,7 @@
 package com.magnus.playfut.ui.domain.repository
 
 import com.google.firebase.auth.FirebaseAuth
+import com.magnus.playfut.ui.domain.database.entities.relations.PojoRoundWithDetails
 import com.magnus.playfut.ui.domain.datasource.RoundDataSource
 import com.magnus.playfut.ui.domain.model.Round
 import com.magnus.playfut.ui.domain.model.Team
@@ -22,5 +23,9 @@ class RoundRepository(
 
     override suspend fun fetchRunningRound(groupId: String): Result<Round?> {
         return source.fetchRunningRound(groupId)
+    }
+
+    override suspend fun fetchRoundDetails(roundId: String): Result<PojoRoundWithDetails> {
+        return source.fetchRoundDetails(roundId)
     }
 }
