@@ -11,6 +11,7 @@ import com.magnus.playfut.ui.domain.state.UiState
 import com.magnus.playfut.ui.features.rounds.sorting.form.model.SelectablePlayer
 import com.magnus.playfut.ui.features.rounds.sorting.form.model.toSelectablePlayer
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
@@ -30,9 +31,23 @@ class RoundSortViewModel(
     private val _createRoundState = MutableStateFlow<ActionResultState<Long>>(ActionResultState.Idle)
     val createRoundState = _createRoundState.asStateFlow()
 
+    private val _teamsCount = MutableStateFlow(2)
+    val teamsCount: StateFlow<Int> = _teamsCount.asStateFlow()
+
+    private val _playersCount = MutableStateFlow(5)
+    val playersCount: StateFlow<Int> = _playersCount.asStateFlow()
+
     var groupId: String = ""
     var editableTeam: Team? = null
     var teams: List<Team>? = null
+
+    fun updateTeamsCount(count: Int) {
+        _teamsCount.value = count
+    }
+
+    fun updatePlayersCount(count: Int) {
+        _playersCount.value = count
+    }
 
     fun toggleSelection(player: SelectablePlayer) {
         _selectablePlayers.value = _selectablePlayers.value.map {

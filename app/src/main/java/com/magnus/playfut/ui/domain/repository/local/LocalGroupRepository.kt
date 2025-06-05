@@ -3,10 +3,10 @@ package com.magnus.playfut.ui.domain.repository.local
 import com.magnus.playfut.ui.domain.database.daos.GroupDao
 import com.magnus.playfut.ui.domain.database.entities.relations.toGroupWithOpenedRound
 import com.magnus.playfut.ui.domain.database.entities.structure.GroupEntity
-import com.magnus.playfut.ui.domain.database.entities.structure.toGroup
 import com.magnus.playfut.ui.domain.datasource.GroupDataSource
 import com.magnus.playfut.ui.domain.model.Group
 import com.magnus.playfut.ui.domain.model.GroupWithOpenedRound
+import com.magnus.playfut.ui.domain.model.toGroup
 
 class LocalGroupRepository (
     private val dao: GroupDao
@@ -16,7 +16,7 @@ class LocalGroupRepository (
     }
 
     override suspend fun getAllGroups(): Result<List<Group>> = runCatching {
-        dao.getGroups().map { it.toGroup() }
+        dao.getAllGroupsWithCounts().map { it.toGroup() }
     }
 
     override suspend fun createGroup(name: String) = runCatching {

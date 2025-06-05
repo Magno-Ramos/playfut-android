@@ -13,6 +13,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.magnus.playfut.ui.features.rounds.playing.components.FinishMatch
 import com.magnus.playfut.ui.features.rounds.playing.components.GoalRegisterForm
 import com.magnus.playfut.ui.features.rounds.playing.components.GradientAppBar
@@ -23,11 +25,16 @@ import com.magnus.playfut.ui.theme.AppTheme
 import com.magnus.playfut.ui.theme.spacing
 
 @Composable
-fun RoundPlayingMatchScreen() {
+fun RoundPlayingMatchScreen(
+    navController: NavController
+) {
     val scrollState = rememberScrollState()
-
     Scaffold(
-        topBar = { GradientAppBar() }
+        topBar = {
+            GradientAppBar {
+                navController.popBackStack()
+            }
+        }
     ) { paddings ->
         Column(
             verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium),
@@ -61,7 +68,7 @@ fun RoundPlayingMatchScreen() {
 private fun RoundPlayingMatchScreenPreview() {
     AppTheme {
         Column(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
-            RoundPlayingMatchScreen()
+            RoundPlayingMatchScreen(navController = rememberNavController())
         }
     }
 }

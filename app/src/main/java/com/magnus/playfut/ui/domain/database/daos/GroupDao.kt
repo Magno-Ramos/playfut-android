@@ -7,6 +7,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
 import com.magnus.playfut.ui.domain.database.entities.relations.GroupWithOpenedRoundEntity
+import com.magnus.playfut.ui.domain.database.entities.relations.PojoGroupWithPlayersAndRoundsCount
 import com.magnus.playfut.ui.domain.database.entities.structure.GroupEntity
 import com.magnus.playfut.ui.domain.database.entities.structure.PlayerEntity
 import com.magnus.playfut.ui.domain.database.entities.structure.RoundEntity
@@ -34,4 +35,14 @@ interface GroupDao {
     @Transaction
     @Query("SELECT g.*, r.* FROM `groups` g LEFT JOIN rounds r ON g.id = r.groupId AND r.opened = 1 WHERE g.id = :groupId LIMIT 1 ")
     suspend fun getGroupWithOpenedRound(groupId: Long): GroupWithOpenedRoundEntity?
+
+    @Transaction
+    @Query("""
+        SELECT 
+            g.*,
+            (SELECT COUNT(playerId) FROM players WHERE groupId = g.id) as playerCount,
+            (SELECT COUNT(roundId) FROM rounds WHERE groupId = g.id) as roundCount
+        FROM `groups` as g
+    """)
+    suspend fun getAllGroupsWithCounts(): List<PojoGroupWithPlayersAndRoundsCount>
 }

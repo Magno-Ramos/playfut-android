@@ -1,5 +1,6 @@
 package com.magnus.playfut.ui.features.home.components
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -14,7 +15,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Groups
 import androidx.compose.material.icons.outlined.Handshake
-import androidx.compose.material.icons.outlined.Sports
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -24,17 +24,33 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.magnus.playfut.R
 import com.magnus.playfut.ui.domain.model.Group
-import com.magnus.playfut.ui.domain.model.toPlayersCountString
-import com.magnus.playfut.ui.domain.model.toRealizedRoundsString
 import com.magnus.playfut.ui.theme.AppColor
 import com.magnus.playfut.ui.theme.AppTheme
+
+private fun toRealizedRoundsString(count: Int, context: Context): String {
+    return if (count == 0) {
+        context.getString(R.string.no_rounds_realized)
+    } else {
+        context.resources.getQuantityString(R.plurals.rounds_realized, count, count)
+    }
+}
+
+private fun toPlayersCountString(count: Int, context: Context): String {
+    return if (count == 0) {
+        context.getString(R.string.no_players)
+    } else {
+        context.resources.getQuantityString(R.plurals.players_count, count, count)
+    }
+}
 
 @Composable
 fun GroupItem(
@@ -89,7 +105,7 @@ fun GroupItem(
                     tint = MaterialTheme.colorScheme.onBackground
                 )
                 Text(
-                    text = group.players.toPlayersCountString(context),
+                    text = toPlayersCountString(group.playersCount, context),
                     fontWeight = FontWeight.Normal,
                     color = MaterialTheme.colorScheme.onBackground,
                     fontSize = 14.sp
@@ -102,12 +118,12 @@ fun GroupItem(
             ) {
                 Icon(
                     modifier = Modifier.size(20.dp),
-                    imageVector = Icons.Outlined.Sports,
+                    painter = painterResource(R.drawable.ball_soccer),
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.onBackground
                 )
                 Text(
-                    text = group.rounds.toRealizedRoundsString(context),
+                    text = toRealizedRoundsString(group.roundsCount, context),
                     fontWeight = FontWeight.Normal,
                     color = MaterialTheme.colorScheme.onBackground,
                     fontSize = 14.sp
@@ -151,8 +167,8 @@ private fun GroupItemPreview() {
                 group = Group(
                     id = "1",
                     name = "Grupo 1",
-                    players = listOf(),
-                    rounds = listOf()
+                    playersCount = 1,
+                    roundsCount = 1
                 )
             )
         }

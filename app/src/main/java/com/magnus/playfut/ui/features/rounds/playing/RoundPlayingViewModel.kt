@@ -19,7 +19,6 @@ class RoundPlayingViewModel(
 
     fun fetchRunningRound(roundId: String) {
         viewModelScope.launch {
-
             repository.fetchRoundDetails(roundId)
                 .onFailure { _roundState.value = UiState.Error(null) }
                 .onSuccess { round -> _roundState.value = UiState.Success(round.toUiModel()) }

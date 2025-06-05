@@ -38,30 +38,19 @@ fun GroupMenu(
     ) {
         MenuItem(
             icon = if (group.runningRound != null) Icons.Default.Flag else Icons.Default.Sports,
-            title = if (group.runningRound != null) "Rodada em andamento" else "Nova Rodada",
-            subtitle = if (group.runningRound != null) "Finalize para ver o resultado" else "Quem vencerá hoje?",
-            isPrimary = true,
+            title = if (group.runningRound != null) "Continuar Rodada" else "Nova Rodada",
+            isPrimary = group.runningRound != null,
             onClick = { openNewRound() }
         )
         MenuItem(
             icon = Icons.Outlined.PeopleAlt,
             title = "Jogadores",
-            subtitle = when {
-                group.group.players.isEmpty() -> "Adicione jogadores do grupo"
-                group.group.players.size == 1 -> "1 jogador adicionado"
-                else -> "${group.group.players.size} jogadores"
-            },
             onClick = { openPlayers() }
         )
         MenuItem(
             icon = Icons.Default.History,
             title = "Histórico de rodadas",
             onClick = { openRoundsHistory() },
-            subtitle = when {
-                group.group.rounds.isEmpty() -> "Nenhuma rodada realizada"
-                group.group.rounds.size == 1 -> "1 rodada realizada"
-                else -> "${group.group.rounds.size} rodadas realizadas"
-            }
         )
         MenuItem(
             icon = Icons.Outlined.Edit,
@@ -86,8 +75,8 @@ private fun GroupMenuPreview() {
                     runningRound = null,
                     group = Group(
                         name = "Grupo 1",
-                        players = listOf(),
-                        rounds = listOf()
+                        playersCount = 1,
+                        roundsCount = 1
                     )
                 )
             )

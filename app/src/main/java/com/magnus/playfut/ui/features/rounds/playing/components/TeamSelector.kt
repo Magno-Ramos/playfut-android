@@ -20,6 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.magnus.playfut.ui.features.common.InputSelect
 import com.magnus.playfut.ui.theme.AppTheme
 import com.magnus.playfut.ui.theme.spacing
 
@@ -40,8 +41,18 @@ fun TeamSelector() {
             horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small),
             modifier = Modifier.fillMaxWidth()
         ) {
-            SelectorInput(Modifier.weight(1f), selected = "Time A")
-            SelectorInput(Modifier.weight(1f), selected = "Time B")
+            InputSelect(
+                modifier = Modifier.weight(1f),
+                options = listOf("Time A", "Time B", "Time C"),
+                selectedOption = "Time A",
+                onOptionSelected = { }
+            )
+            InputSelect(
+                modifier = Modifier.weight(1f),
+                options = listOf("Time D", "Time E", "Time F"),
+                selectedOption = "Time D",
+                onOptionSelected = { }
+            )
         }
     }
 }

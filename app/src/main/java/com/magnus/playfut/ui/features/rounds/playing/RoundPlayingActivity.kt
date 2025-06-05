@@ -7,13 +7,14 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.magnus.playfut.ui.features.rounds.playing.screens.RoundPlayingHomeScreen
+import com.magnus.playfut.ui.features.rounds.playing.screens.RoundPlayingMatchScreen
 import com.magnus.playfut.ui.theme.AppTheme
 import org.koin.androidx.compose.koinViewModel
 
@@ -48,18 +49,47 @@ private fun RoundPlayingScreen(
 @Composable
 private fun RoundPlayingNavigation(roundId: String, viewModel: RoundPlayingViewModel) {
     val navController = rememberNavController()
+    val animationDuration = 500
+
     NavHost(
         navController = navController,
         startDestination = RoundPlayingRoutes.Home.route,
-        enterTransition = { fadeIn(animationSpec = tween(300)) },
-        exitTransition = { fadeOut(animationSpec = tween(300)) },
-        popEnterTransition = { fadeIn(animationSpec = tween(300)) },
-        popExitTransition = { fadeOut(animationSpec = tween(300)) }
+        enterTransition = {
+            slideInHorizontally(
+                initialOffsetX = { fullWidth -> fullWidth }, // Entra da direita
+                animationSpec = tween(animationDuration)
+            )
+        },
+        exitTransition = {
+            slideOutHorizontally(
+                targetOffsetX = { fullWidth -> -fullWidth }, // Sai para a esquerda
+                animationSpec = tween(animationDuration)
+            )
+        },
+        popEnterTransition = {
+            slideInHorizontally(
+                initialOffsetX = { fullWidth -> -fullWidth }, // Volta da esquerda
+                animationSpec = tween(animationDuration)
+            )
+        },
+        popExitTransition = {
+            slideOutHorizontally(
+                targetOffsetX = { fullWidth -> fullWidth }, // "Pop" para a direita
+                animationSpec = tween(animationDuration)
+            )
+        }
     ) {
         composable(RoundPlayingRoutes.Home.route) {
             RoundPlayingHomeScreen(
                 roundId = roundId,
-                viewModel = viewModel
+                viewModel = viewModel,
+                navController = navController
+            )
+        }
+
+        composable(RoundPlayingRoutes.Match.route) {
+            RoundPlayingMatchScreen(
+                navController = navController
             )
         }
     }

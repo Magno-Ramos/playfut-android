@@ -8,14 +8,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -32,6 +34,8 @@ import com.magnus.playfut.ui.features.rounds.sorting.form.components.RoundSortin
 import com.magnus.playfut.ui.features.rounds.sorting.form.model.toPlayer
 import com.magnus.playfut.ui.features.rounds.sorting.form.state.ErrorState
 import com.magnus.playfut.ui.features.rounds.sorting.form.state.LoadingState
+import com.magnus.playfut.ui.theme.AppColor
+import kotlinx.coroutines.launch
 
 @Composable
 fun RoundSortFormScreen(
@@ -40,14 +44,20 @@ fun RoundSortFormScreen(
     navController: NavController
 ) {
     val context = LocalContext.current
+    val snackBarHostState = remember { SnackbarHostState() }
+    val coroutineScope = rememberCoroutineScope()
+
     val playersState by viewModel.playersState.collectAsState()
     val selectablePlayers by viewModel.selectablePlayers.collectAsState()
-
-    var teamsCount by remember { mutableStateOf("2") }
-    var playersCount by remember { mutableStateOf("7") }
+    val teamsCount by viewModel.teamsCount.collectAsState()
+    val playersCount by viewModel.playersCount.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.fetchPlayers(groupId)
+    }
+
+    fun showErrorSnack(message: String) = coroutineScope.launch {
+        snackBarHostState.showSnackbar(message = message)
     }
 
     fun openSelectionScreen() {
@@ -58,17 +68,26 @@ fun RoundSortFormScreen(
         runCatching {
             viewModel.teams = PlayerDistributor.distributeTeamsWithSubstitutions(
                 players = selectablePlayers.filter { it.selected }.map { it.toPlayer() },
-                teamCount = teamsCount.toInt(),
-                startersPerTeam = playersCount.toInt()
+                teamCount = teamsCount,
+                startersPerTeam = playersCount
             )
         }.onSuccess {
             navController.navigate(RoundSortRoutes.FormConfirmation.route)
         }.onFailure {
-            // Handle error
+            showErrorSnack(it.message ?: "Desculpe, ocorreu um erro!")
         }
     }
 
     Scaffold(
+        snackbarHost = {
+            SnackbarHost(hostState = snackBarHostState) { data ->
+                Snackbar(
+                    snackbarData = data,
+                    containerColor = AppColor.red,
+                    contentColor = AppColor.white
+                )
+            }
+        },
         topBar = {
             AppToolbar(
                 title = "Sortear Times",
@@ -96,10 +115,10 @@ fun RoundSortFormScreen(
                 playersState.isError() -> ErrorState()
                 playersState.isSuccess() -> RoundSortingForm(
                     totalPlayers = selectablePlayers.filter { it.selected }.size.toString(),
-                    teamsCount = teamsCount,
-                    playersCount = playersCount,
-                    onChangeTeamsCount = { teamsCount = it },
-                    onChangePlayersCount = { playersCount = it },
+                    teamsCount = teamsCount.toString(),
+                    playersCount = playersCount.toString(),
+                    onChangeTeamsCount = { viewModel.updateTeamsCount(it.toInt()) },
+                    onChangePlayersCount = { viewModel.updatePlayersCount(it.toInt()) },
                     onClickChangePlayers = { openSelectionScreen() }
                 )
             }
