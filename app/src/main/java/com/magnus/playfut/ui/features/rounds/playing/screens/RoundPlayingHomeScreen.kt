@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.magnus.playfut.ui.domain.model.ui.RoundDetailsUiModel
+import com.magnus.playfut.ui.domain.model.ui.RoundPlayingUiModel
 import com.magnus.playfut.ui.domain.model.ui.TeamUiModel
 import com.magnus.playfut.ui.domain.state.UiState
 import com.magnus.playfut.ui.extensions.activity
@@ -36,6 +37,7 @@ import com.magnus.playfut.ui.features.common.ErrorView
 import com.magnus.playfut.ui.features.common.LoadingView
 import com.magnus.playfut.ui.features.rounds.playing.RoundPlayingRoutes
 import com.magnus.playfut.ui.features.rounds.playing.RoundPlayingViewModel
+import com.magnus.playfut.ui.features.rounds.playing.components.ArtilleryRanking
 import com.magnus.playfut.ui.features.rounds.playing.components.GradientButton
 import com.magnus.playfut.ui.features.rounds.playing.components.MatchList
 import com.magnus.playfut.ui.features.rounds.playing.components.TeamGroup
@@ -62,6 +64,7 @@ fun RoundPlayingHomeScreen(
                 Button(
                     onClick = {},
                     modifier = Modifier.fillMaxWidth(),
+                    contentPadding = PaddingValues(MaterialTheme.spacing.medium),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = MaterialTheme.colorScheme.error,
                         contentColor = MaterialTheme.colorScheme.onError
@@ -80,10 +83,10 @@ fun RoundPlayingHomeScreen(
             when (val state = roundState) {
                 UiState.Loading -> LoadingView()
                 is UiState.Error -> ErrorView("Desculpe, ocorreu um erro!")
-                is UiState.Success<RoundDetailsUiModel> -> {
-                    title = state.data.roundDisplayName
+                is UiState.Success<RoundPlayingUiModel> -> {
+                    title = state.data.round.roundDisplayName
                     RoundPlayingHomeMenu(
-                        round = state.data,
+                        details = state.data,
                         navController = navController
                     )
                 }
@@ -94,12 +97,12 @@ fun RoundPlayingHomeScreen(
 
 @Composable
 private fun RoundPlayingHomeMenu(
-    round: RoundDetailsUiModel,
+    details: RoundPlayingUiModel,
     navController: NavController
 ) {
     Column(
         modifier = Modifier.padding(MaterialTheme.spacing.medium),
-        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium)
+        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.large)
     ) {
         GradientButton(
             text = "Adicionar Partida",
@@ -107,8 +110,9 @@ private fun RoundPlayingHomeMenu(
             onClick = { navController.navigate(RoundPlayingRoutes.Match.route) }
         )
 
-        TeamGroup(teams = round.teams)
-        MatchList(matches = round.matches)
+        TeamGroup(teams = details.round.teams)
+        MatchList(matches = details.round.matches)
+        ArtilleryRanking(ranking = details.ranking)
     }
 }
 
@@ -132,20 +136,23 @@ private fun RoundPlayingHomeMenuPreview() {
         ) {
             RoundPlayingHomeMenu(
                 navController = rememberNavController(),
-                round = RoundDetailsUiModel(
-                    roundId = 1L,
-                    roundDisplayName = "Rodada 1",
-                    matches = listOf(),
-                    teams = listOf(
-                        TeamUiModel(
-                            victories = 1,
-                            teamDisplayName = "Time Azul",
-                            teamDisplayDescription = "1 Vitória"
-                        ),
-                        TeamUiModel(
-                            victories = 2,
-                            teamDisplayName = "Time Preto",
-                            teamDisplayDescription = "2 Vitória"
+                details = RoundPlayingUiModel(
+                    ranking = listOf(),
+                    round = RoundDetailsUiModel(
+                        roundId = 1L,
+                        roundDisplayName = "Rodada 1",
+                        matches = listOf(),
+                        teams = listOf(
+                            TeamUiModel(
+                                victories = 1,
+                                teamDisplayName = "Time Azul",
+                                teamDisplayDescription = "1 Vitória"
+                            ),
+                            TeamUiModel(
+                                victories = 2,
+                                teamDisplayName = "Time Preto",
+                                teamDisplayDescription = "2 Vitória"
+                            )
                         )
                     )
                 )

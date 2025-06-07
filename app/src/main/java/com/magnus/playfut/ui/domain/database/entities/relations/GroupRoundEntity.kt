@@ -9,12 +9,17 @@ import com.magnus.playfut.ui.domain.model.GroupWithOpenedRound
 
 data class GroupWithOpenedRoundEntity(
     @Embedded val group: GroupEntity,
-    @Embedded val round: RoundEntity?
+    @Embedded val round: RoundEntity?,
+    val playerCount: Int = 0,
+    val roundCount: Int = 0
 )
 
 fun GroupWithOpenedRoundEntity.toGroupWithOpenedRound(): GroupWithOpenedRound {
     return GroupWithOpenedRound(
-        group = group.toGroup(),
-        runningRound = round?.toRound()
+        runningRound = round?.toRound(),
+        group = group.toGroup(
+            playersCount = playerCount,
+            roundsCount = roundCount
+        )
     )
 }

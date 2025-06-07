@@ -5,12 +5,15 @@ import com.magnus.playfut.ui.domain.database.AppDatabase
 import com.magnus.playfut.ui.domain.repository.GroupRepository
 import com.magnus.playfut.ui.domain.repository.PlayerRepository
 import com.magnus.playfut.ui.domain.repository.RoundRepository
+import com.magnus.playfut.ui.domain.repository.ScoreRepository
 import com.magnus.playfut.ui.domain.repository.local.LocalGroupRepository
 import com.magnus.playfut.ui.domain.repository.local.LocalPlayerRepository
 import com.magnus.playfut.ui.domain.repository.local.LocalRoundRepository
+import com.magnus.playfut.ui.domain.repository.local.LocalScoreRepository
 import com.magnus.playfut.ui.domain.repository.remote.RemoteGroupRepository
 import com.magnus.playfut.ui.domain.repository.remote.RemotePlayerRepository
 import com.magnus.playfut.ui.domain.repository.remote.RemoteRoundRepository
+import com.magnus.playfut.ui.domain.repository.remote.RemoteScoreRepository
 import com.magnus.playfut.ui.features.groups.form.GroupsFormViewModel
 import com.magnus.playfut.ui.features.groups.menu.GroupMenuViewModel
 import com.magnus.playfut.ui.features.groups.settings.GroupSettingsViewModel
@@ -29,6 +32,7 @@ val appModules = module {
     single { get<AppDatabase>().playerDao() }
     single { get<AppDatabase>().roundDao() }
     single { get<AppDatabase>().matchDao() }
+    single { get<AppDatabase>().scoreDao() }
     single { FirebaseAuth.getInstance() }
 
     single { RemoteGroupRepository(get()) }
@@ -43,6 +47,10 @@ val appModules = module {
     single { LocalPlayerRepository(get()) }
     single { PlayerRepository(get(), get(), get()) }
 
+    single { LocalScoreRepository(get()) }
+    single { RemoteScoreRepository() }
+    single { ScoreRepository(get(), get(), get()) }
+
     viewModel { HomeViewModel(get()) }
     viewModel { GroupsFormViewModel(get()) }
     viewModel { GroupMenuViewModel(get()) }
@@ -50,5 +58,5 @@ val appModules = module {
     viewModel { PlayerListViewModel(get()) }
     viewModel { PlayerFormViewModel(get()) }
     viewModel { RoundSortViewModel(get(), get()) }
-    viewModel { RoundPlayingViewModel(get()) }
+    viewModel { RoundPlayingViewModel(get(), get()) }
 }

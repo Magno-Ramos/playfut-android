@@ -33,16 +33,25 @@ interface GroupDao {
     suspend fun getGroups(): List<GroupEntity>
 
     @Transaction
-    @Query("SELECT g.*, r.* FROM `groups` g LEFT JOIN rounds r ON g.id = r.groupId AND r.opened = 1 WHERE g.id = :groupId LIMIT 1 ")
+    @Query(
+        """
+        SELECT g.*, r.*,
+            (SELECT COUNT(playerId) FROM players WHERE groupId = g.id) as playerCount,
+            (SELECT COUNT(roundId) FROM rounds WHERE groupId = g.id) as roundCount
+        FROM `groups` g LEFT JOIN rounds r ON g.id = r.groupId AND r.opened = 1 WHERE g.id = :groupId LIMIT 1
+    """
+    )
     suspend fun getGroupWithOpenedRound(groupId: Long): GroupWithOpenedRoundEntity?
 
     @Transaction
-    @Query("""
+    @Query(
+        """
         SELECT 
             g.*,
             (SELECT COUNT(playerId) FROM players WHERE groupId = g.id) as playerCount,
             (SELECT COUNT(roundId) FROM rounds WHERE groupId = g.id) as roundCount
         FROM `groups` as g
-    """)
+    """
+    )
     suspend fun getAllGroupsWithCounts(): List<PojoGroupWithPlayersAndRoundsCount>
 }

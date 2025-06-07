@@ -68,8 +68,8 @@ fun RoundSortFormScreen(
         runCatching {
             viewModel.teams = PlayerDistributor.distributeTeamsWithSubstitutions(
                 players = selectablePlayers.filter { it.selected }.map { it.toPlayer() },
-                teamCount = teamsCount,
-                startersPerTeam = playersCount
+                teamCount = teamsCount ?: 0,
+                startersPerTeam = playersCount ?: 0
             )
         }.onSuccess {
             navController.navigate(RoundSortRoutes.FormConfirmation.route)
@@ -115,10 +115,10 @@ fun RoundSortFormScreen(
                 playersState.isError() -> ErrorState()
                 playersState.isSuccess() -> RoundSortingForm(
                     totalPlayers = selectablePlayers.filter { it.selected }.size.toString(),
-                    teamsCount = teamsCount.toString(),
-                    playersCount = playersCount.toString(),
-                    onChangeTeamsCount = { viewModel.updateTeamsCount(it.toInt()) },
-                    onChangePlayersCount = { viewModel.updatePlayersCount(it.toInt()) },
+                    teamsCount = teamsCount?.toString() ?: "",
+                    playersCount = playersCount?.toString() ?: "",
+                    onChangeTeamsCount = { viewModel.updateTeamsCount(it.toIntOrNull()) },
+                    onChangePlayersCount = { viewModel.updatePlayersCount(it.toIntOrNull()) },
                     onClickChangePlayers = { openSelectionScreen() }
                 )
             }

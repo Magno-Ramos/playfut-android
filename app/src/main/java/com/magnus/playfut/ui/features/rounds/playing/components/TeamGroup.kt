@@ -20,23 +20,51 @@ import com.magnus.playfut.ui.theme.spacing
 
 @Composable
 fun TeamGroup(teams: List<TeamUiModel>) {
-    val horizontalScrollState = rememberScrollState()
+    val mTeams = teams.sortedByDescending { it.victories }
     Column(verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)) {
         Text(
             text = "Equipes",
             fontSize = 14.sp,
             color = MaterialTheme.colorScheme.onBackground
         )
-        Row(
-            modifier = Modifier.horizontalScroll(horizontalScrollState),
-            horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
-        ) {
-            teams.sortedByDescending { it.victories }.forEach {
-                TeamItem(
-                    team = it.teamDisplayName,
-                    description = it.teamDisplayDescription
-                )
-            }
+        if (teams.size == 2) {
+            TeamHorizontalSimple(mTeams.first(), mTeams.last())
+        } else {
+            TeamHorizontalScrollable(mTeams)
+        }
+    }
+}
+
+@Composable
+private fun TeamHorizontalSimple(homeTeam: TeamUiModel, awayTeam: TeamUiModel) {
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
+    ) {
+        TeamItem(
+            modifier = Modifier.weight(1f),
+            team = homeTeam.teamDisplayName,
+            description = homeTeam.teamDisplayDescription
+        )
+        TeamItem(
+            modifier = Modifier.weight(1f),
+            team = awayTeam.teamDisplayName,
+            description = awayTeam.teamDisplayDescription
+        )
+    }
+}
+
+@Composable
+private fun TeamHorizontalScrollable(teams: List<TeamUiModel>) {
+    val horizontalScrollState = rememberScrollState()
+    Row(
+        modifier = Modifier.horizontalScroll(horizontalScrollState),
+        horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
+    ) {
+        teams.forEach {
+            TeamItem(
+                team = it.teamDisplayName,
+                description = it.teamDisplayDescription
+            )
         }
     }
 }

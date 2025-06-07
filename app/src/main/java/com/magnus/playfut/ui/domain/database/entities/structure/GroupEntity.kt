@@ -15,9 +15,15 @@ data class GroupEntity(
     val createdAt: Date = Date()
 )
 
-fun GroupEntity.toGroup() = Group(
+fun GroupEntity.toGroup(
+    playersCount: Int = 0,
+    roundsCount: Int = 0
+) = Group(
     id = id.toString(),
-    name = name
+    name = name,
+    createdAt = createdAt,
+    playersCount = playersCount,
+    roundsCount = roundsCount
 )
 
 fun PlayerEntity.toPlayer() = Player(

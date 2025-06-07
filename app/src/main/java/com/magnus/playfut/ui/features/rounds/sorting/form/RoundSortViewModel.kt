@@ -31,21 +31,21 @@ class RoundSortViewModel(
     private val _createRoundState = MutableStateFlow<ActionResultState<Long>>(ActionResultState.Idle)
     val createRoundState = _createRoundState.asStateFlow()
 
-    private val _teamsCount = MutableStateFlow(2)
-    val teamsCount: StateFlow<Int> = _teamsCount.asStateFlow()
+    private val _teamsCount = MutableStateFlow<Int?>(2)
+    val teamsCount: StateFlow<Int?> = _teamsCount.asStateFlow()
 
-    private val _playersCount = MutableStateFlow(5)
-    val playersCount: StateFlow<Int> = _playersCount.asStateFlow()
+    private val _playersCount = MutableStateFlow<Int?>(5)
+    val playersCount: StateFlow<Int?> = _playersCount.asStateFlow()
 
     var groupId: String = ""
     var editableTeam: Team? = null
     var teams: List<Team>? = null
 
-    fun updateTeamsCount(count: Int) {
+    fun updateTeamsCount(count: Int?) {
         _teamsCount.value = count
     }
 
-    fun updatePlayersCount(count: Int) {
+    fun updatePlayersCount(count: Int?) {
         _playersCount.value = count
     }
 

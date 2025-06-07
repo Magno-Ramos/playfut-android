@@ -12,16 +12,31 @@ import androidx.room.PrimaryKey
             parentColumns = ["id"],
             childColumns = ["matchId"],
             onDelete = ForeignKey.CASCADE
+        ),
+        ForeignKey(
+            entity = PlayerEntity::class,
+            parentColumns = ["playerId"],
+            childColumns = ["playerId"],
+            onDelete = ForeignKey.CASCADE
+        ),
+        ForeignKey(
+            entity = RoundEntity::class,
+            parentColumns = ["roundId"],
+            childColumns = ["roundId"],
+            onDelete = ForeignKey.CASCADE
         )
     ],
     indices = [
-        Index(value = ["matchId"])
+        Index(value = ["matchId"]),
+        Index(value = ["playerId"]),
+        Index(value = ["roundId"])
     ]
 )
 data class ScoreEntity(
     @PrimaryKey(autoGenerate = true)
     val scoreId: Long = 0,
     val playerId: Long,
+    val roundId: Long,
     val matchId: Long,
     val teamIdScored: Long, // Time que se beneficia do gol
     val isOwnGoal: Boolean = false // true se for gol contra, false caso contrário

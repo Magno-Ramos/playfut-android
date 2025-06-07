@@ -4,6 +4,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Flag
@@ -21,6 +23,7 @@ import com.magnus.playfut.ui.domain.model.Group
 import com.magnus.playfut.ui.domain.model.GroupWithOpenedRound
 import com.magnus.playfut.ui.features.common.MenuItem
 import com.magnus.playfut.ui.theme.AppTheme
+import com.magnus.playfut.ui.theme.spacing
 
 @Composable
 fun GroupMenu(
@@ -30,15 +33,22 @@ fun GroupMenu(
     openPlayers: () -> Unit = {},
     openSettings: () -> Unit = {},
     openEditGroup: () -> Unit = {},
-    openRoundsHistory: () -> Unit = {},
+    openRoundsHistory: () -> Unit = {}
 ) {
     Column(
         modifier = modifier.padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
+        GroupHeader(
+            groupName = group.group.name,
+            playersCount = group.group.playersCount,
+            roundsCount = group.group.roundsCount
+        )
+        Spacer(Modifier.height(MaterialTheme.spacing.micro))
         MenuItem(
             icon = if (group.runningRound != null) Icons.Default.Flag else Icons.Default.Sports,
             title = if (group.runningRound != null) "Continuar Rodada" else "Nova Rodada",
+            subtitle = "Quem será o vencedor?",
             isPrimary = group.runningRound != null,
             onClick = { openNewRound() }
         )
