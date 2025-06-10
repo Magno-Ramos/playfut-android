@@ -12,12 +12,6 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableLongStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -26,20 +20,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.magnus.playfut.ui.theme.AppTheme
 import com.magnus.playfut.ui.theme.spacing
-import kotlinx.coroutines.delay
 
 @Composable
-fun Stopwatch() {
-    var timeInSeconds by remember { mutableLongStateOf(0L) }
-    var isRunning by remember { mutableStateOf(false) }
-
-    LaunchedEffect(isRunning) {
-        while (isRunning) {
-            delay(1000)
-            timeInSeconds++
-        }
-    }
-
+fun Stopwatch(
+    timeInSeconds: Long = 0L,
+    isRunning: Boolean,
+    onReset: () -> Unit = {},
+    onToggle: () -> Unit = {}
+) {
     Column(
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small),
         modifier = Modifier
@@ -50,13 +38,8 @@ fun Stopwatch() {
         StopwatchActions(
             isRunning = isRunning,
             timeInSeconds = timeInSeconds,
-            onReset = {
-                isRunning = false
-                timeInSeconds = 0L
-            },
-            onToggle = {
-                isRunning = !isRunning
-            }
+            onReset = onReset,
+            onToggle = onToggle
         )
     }
 }
@@ -154,7 +137,10 @@ private fun StopwatchPreview() {
                 .background(MaterialTheme.colorScheme.background)
                 .padding(MaterialTheme.spacing.medium)
         ) {
-            Stopwatch()
+            Stopwatch(
+                timeInSeconds = 92L,
+                isRunning = false
+            )
         }
     }
 }

@@ -20,7 +20,12 @@ import com.magnus.playfut.ui.theme.AppTheme
 import com.magnus.playfut.ui.theme.spacing
 
 @Composable
-fun MatchScore() {
+fun MatchScore(
+    homeTeam: String = "Time Azul",
+    awayTeam: String = "Time Vermelho",
+    homeScore: Int = 0,
+    awayScore: Int = 0
+) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small),
@@ -35,13 +40,13 @@ fun MatchScore() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Time Azul ",
+                text = homeTeam,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Medium,
                 color = MaterialTheme.colorScheme.onBackground
             )
             Text(
-                text = "0",
+                text = homeScore.toString(),
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary
@@ -58,13 +63,13 @@ fun MatchScore() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Time Azul ",
+                text = awayTeam,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Medium,
                 color = MaterialTheme.colorScheme.onBackground
             )
             Text(
-                text = "0",
+                text = awayScore.toString(),
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary

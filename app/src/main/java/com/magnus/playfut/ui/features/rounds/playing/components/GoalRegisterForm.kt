@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,10 +19,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.magnus.playfut.R
 import com.magnus.playfut.ui.domain.model.structure.Player
 import com.magnus.playfut.ui.features.common.InputSelect
 import com.magnus.playfut.ui.features.rounds.playing.states.RoundTeamItem
@@ -31,7 +34,8 @@ import com.magnus.playfut.ui.theme.spacing
 @Composable
 fun GoalRegisterForm(
     players: List<Player>,
-    teams: List<RoundTeamItem>
+    teams: List<RoundTeamItem>,
+    onClickRegisterGoal: (Player, RoundTeamItem) -> Unit = { _, _ -> }
 ) {
     val playerOptions = players.map { it.name to it.id }
     var selectedPlayer by remember { mutableStateOf(playerOptions.first().first) }
@@ -45,6 +49,12 @@ fun GoalRegisterForm(
 
     fun onSelectTeam(id: String) {
         selectedTeam = teams.first { it.id == id }.name
+    }
+
+    fun onClickRegister() {
+        val player = players.first { it.name == selectedPlayer }
+        val team = teams.first { it.name == selectedTeam }
+        onClickRegisterGoal(player, team)
     }
 
     Column(
@@ -89,18 +99,16 @@ fun GoalRegisterForm(
             )
         }
         Button(
-            onClick = {},
+            onClick = { onClickRegister() },
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(8.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.primary
             )
         ) {
-            Text(
-                text = "Registrar",
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onPrimary
+            Icon(
+                painter = painterResource(R.drawable.soccer_ball_net),
+                contentDescription = null
             )
         }
     }

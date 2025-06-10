@@ -56,6 +56,13 @@ data class RoundArtilleryItem(
     val goals: Int
 )
 
+data class RoundScoreItem(
+    val playerId: String,
+    val teamId: String,
+    val playerName: String,
+    val teamName: String
+)
+
 private fun getTeamName(teamId: String, teams: List<Team>): String? {
     return teams.find { it.id == teamId }?.name
 }
