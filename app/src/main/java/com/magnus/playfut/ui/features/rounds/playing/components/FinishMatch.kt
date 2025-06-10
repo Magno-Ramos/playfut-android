@@ -5,9 +5,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,7 +23,10 @@ import com.magnus.playfut.ui.theme.AppTheme
 import com.magnus.playfut.ui.theme.spacing
 
 @Composable
-fun FinishMatch(onClickFinish: () -> Unit) {
+fun FinishMatch(
+    loading: Boolean = false,
+    onClickFinish: () -> Unit
+) {
     Column(
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small),
         modifier = Modifier
@@ -50,11 +55,18 @@ fun FinishMatch(onClickFinish: () -> Unit) {
             ),
             onClick = { onClickFinish() }
         ) {
-            Text(
-                text = "Encerrar",
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold
-            )
+            if (loading) {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(20.dp),
+                    color = AppColor.white
+                )
+            } else {
+                Text(
+                    text = "Encerrar",
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
         }
     }
 }
@@ -68,7 +80,10 @@ private fun FinishMatchPreview() {
                 .background(MaterialTheme.colorScheme.background)
                 .padding(MaterialTheme.spacing.medium)
         ) {
-            FinishMatch(onClickFinish = {})
+            FinishMatch(
+                loading = false,
+                onClickFinish = {}
+            )
         }
     }
 }

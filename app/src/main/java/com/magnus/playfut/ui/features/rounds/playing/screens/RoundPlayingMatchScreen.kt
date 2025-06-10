@@ -112,7 +112,7 @@ fun RoundPlayingMatchScreen(
     }
 
     fun onClickFinishMatch() {
-
+        navController.popBackStack()
     }
 
     Scaffold(

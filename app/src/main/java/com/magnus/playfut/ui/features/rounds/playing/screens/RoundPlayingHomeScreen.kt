@@ -3,15 +3,12 @@ package com.magnus.playfut.ui.features.rounds.playing.screens
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -19,14 +16,19 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.magnus.playfut.R
 import com.magnus.playfut.ui.domain.state.UiState
 import com.magnus.playfut.ui.domain.state.asSuccess
 import com.magnus.playfut.ui.extensions.activity
+import com.magnus.playfut.ui.features.common.AppAlertDialog
 import com.magnus.playfut.ui.features.common.AppToolbar
 import com.magnus.playfut.ui.features.common.ErrorView
 import com.magnus.playfut.ui.features.common.LoadingView
@@ -64,49 +66,72 @@ fun RoundPlayingHomeScreen(
         }
     }
 
-    LaunchedEffect(Unit) {
-        viewModel.fetchRound(roundId)
-    }
-
-    fun onClickCloseRound() {
+    fun onClickConfirmCloseRound() {
         roundState.asSuccess()?.data?.let {
             viewModel.closeRound(it.groupId)
         }
     }
 
+    LaunchedEffect(Unit) {
+        viewModel.fetchRound(roundId)
+    }
+
     Scaffold(
         topBar = { AppBar(title = title) },
-        bottomBar = {
-            BottomAppBar(contentPadding = PaddingValues(MaterialTheme.spacing.medium)) {
-                Button(
-                    onClick = { onClickCloseRound() },
-                    modifier = Modifier.fillMaxWidth(),
-                    contentPadding = PaddingValues(MaterialTheme.spacing.medium),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.error,
-                        contentColor = MaterialTheme.colorScheme.onError
-                    )
-                ) {
-                    Text(
-                        text = "Finalizar Rodada",
-                        fontWeight = FontWeight.SemiBold,
-                        fontSize = 14.sp
-                    )
-                }
-            }
-        }
     ) { paddings ->
         Box(modifier = Modifier.padding(paddings)) {
             when (val state = roundState) {
                 UiState.Loading -> LoadingView()
                 is UiState.Error -> ErrorView("Desculpe, ocorreu um erro!")
-                is UiState.Success<RoundPlayingHomeViewState> -> {
-                    RoundPlayingHomeMenu(
-                        viewState = state.data,
-                        navController = navController
-                    )
-                }
+                is UiState.Success<RoundPlayingHomeViewState> -> RoundPlayingHomeContent(
+                    state = state.data,
+                    navController = navController,
+                    onClickConfirmCloseRound = ::onClickConfirmCloseRound
+                )
             }
+        }
+    }
+}
+
+@Composable
+private fun RoundPlayingHomeContent(
+    state: RoundPlayingHomeViewState,
+    navController: NavController = NavController(LocalContext.current),
+    onClickConfirmCloseRound: () -> Unit = {}
+) {
+    var closeRoundDialogVisible by remember { mutableStateOf(false) }
+
+    fun onClickCloseRound() {
+        closeRoundDialogVisible = true
+    }
+
+    Column {
+        RoundPlayingHomeMenu(
+            viewState = state,
+            navController = navController,
+        )
+
+        TextButton(
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            onClick = { onClickCloseRound() }
+        ) {
+            Text(
+                text = "Finalizar Rodada",
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.error
+            )
+        }
+
+        if (closeRoundDialogVisible) {
+            AppAlertDialog(
+                dialogTitle = "Finalizar Rodada",
+                dialogText = "Tem certeza que deseja finalizar essa rodada?",
+                confirmButtonText = "Confirmar",
+                dismissButtonText = "Cancelar",
+                onDismissRequest = { closeRoundDialogVisible = false },
+                onConfirmation = { onClickConfirmCloseRound() }
+            )
         }
     }
 }
@@ -123,7 +148,14 @@ private fun RoundPlayingHomeMenu(
         GradientButton(
             text = "Adicionar Partida",
             subtext = "Qual time ganhará dessa vez?",
-            onClick = { navController.navigate(RoundPlayingRoutes.Match.route) }
+            onClick = { navController.navigate(RoundPlayingRoutes.Match.route) },
+            endIcon = {
+                Icon(
+                    painter = painterResource(R.drawable.ball_soccer),
+                    contentDescription = null,
+                    tint = Color.White
+                )
+            }
         )
         TeamGroup(
             teams = viewState.teams,
