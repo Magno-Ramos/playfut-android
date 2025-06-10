@@ -15,6 +15,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.magnus.playfut.ui.features.rounds.playing.screens.RoundPlayingHomeScreen
 import com.magnus.playfut.ui.features.rounds.playing.screens.RoundPlayingMatchScreen
+import com.magnus.playfut.ui.features.rounds.playing.screens.RoundPlayingMatchSelectorScreen
 import com.magnus.playfut.ui.theme.AppTheme
 import org.koin.androidx.compose.koinViewModel
 
@@ -82,6 +83,13 @@ private fun RoundPlayingNavigation(roundId: String, viewModel: RoundPlayingViewM
         composable(RoundPlayingRoutes.Home.route) {
             RoundPlayingHomeScreen(
                 roundId = roundId,
+                viewModel = viewModel,
+                navController = navController
+            )
+        }
+
+        composable (RoundPlayingRoutes.MatchSelection.route) {
+            RoundPlayingMatchSelectorScreen(
                 viewModel = viewModel,
                 navController = navController
             )

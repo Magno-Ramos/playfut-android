@@ -55,7 +55,8 @@ fun GroupMenuScreen(
     fun openNewRound() {
         (groupState as? UiState.Success<GroupWithOpenedRound>)?.data?.let { data ->
             if (data.hasOpenedRound()) {
-                val intent = RoundPlayingActivity.createIntent(context, groupId)
+                val roundId = data.openedRound?.id ?: return
+                val intent = RoundPlayingActivity.createIntent(context, roundId)
                 context.startActivity(intent)
             } else {
                 val intent = RoundSortActivity.createIntent(context, groupId)

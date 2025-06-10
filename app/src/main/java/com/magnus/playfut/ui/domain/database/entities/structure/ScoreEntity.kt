@@ -38,6 +38,6 @@ data class ScoreEntity(
     val playerId: Long,
     val roundId: Long,
     val matchId: Long,
-    val teamIdScored: Long, // Time que se beneficia do gol
-    val isOwnGoal: Boolean = false // true se for gol contra, false caso contrário
+    val teamIdScored: Long,
+    val isOwnGoal: Boolean = false
 )

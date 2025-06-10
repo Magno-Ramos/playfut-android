@@ -44,7 +44,7 @@ fun GradientButton(
             .clip(RoundedCornerShape(8.dp))
             .background(brush = Brush.linearGradient(gradientColors))
             .clickable(onClick = onClick)
-            .padding(vertical = 12.dp, horizontal = 16.dp),
+            .padding(MaterialTheme.spacing.medium),
     ) {
         Column {
             Text(

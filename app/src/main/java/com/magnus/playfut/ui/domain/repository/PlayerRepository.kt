@@ -38,4 +38,11 @@ class PlayerRepository(
     override suspend fun fetchPlayers(groupId: String): Result<List<Player>> {
         return source.fetchPlayers(groupId)
     }
+
+    override suspend fun fetchPlayersByTeam(
+        teamId: String,
+        roundId: String
+    ): Result<List<Player>> {
+        return source.fetchPlayersByTeam(teamId, roundId)
+    }
 }

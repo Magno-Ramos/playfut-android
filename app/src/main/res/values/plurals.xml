@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <plurals name="rounds_realized">
-        <item quantity="one">1 rodada realizada</item>
-        <item quantity="other">%d Rodadas realizadas</item>
+        <item quantity="one">1 rodada</item>
+        <item quantity="other">%d Rodadas</item>
     </plurals>
 
     <plurals name="players_count">

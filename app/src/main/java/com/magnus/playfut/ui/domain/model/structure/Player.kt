@@ -1,6 +1,7 @@
 package com.magnus.playfut.ui.domain.model.structure
 
 import android.os.Parcelable
+import com.magnus.playfut.ui.domain.database.entities.structure.PlayerEntity
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -24,3 +25,11 @@ enum class PlayerType(val type: String) {
         fun fromType(type: String) = entries.first { it.type == type }
     }
 }
+
+fun PlayerEntity.toPlayer() = Player(
+    id = playerId.toString(),
+    groupId = groupId.toString(),
+    name = name,
+    skillLevel = skillLevel,
+    type = type
+)

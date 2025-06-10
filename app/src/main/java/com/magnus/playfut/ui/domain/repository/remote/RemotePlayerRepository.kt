@@ -31,4 +31,11 @@ class RemotePlayerRepository : PlayerDataSource {
     override suspend fun fetchPlayers(groupId: String): Result<List<Player>> {
         TODO("Not yet implemented")
     }
+
+    override suspend fun fetchPlayersByTeam(
+        teamId: String,
+        roundId: String
+    ): Result<List<Player>> {
+        TODO("Not yet implemented")
+    }
 }

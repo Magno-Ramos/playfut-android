@@ -25,34 +25,42 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.magnus.playfut.R
-import com.magnus.playfut.ui.domain.model.structure.Player
 import com.magnus.playfut.ui.features.common.InputSelect
+import com.magnus.playfut.ui.features.rounds.playing.states.RoundPlayerItem
 import com.magnus.playfut.ui.features.rounds.playing.states.RoundTeamItem
 import com.magnus.playfut.ui.theme.AppTheme
 import com.magnus.playfut.ui.theme.spacing
 
 @Composable
 fun GoalRegisterForm(
-    players: List<Player>,
+    players: List<RoundPlayerItem>,
     teams: List<RoundTeamItem>,
-    onClickRegisterGoal: (Player, RoundTeamItem) -> Unit = { _, _ -> }
+    onClickRegisterGoal: (RoundPlayerItem, RoundTeamItem) -> Unit = { _, _ -> }
 ) {
-    val playerOptions = players.map { it.name to it.id }
-    var selectedPlayer by remember { mutableStateOf(playerOptions.first().first) }
+    var playerOptions by remember {
+        mutableStateOf(
+            players.filter { it.teamId == teams.first().id }
+                .map { it.playerName to it.playerId }
+        )
+    }
+    var selectedPlayer by remember { mutableStateOf<String?>(null) }
 
     val teamsOptions = teams.map { it.name to it.id }
     var selectedTeam by remember { mutableStateOf(teamsOptions.first().first) }
 
     fun onSelectPlayer(id: String) {
-        selectedPlayer = players.first { it.id == id }.name
+        selectedPlayer = players.first { it.playerId == id }.playerName
     }
 
     fun onSelectTeam(id: String) {
-        selectedTeam = teams.first { it.id == id }.name
+        val team = teams.first { it.id == id }
+        selectedTeam = team.name
+        playerOptions = players.filter { it.teamId == team.id }.map { it.playerName to it.playerId }
+        selectedPlayer = playerOptions.firstOrNull()?.first
     }
 
     fun onClickRegister() {
-        val player = players.first { it.name == selectedPlayer }
+        val player = players.first { it.playerName == selectedPlayer }
         val team = teams.first { it.name == selectedTeam }
         onClickRegisterGoal(player, team)
     }
@@ -65,7 +73,7 @@ fun GoalRegisterForm(
             .padding(MaterialTheme.spacing.medium),
     ) {
         Text(
-            text = "Registar Gol",
+            text = "Registrar Gol",
             fontSize = 14.sp,
             fontWeight = FontWeight.SemiBold,
             color = MaterialTheme.colorScheme.onBackground
@@ -80,10 +88,10 @@ fun GoalRegisterForm(
                     MaterialTheme.colorScheme.surfaceVariant,
                     RoundedCornerShape(8.dp)
                 ),
-                options = playerOptions,
-                label = "Marcador:",
-                selectedOption = selectedPlayer,
-                onOptionSelected = ::onSelectPlayer
+                options = teamsOptions,
+                label = "Para:",
+                selectedOption = selectedTeam,
+                onOptionSelected = ::onSelectTeam
             )
             InputSelect<String>(
                 modifier = Modifier.weight(1f),
@@ -92,10 +100,10 @@ fun GoalRegisterForm(
                     MaterialTheme.colorScheme.surfaceVariant,
                     RoundedCornerShape(8.dp)
                 ),
-                options = teamsOptions,
-                label = "Para:",
-                selectedOption = selectedTeam,
-                onOptionSelected = ::onSelectTeam
+                options = playerOptions,
+                label = "Marcador:",
+                selectedOption = selectedPlayer,
+                onOptionSelected = ::onSelectPlayer
             )
         }
         Button(
@@ -125,9 +133,16 @@ private fun GoalRegisterFormPreview() {
         ) {
             GoalRegisterForm(
                 players = listOf(
-                    Player(id = "1", name = "Jogador 1"),
-                    Player(id = "2", name = "Jogador 2"),
-                    Player(id = "3", name = "Jogador 3"),
+                    RoundPlayerItem(
+                        teamId = "1",
+                        playerId = "1",
+                        playerName = "Jogador 1"
+                    ),
+                    RoundPlayerItem(
+                        teamId = "2",
+                        playerId = "2",
+                        playerName = "Jogador 2"
+                    )
                 ),
                 teams = listOf(
                     RoundTeamItem(

@@ -24,6 +24,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.magnus.playfut.ui.theme.AppTheme
+import com.magnus.playfut.ui.theme.spacing
 
 @Composable
 fun MenuItem(
@@ -51,7 +52,7 @@ fun MenuItem(
     }
 
     Row(
-        modifier = modifier.padding(16.dp),
+        modifier = modifier.padding(MaterialTheme.spacing.medium),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {

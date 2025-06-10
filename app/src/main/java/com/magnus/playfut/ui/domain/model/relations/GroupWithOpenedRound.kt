@@ -1,8 +1,8 @@
 package com.magnus.playfut.ui.domain.model.relations
 
 import com.magnus.playfut.ui.domain.database.entities.relations.GroupWithOpenedRoundEntity
-import com.magnus.playfut.ui.domain.database.entities.structure.toRound
 import com.magnus.playfut.ui.domain.model.structure.Round
+import com.magnus.playfut.ui.domain.model.structure.toRound
 import java.util.Date
 
 data class GroupWithOpenedRound(

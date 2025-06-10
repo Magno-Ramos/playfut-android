@@ -6,7 +6,7 @@ import com.magnus.playfut.ui.domain.model.structure.Round
 interface RoundDataSource {
     suspend fun createRound(
         groupId: String,
-        distributorTeamSchema: List<DistributorTeamSchema>
+        schema: List<DistributorTeamSchema>
     ): Result<Long>
 
     suspend fun closeRound(roundId: String): Result<Unit>

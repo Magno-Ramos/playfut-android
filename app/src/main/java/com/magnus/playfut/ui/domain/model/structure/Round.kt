@@ -14,5 +14,5 @@ fun RoundEntity.toRound() = Round(
     id = roundId.toString(),
     groupId = groupId.toString(),
     date = date,
-    opened = opened
+    opened = opened,
 )

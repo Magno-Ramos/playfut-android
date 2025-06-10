@@ -2,11 +2,12 @@ package com.magnus.playfut.ui.domain.repository.local
 
 import com.magnus.playfut.ui.domain.database.daos.PlayerDao
 import com.magnus.playfut.ui.domain.database.entities.structure.PlayerEntity
-import com.magnus.playfut.ui.domain.database.entities.structure.toPlayer
+import com.magnus.playfut.ui.domain.model.structure.Player
 import com.magnus.playfut.ui.domain.model.structure.PlayerType
+import com.magnus.playfut.ui.domain.model.structure.toPlayer
 import com.magnus.playfut.ui.domain.repository.datasource.PlayerDataSource
 
-class LocalPlayerRepository (
+class LocalPlayerRepository(
     private val dao: PlayerDao
 ) : PlayerDataSource {
     override suspend fun createPlayer(
@@ -49,5 +50,12 @@ class LocalPlayerRepository (
 
     override suspend fun fetchPlayers(groupId: String) = runCatching {
         dao.getPlayersByGroupId(groupId.toLong()).map { it.toPlayer() }
+    }
+
+    override suspend fun fetchPlayersByTeam(
+        teamId: String,
+        roundId: String
+    ): Result<List<Player>> {
+        return runCatching { dao.getPlayersByTeamInRound(teamId, roundId).map { it.toPlayer() } }
     }
 }

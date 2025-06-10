@@ -22,4 +22,6 @@ interface PlayerDataSource {
     suspend fun deletePlayer(id: String): Result<Unit>
 
     suspend fun fetchPlayers(groupId: String): Result<List<Player>>
+
+    suspend fun fetchPlayersByTeam(teamId: String, roundId: String): Result<List<Player>>
 }

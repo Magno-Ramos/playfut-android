@@ -3,7 +3,11 @@ package com.magnus.playfut.ui.features.rounds.playing.screens
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -27,6 +31,7 @@ import androidx.navigation.NavController
 import com.magnus.playfut.R
 import com.magnus.playfut.ui.domain.state.UiState
 import com.magnus.playfut.ui.domain.state.asSuccess
+import com.magnus.playfut.ui.domain.state.isSuccess
 import com.magnus.playfut.ui.extensions.activity
 import com.magnus.playfut.ui.features.common.AppAlertDialog
 import com.magnus.playfut.ui.features.common.AppToolbar
@@ -47,23 +52,18 @@ fun RoundPlayingHomeScreen(
     viewModel: RoundPlayingViewModel,
     navController: NavController
 ) {
+    var title by remember { mutableStateOf("") }
+
     val context = LocalContext.current
     val roundState by viewModel.roundState.collectAsState()
     val closeRoundState by viewModel.closeRoundState.collectAsState()
-    var title by remember { mutableStateOf("") }
 
-    when (val state = closeRoundState) {
-        UiState.Loading -> {
-            // TODO
-        }
+    if (roundState.isSuccess()) {
+        title = roundState.asSuccess()?.data?.roundName ?: ""
+    }
 
-        is UiState.Error -> {
-            print(state.message)
-        }
-
-        is UiState.Success<*> -> {
-            context.activity?.finish()
-        }
+    if (closeRoundState.isSuccess()) {
+        context.activity?.finish()
     }
 
     fun onClickConfirmCloseRound() {
@@ -99,13 +99,14 @@ private fun RoundPlayingHomeContent(
     navController: NavController = NavController(LocalContext.current),
     onClickConfirmCloseRound: () -> Unit = {}
 ) {
+    val scrollState = rememberScrollState()
     var closeRoundDialogVisible by remember { mutableStateOf(false) }
 
     fun onClickCloseRound() {
         closeRoundDialogVisible = true
     }
 
-    Column {
+    Column(Modifier.verticalScroll(scrollState)) {
         RoundPlayingHomeMenu(
             viewState = state,
             navController = navController,
@@ -122,6 +123,8 @@ private fun RoundPlayingHomeContent(
                 color = MaterialTheme.colorScheme.error
             )
         }
+
+        Spacer(Modifier.height(MaterialTheme.spacing.medium))
 
         if (closeRoundDialogVisible) {
             AppAlertDialog(
@@ -148,7 +151,7 @@ private fun RoundPlayingHomeMenu(
         GradientButton(
             text = "Adicionar Partida",
             subtext = "Qual time ganhará dessa vez?",
-            onClick = { navController.navigate(RoundPlayingRoutes.Match.route) },
+            onClick = { navController.navigate(RoundPlayingRoutes.MatchSelection.route) },
             endIcon = {
                 Icon(
                     painter = painterResource(R.drawable.ball_soccer),
@@ -159,7 +162,9 @@ private fun RoundPlayingHomeMenu(
         )
         TeamGroup(
             teams = viewState.teams,
-            onClickItem = { team -> TODO("ON CLICK OPEN TEAM") }
+            onClickItem = { team ->
+
+            }
         )
         MatchList(matches = viewState.matches)
         ArtilleryRanking(artillery = viewState.artillery)

@@ -3,7 +3,6 @@ package com.magnus.playfut.ui.features.rounds.playing.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -21,38 +20,41 @@ import com.magnus.playfut.ui.theme.spacing
 
 @Composable
 fun TeamSelector(
-    homeTeam: RoundTeamItem,
-    awayTeam: RoundTeamItem,
+    homeTeam: RoundTeamItem?,
+    awayTeam: RoundTeamItem?,
     homeOptions: List<Pair<String, String>>,
     awayOptions: List<Pair<String, String>>,
     onSelectHomeTeam: (String) -> Unit,
     onSelectAwayTeam: (String) -> Unit
 ) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small),
+        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium),
         modifier = Modifier.fillMaxWidth()
     ) {
         Text(
-            text = "Confronto",
+            text = "Quem vecencerá esse jogo?",
             fontSize = 14.sp,
             fontWeight = FontWeight.SemiBold,
             color = MaterialTheme.colorScheme.onBackground
         )
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small),
+        Column (
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small),
             modifier = Modifier.fillMaxWidth()
         ) {
             InputSelect<String>(
-                modifier = Modifier.weight(1f),
                 options = homeOptions,
-                selectedOption = homeTeam.name,
+                selectedOption = homeTeam?.name,
                 onOptionSelected = onSelectHomeTeam
             )
+            Text(
+                text = "vs",
+                fontSize = 14.sp,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
             InputSelect<String>(
-                modifier = Modifier.weight(1f),
                 options = awayOptions,
-                selectedOption = awayTeam.name,
+                selectedOption = awayTeam?.name,
                 onOptionSelected = onSelectAwayTeam
             )
         }

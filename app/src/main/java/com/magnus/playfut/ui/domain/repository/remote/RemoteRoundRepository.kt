@@ -7,7 +7,7 @@ import com.magnus.playfut.ui.domain.repository.datasource.RoundDataSource
 class RemoteRoundRepository : RoundDataSource {
     override suspend fun createRound(
         groupId: String,
-        distributorTeamSchema: List<DistributorTeamSchema>
+        schema: List<DistributorTeamSchema>
     ): Result<Long> {
         TODO("Not yet implemented")
     }

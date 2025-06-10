@@ -18,8 +18,8 @@ class RoundRepository(
 
     override suspend fun createRound(
         groupId: String,
-        distributorTeamSchema: List<DistributorTeamSchema>
-    ): Result<Long> = source.createRound(groupId, distributorTeamSchema)
+        schema: List<DistributorTeamSchema>
+    ): Result<Long> = source.createRound(groupId, schema)
 
     override suspend fun closeRound(roundId: String): Result<Unit> {
         return source.closeRound(roundId)

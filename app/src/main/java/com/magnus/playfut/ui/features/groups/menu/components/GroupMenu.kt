@@ -47,7 +47,6 @@ fun GroupMenu(
         MenuItem(
             icon = if (group.hasOpenedRound()) Icons.Default.Flag else Icons.Default.Sports,
             title = if (group.hasOpenedRound()) "Continuar Rodada" else "Nova Rodada",
-            subtitle = "Quem será o vencedor?",
             isPrimary = group.hasOpenedRound(),
             onClick = { openNewRound() }
         )
