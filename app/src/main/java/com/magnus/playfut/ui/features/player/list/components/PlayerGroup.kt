@@ -12,8 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.magnus.playfut.ui.domain.model.Player
-import com.magnus.playfut.ui.domain.model.PlayerType
+import com.magnus.playfut.ui.domain.model.structure.Player
+import com.magnus.playfut.ui.domain.model.structure.PlayerType
 import com.magnus.playfut.ui.theme.AppTheme
 
 @Composable

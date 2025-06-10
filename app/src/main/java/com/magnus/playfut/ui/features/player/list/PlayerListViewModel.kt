@@ -2,7 +2,7 @@ package com.magnus.playfut.ui.features.player.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.magnus.playfut.ui.domain.model.Player
+import com.magnus.playfut.ui.domain.model.structure.Player
 import com.magnus.playfut.ui.domain.repository.PlayerRepository
 import com.magnus.playfut.ui.domain.state.UiState
 import kotlinx.coroutines.flow.MutableStateFlow

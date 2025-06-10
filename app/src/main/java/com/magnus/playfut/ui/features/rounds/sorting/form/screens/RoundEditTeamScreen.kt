@@ -26,20 +26,20 @@ fun RoundEditTeamScreen(
     viewModel: RoundSortViewModel,
     navController: NavController
 ) {
-    var teamName by remember { mutableStateOf(viewModel.editableTeam?.name ?: "") }
+    var teamName by remember { mutableStateOf(viewModel.editableTeam?.teamName ?: "") }
 
     fun onClickSave() {
         val editableTeam = viewModel.editableTeam ?: return
-        val editableTeamIndex = viewModel.teams?.indexOf(editableTeam)
+        val editableTeamIndex = viewModel.distributorTeamSchema?.indexOf(editableTeam)
 
         if (editableTeamIndex == null || editableTeamIndex == -1) {
             return
         }
 
-        val teams = viewModel.teams?.toMutableList()
+        val teams = viewModel.distributorTeamSchema?.toMutableList()
         teams?.removeAt(editableTeamIndex)
-        teams?.add(editableTeamIndex, editableTeam.copy(name = teamName))
-        viewModel.teams = teams
+        teams?.add(editableTeamIndex, editableTeam.copy(teamName = teamName))
+        viewModel.distributorTeamSchema = teams
         navController.popBackStack()
     }
 

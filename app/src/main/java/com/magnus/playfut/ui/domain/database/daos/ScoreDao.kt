@@ -2,7 +2,8 @@ package com.magnus.playfut.ui.domain.database.daos
 
 import androidx.room.Dao
 import androidx.room.Query
-import com.magnus.playfut.ui.domain.model.ui.Artillery
+import com.magnus.playfut.ui.domain.database.entities.structure.ScoreEntity
+import com.magnus.playfut.ui.domain.model.structure.Artillery
 
 @Dao
 interface ScoreDao {
@@ -23,4 +24,7 @@ interface ScoreDao {
             totalGoals DESC
     """)
     suspend fun fetchPlayerGoalsInRound(targetRoundId: Long): List<Artillery>
+
+    @Query("SELECT * FROM ScoreEntity WHERE roundId = :roundId")
+    suspend fun getScoresByRound(roundId: String): List<ScoreEntity>
 }

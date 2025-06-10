@@ -49,32 +49,32 @@ private fun RoundPlayingScreen(
 @Composable
 private fun RoundPlayingNavigation(roundId: String, viewModel: RoundPlayingViewModel) {
     val navController = rememberNavController()
-    val animationDuration = 500
+    val animationDuration = 400
 
     NavHost(
         navController = navController,
         startDestination = RoundPlayingRoutes.Home.route,
         enterTransition = {
             slideInHorizontally(
-                initialOffsetX = { fullWidth -> fullWidth }, // Entra da direita
+                initialOffsetX = { fullWidth -> fullWidth },
                 animationSpec = tween(animationDuration)
             )
         },
         exitTransition = {
             slideOutHorizontally(
-                targetOffsetX = { fullWidth -> -fullWidth }, // Sai para a esquerda
+                targetOffsetX = { fullWidth -> -fullWidth },
                 animationSpec = tween(animationDuration)
             )
         },
         popEnterTransition = {
             slideInHorizontally(
-                initialOffsetX = { fullWidth -> -fullWidth }, // Volta da esquerda
+                initialOffsetX = { fullWidth -> -fullWidth },
                 animationSpec = tween(animationDuration)
             )
         },
         popExitTransition = {
             slideOutHorizontally(
-                targetOffsetX = { fullWidth -> fullWidth }, // "Pop" para a direita
+                targetOffsetX = { fullWidth -> fullWidth },
                 animationSpec = tween(animationDuration)
             )
         }
@@ -89,6 +89,7 @@ private fun RoundPlayingNavigation(roundId: String, viewModel: RoundPlayingViewM
 
         composable(RoundPlayingRoutes.Match.route) {
             RoundPlayingMatchScreen(
+                viewModel = viewModel,
                 navController = navController
             )
         }

@@ -1,6 +1,7 @@
 package com.magnus.playfut.ui.features.rounds.playing.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
@@ -27,13 +29,15 @@ import com.magnus.playfut.ui.theme.spacing
 fun TeamItem(
     modifier: Modifier = Modifier,
     team: String,
-    description: String
+    description: String,
+    onClickItem: () -> Unit = {}
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.tiny),
         modifier = modifier
             .clip(RoundedCornerShape(8.dp))
+            .clickable(role = Role.Button) { onClickItem() }
             .background(MaterialTheme.colorScheme.surface)
             .padding(MaterialTheme.spacing.large, MaterialTheme.spacing.extraSmall)
     ) {

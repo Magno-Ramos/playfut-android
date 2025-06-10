@@ -1,24 +1,26 @@
 package com.magnus.playfut.ui.domain.database.entities.structure
 
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.magnus.playfut.ui.domain.model.Team
-import com.magnus.playfut.ui.domain.model.TeamSchema
 
-@Entity(tableName = "teams")
+@Entity(
+    tableName = "teams",
+    foreignKeys = [
+        androidx.room.ForeignKey(
+            entity = RoundEntity::class,
+            parentColumns = ["roundId"],
+            childColumns = ["roundId"],
+            onDelete = androidx.room.ForeignKey.CASCADE
+        )
+    ],
+    indices = [
+        Index("roundId")
+    ]
+)
 data class TeamEntity(
     @PrimaryKey(autoGenerate = true)
     val teamId: Long = 0,
-    val name: String
-)
-
-fun TeamEntity.toTeam() = Team(
-    id = teamId.toString(),
-    name = name,
-    schema = TeamSchema(
-        goalKeepers = emptyList(),
-        startPlaying = emptyList(),
-        substitutes = emptyList(),
-        replacementSuggestions = emptyList()
-    )
+    val name: String,
+    val roundId: Long
 )

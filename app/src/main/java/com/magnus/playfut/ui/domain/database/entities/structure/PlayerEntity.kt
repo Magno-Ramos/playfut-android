@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.magnus.playfut.ui.domain.model.PlayerType
+import com.magnus.playfut.ui.domain.model.structure.PlayerType
 
 @Entity(
     tableName = "players",
@@ -16,7 +16,9 @@ import com.magnus.playfut.ui.domain.model.PlayerType
             onDelete = ForeignKey.Companion.CASCADE
         )
     ],
-    indices = [Index(value = ["groupId"])]
+    indices = [
+        Index(value = ["groupId"])
+    ]
 )
 data class PlayerEntity(
     @PrimaryKey(autoGenerate = true)

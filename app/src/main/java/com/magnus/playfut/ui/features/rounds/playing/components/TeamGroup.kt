@@ -14,12 +14,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.sp
-import com.magnus.playfut.ui.domain.model.ui.TeamUiModel
+import com.magnus.playfut.ui.features.rounds.playing.states.RoundTeamItem
 import com.magnus.playfut.ui.theme.AppTheme
 import com.magnus.playfut.ui.theme.spacing
 
 @Composable
-fun TeamGroup(teams: List<TeamUiModel>) {
+fun TeamGroup(
+    teams: List<RoundTeamItem>,
+    onClickItem: (RoundTeamItem) -> Unit = {}
+) {
     val mTeams = teams.sortedByDescending { it.victories }
     Column(verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)) {
         Text(
@@ -28,33 +31,49 @@ fun TeamGroup(teams: List<TeamUiModel>) {
             color = MaterialTheme.colorScheme.onBackground
         )
         if (teams.size == 2) {
-            TeamHorizontalSimple(mTeams.first(), mTeams.last())
+            TeamHorizontalSimple(
+                homeTeam = mTeams.first(),
+                awayTeam = mTeams.last(),
+                onClickItem = onClickItem
+            )
         } else {
-            TeamHorizontalScrollable(mTeams)
+            TeamHorizontalScrollable(
+                teams = mTeams,
+                onClickItem = onClickItem
+            )
         }
     }
 }
 
 @Composable
-private fun TeamHorizontalSimple(homeTeam: TeamUiModel, awayTeam: TeamUiModel) {
+private fun TeamHorizontalSimple(
+    homeTeam: RoundTeamItem,
+    awayTeam: RoundTeamItem,
+    onClickItem: (RoundTeamItem) -> Unit
+) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
     ) {
         TeamItem(
             modifier = Modifier.weight(1f),
-            team = homeTeam.teamDisplayName,
-            description = homeTeam.teamDisplayDescription
+            team = homeTeam.name,
+            description = getTeamDescription(homeTeam.victories),
+            onClickItem = { onClickItem(homeTeam) }
         )
         TeamItem(
             modifier = Modifier.weight(1f),
-            team = awayTeam.teamDisplayName,
-            description = awayTeam.teamDisplayDescription
+            team = awayTeam.name,
+            description = getTeamDescription(awayTeam.victories),
+            onClickItem = { onClickItem(awayTeam) }
         )
     }
 }
 
 @Composable
-private fun TeamHorizontalScrollable(teams: List<TeamUiModel>) {
+private fun TeamHorizontalScrollable(
+    teams: List<RoundTeamItem>,
+    onClickItem: (RoundTeamItem) -> Unit = {}
+) {
     val horizontalScrollState = rememberScrollState()
     Row(
         modifier = Modifier.horizontalScroll(horizontalScrollState),
@@ -62,10 +81,18 @@ private fun TeamHorizontalScrollable(teams: List<TeamUiModel>) {
     ) {
         teams.forEach {
             TeamItem(
-                team = it.teamDisplayName,
-                description = it.teamDisplayDescription
+                team = it.name,
+                description = getTeamDescription(it.victories),
+                onClickItem = { onClickItem(it) }
             )
         }
+    }
+}
+
+private fun getTeamDescription(victories: Int): String {
+    return when (victories) {
+        1 -> "$victories Vitória"
+        else -> "$victories Vitórias"
     }
 }
 
@@ -81,15 +108,15 @@ private fun TeamGroupPreview() {
         ) {
             TeamGroup(
                 teams = listOf(
-                    TeamUiModel(
-                        victories = 1,
-                        teamDisplayName = "Time Azul",
-                        teamDisplayDescription = "1 Vitória"
+                    RoundTeamItem(
+                        id = "1",
+                        name = "Time A",
+                        victories = 1
                     ),
-                    TeamUiModel(
-                        victories = 2,
-                        teamDisplayName = "Time Preto",
-                        teamDisplayDescription = "2 Vitórias"
+                    RoundTeamItem(
+                        id = "2",
+                        name = "Time B",
+                        victories = 2
                     )
                 )
             )

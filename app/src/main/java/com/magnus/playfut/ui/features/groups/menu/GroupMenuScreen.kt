@@ -14,7 +14,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
-import com.magnus.playfut.ui.domain.model.GroupWithOpenedRound
+import com.magnus.playfut.ui.domain.model.relations.GroupWithOpenedRound
 import com.magnus.playfut.ui.domain.state.UiState
 import com.magnus.playfut.ui.extensions.activity
 import com.magnus.playfut.ui.features.common.AppToolbar
@@ -54,7 +54,7 @@ fun GroupMenuScreen(
 
     fun openNewRound() {
         (groupState as? UiState.Success<GroupWithOpenedRound>)?.data?.let { data ->
-            if (data.runningRound != null) {
+            if (data.hasOpenedRound()) {
                 val intent = RoundPlayingActivity.createIntent(context, groupId)
                 context.startActivity(intent)
             } else {
@@ -90,7 +90,7 @@ fun GroupMenuScreen(
             UiState.Loading -> Unit
             is UiState.Error -> closeScreen()
             is UiState.Success -> {
-                groupName = state.data.group.name
+                groupName = state.data.name
                 GroupMenu(
                     modifier = Modifier.padding(paddings),
                     group = state.data,

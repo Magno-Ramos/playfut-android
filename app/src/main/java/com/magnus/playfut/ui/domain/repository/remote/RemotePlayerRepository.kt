@@ -1,8 +1,8 @@
 package com.magnus.playfut.ui.domain.repository.remote
 
-import com.magnus.playfut.ui.domain.datasource.PlayerDataSource
-import com.magnus.playfut.ui.domain.model.Player
-import com.magnus.playfut.ui.domain.model.PlayerType
+import com.magnus.playfut.ui.domain.model.structure.Player
+import com.magnus.playfut.ui.domain.model.structure.PlayerType
+import com.magnus.playfut.ui.domain.repository.datasource.PlayerDataSource
 
 class RemotePlayerRepository : PlayerDataSource {
     override suspend fun createPlayer(

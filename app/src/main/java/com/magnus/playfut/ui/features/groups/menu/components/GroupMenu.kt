@@ -19,8 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import com.magnus.playfut.ui.domain.model.Group
-import com.magnus.playfut.ui.domain.model.GroupWithOpenedRound
+import com.magnus.playfut.ui.domain.model.relations.GroupWithOpenedRound
 import com.magnus.playfut.ui.features.common.MenuItem
 import com.magnus.playfut.ui.theme.AppTheme
 import com.magnus.playfut.ui.theme.spacing
@@ -40,16 +39,16 @@ fun GroupMenu(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         GroupHeader(
-            groupName = group.group.name,
-            playersCount = group.group.playersCount,
-            roundsCount = group.group.roundsCount
+            groupName = group.name,
+            playersCount = group.playersCount,
+            roundsCount = group.roundsCount
         )
         Spacer(Modifier.height(MaterialTheme.spacing.micro))
         MenuItem(
-            icon = if (group.runningRound != null) Icons.Default.Flag else Icons.Default.Sports,
-            title = if (group.runningRound != null) "Continuar Rodada" else "Nova Rodada",
+            icon = if (group.hasOpenedRound()) Icons.Default.Flag else Icons.Default.Sports,
+            title = if (group.hasOpenedRound()) "Continuar Rodada" else "Nova Rodada",
             subtitle = "Quem será o vencedor?",
-            isPrimary = group.runningRound != null,
+            isPrimary = group.hasOpenedRound(),
             onClick = { openNewRound() }
         )
         MenuItem(
@@ -82,12 +81,10 @@ private fun GroupMenuPreview() {
         Box(Modifier.background(MaterialTheme.colorScheme.background)) {
             GroupMenu(
                 group = GroupWithOpenedRound(
-                    runningRound = null,
-                    group = Group(
-                        name = "Grupo 1",
-                        playersCount = 1,
-                        roundsCount = 1
-                    )
+                    name = "Grupo 1",
+                    playersCount = 1,
+                    roundsCount = 1,
+                    openedRound = null
                 )
             )
         }

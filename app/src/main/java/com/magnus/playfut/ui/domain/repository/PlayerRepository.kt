@@ -1,9 +1,9 @@
 package com.magnus.playfut.ui.domain.repository
 
 import com.google.firebase.auth.FirebaseAuth
-import com.magnus.playfut.ui.domain.datasource.PlayerDataSource
-import com.magnus.playfut.ui.domain.model.Player
-import com.magnus.playfut.ui.domain.model.PlayerType
+import com.magnus.playfut.ui.domain.model.structure.Player
+import com.magnus.playfut.ui.domain.model.structure.PlayerType
+import com.magnus.playfut.ui.domain.repository.datasource.PlayerDataSource
 import com.magnus.playfut.ui.domain.repository.local.LocalPlayerRepository
 import com.magnus.playfut.ui.domain.repository.remote.RemotePlayerRepository
 

@@ -1,7 +1,7 @@
-package com.magnus.playfut.ui.domain.datasource
+package com.magnus.playfut.ui.domain.repository.datasource
 
-import com.magnus.playfut.ui.domain.model.Player
-import com.magnus.playfut.ui.domain.model.PlayerType
+import com.magnus.playfut.ui.domain.model.structure.Player
+import com.magnus.playfut.ui.domain.model.structure.PlayerType
 
 interface PlayerDataSource {
     suspend fun createPlayer(

@@ -32,6 +32,9 @@ interface GroupDao {
     @Query("SELECT * FROM `groups`")
     suspend fun getGroups(): List<GroupEntity>
 
+    @Query("SELECT* FROM `groups` WHERE id = :groupId")
+    suspend fun getGroupById(groupId: Long): GroupEntity?
+
     @Transaction
     @Query(
         """

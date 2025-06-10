@@ -1,6 +1,5 @@
 package com.magnus.playfut.ui.features.rounds.playing.screens
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,14 +22,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import com.magnus.playfut.ui.domain.model.ui.RoundDetailsUiModel
-import com.magnus.playfut.ui.domain.model.ui.RoundPlayingUiModel
-import com.magnus.playfut.ui.domain.model.ui.TeamUiModel
 import com.magnus.playfut.ui.domain.state.UiState
+import com.magnus.playfut.ui.domain.state.asSuccess
 import com.magnus.playfut.ui.extensions.activity
 import com.magnus.playfut.ui.features.common.AppToolbar
 import com.magnus.playfut.ui.features.common.ErrorView
@@ -41,7 +36,7 @@ import com.magnus.playfut.ui.features.rounds.playing.components.ArtilleryRanking
 import com.magnus.playfut.ui.features.rounds.playing.components.GradientButton
 import com.magnus.playfut.ui.features.rounds.playing.components.MatchList
 import com.magnus.playfut.ui.features.rounds.playing.components.TeamGroup
-import com.magnus.playfut.ui.theme.AppTheme
+import com.magnus.playfut.ui.features.rounds.playing.states.RoundPlayingHomeViewState
 import com.magnus.playfut.ui.theme.spacing
 
 @Composable
@@ -50,11 +45,33 @@ fun RoundPlayingHomeScreen(
     viewModel: RoundPlayingViewModel,
     navController: NavController
 ) {
+    val context = LocalContext.current
     val roundState by viewModel.roundState.collectAsState()
+    val closeRoundState by viewModel.closeRoundState.collectAsState()
     var title by remember { mutableStateOf("") }
 
+    when (val state = closeRoundState) {
+        UiState.Loading -> {
+            // TODO
+        }
+
+        is UiState.Error -> {
+            print(state.message)
+        }
+
+        is UiState.Success<*> -> {
+            context.activity?.finish()
+        }
+    }
+
     LaunchedEffect(Unit) {
-        viewModel.fetchRunningRound(roundId)
+        viewModel.fetchRound(roundId)
+    }
+
+    fun onClickCloseRound() {
+        roundState.asSuccess()?.data?.let {
+            viewModel.closeRound(it.groupId)
+        }
     }
 
     Scaffold(
@@ -62,7 +79,7 @@ fun RoundPlayingHomeScreen(
         bottomBar = {
             BottomAppBar(contentPadding = PaddingValues(MaterialTheme.spacing.medium)) {
                 Button(
-                    onClick = {},
+                    onClick = { onClickCloseRound() },
                     modifier = Modifier.fillMaxWidth(),
                     contentPadding = PaddingValues(MaterialTheme.spacing.medium),
                     colors = ButtonDefaults.buttonColors(
@@ -83,10 +100,9 @@ fun RoundPlayingHomeScreen(
             when (val state = roundState) {
                 UiState.Loading -> LoadingView()
                 is UiState.Error -> ErrorView("Desculpe, ocorreu um erro!")
-                is UiState.Success<RoundPlayingUiModel> -> {
-                    title = state.data.round.roundDisplayName
+                is UiState.Success<RoundPlayingHomeViewState> -> {
                     RoundPlayingHomeMenu(
-                        details = state.data,
+                        viewState = state.data,
                         navController = navController
                     )
                 }
@@ -97,7 +113,7 @@ fun RoundPlayingHomeScreen(
 
 @Composable
 private fun RoundPlayingHomeMenu(
-    details: RoundPlayingUiModel,
+    viewState: RoundPlayingHomeViewState,
     navController: NavController
 ) {
     Column(
@@ -109,10 +125,12 @@ private fun RoundPlayingHomeMenu(
             subtext = "Qual time ganhará dessa vez?",
             onClick = { navController.navigate(RoundPlayingRoutes.Match.route) }
         )
-
-        TeamGroup(teams = details.round.teams)
-        MatchList(matches = details.round.matches)
-        ArtilleryRanking(ranking = details.ranking)
+        TeamGroup(
+            teams = viewState.teams,
+            onClickItem = { team -> TODO("ON CLICK OPEN TEAM") }
+        )
+        MatchList(matches = viewState.matches)
+        ArtilleryRanking(artillery = viewState.artillery)
     }
 }
 
@@ -123,40 +141,4 @@ private fun AppBar(title: String) {
         title = title,
         onClickBack = { context.activity?.finish() }
     )
-}
-
-@PreviewLightDark
-@Composable
-private fun RoundPlayingHomeMenuPreview() {
-    AppTheme {
-        Column(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.background)
-                .padding(MaterialTheme.spacing.medium)
-        ) {
-            RoundPlayingHomeMenu(
-                navController = rememberNavController(),
-                details = RoundPlayingUiModel(
-                    ranking = listOf(),
-                    round = RoundDetailsUiModel(
-                        roundId = 1L,
-                        roundDisplayName = "Rodada 1",
-                        matches = listOf(),
-                        teams = listOf(
-                            TeamUiModel(
-                                victories = 1,
-                                teamDisplayName = "Time Azul",
-                                teamDisplayDescription = "1 Vitória"
-                            ),
-                            TeamUiModel(
-                                victories = 2,
-                                teamDisplayName = "Time Preto",
-                                teamDisplayDescription = "2 Vitória"
-                            )
-                        )
-                    )
-                )
-            )
-        }
-    }
 }

@@ -32,7 +32,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.magnus.playfut.R
-import com.magnus.playfut.ui.domain.model.Group
 import com.magnus.playfut.ui.theme.AppColor
 import com.magnus.playfut.ui.theme.AppTheme
 
@@ -54,7 +53,9 @@ private fun toPlayersCountString(count: Int, context: Context): String {
 
 @Composable
 fun GroupItem(
-    group: Group,
+    groupName: String,
+    playersCount: Int,
+    roundsCount: Int,
     onClick: () -> Unit = {}
 ) {
     val context = LocalContext.current
@@ -87,7 +88,7 @@ fun GroupItem(
                     tint = MaterialTheme.colorScheme.onBackground
                 )
                 Text(
-                    text = group.name,
+                    text = groupName,
                     fontWeight = FontWeight.SemiBold,
                     color = MaterialTheme.colorScheme.onBackground,
                     fontSize = 14.sp
@@ -105,7 +106,7 @@ fun GroupItem(
                     tint = MaterialTheme.colorScheme.onBackground
                 )
                 Text(
-                    text = toPlayersCountString(group.playersCount, context),
+                    text = toPlayersCountString(playersCount, context),
                     fontWeight = FontWeight.Normal,
                     color = MaterialTheme.colorScheme.onBackground,
                     fontSize = 14.sp
@@ -123,7 +124,7 @@ fun GroupItem(
                     tint = MaterialTheme.colorScheme.onBackground
                 )
                 Text(
-                    text = toRealizedRoundsString(group.roundsCount, context),
+                    text = toRealizedRoundsString(roundsCount, context),
                     fontWeight = FontWeight.Normal,
                     color = MaterialTheme.colorScheme.onBackground,
                     fontSize = 14.sp
@@ -164,12 +165,9 @@ private fun GroupItemPreview() {
                 .padding(16.dp)
         ) {
             GroupItem(
-                group = Group(
-                    id = "1",
-                    name = "Grupo 1",
-                    playersCount = 1,
-                    roundsCount = 1
-                )
+                groupName = "Grupo 1",
+                playersCount = 1,
+                roundsCount = 1
             )
         }
     }

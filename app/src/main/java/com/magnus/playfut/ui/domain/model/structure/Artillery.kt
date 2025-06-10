@@ -1,4 +1,4 @@
-package com.magnus.playfut.ui.domain.model.ui
+package com.magnus.playfut.ui.domain.model.structure
 
 data class Artillery (
     val playerName: String,

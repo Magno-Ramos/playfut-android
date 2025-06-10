@@ -9,10 +9,10 @@ import androidx.room.PrimaryKey
     foreignKeys = [
         ForeignKey(
             entity = RoundEntity::class,
-            parentColumns = ["roundId"],      // Coluna 'roundId' em RoundEntity
-            childColumns = ["roundId"],       // Coluna 'roundId' em MatchEntity
-            onDelete = ForeignKey.CASCADE,   // Ou RESTRICT, CASCADE, dependendo da sua lógica
-            onUpdate = ForeignKey.CASCADE     // Opcional: o que fazer se o roundId na RoundEntity mudar
+            parentColumns = ["roundId"],
+            childColumns = ["roundId"],
+            onDelete = ForeignKey.CASCADE,
+            onUpdate = ForeignKey.CASCADE
         )
     ],
     indices = [

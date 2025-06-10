@@ -21,7 +21,7 @@ import com.magnus.playfut.ui.theme.AppTheme
 import com.magnus.playfut.ui.theme.spacing
 
 @Composable
-fun FinishMatch() {
+fun FinishMatch(onClickFinish: () -> Unit) {
     Column(
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small),
         modifier = Modifier
@@ -48,7 +48,7 @@ fun FinishMatch() {
                 containerColor = AppColor.green,
                 contentColor = AppColor.white
             ),
-            onClick = {}
+            onClick = { onClickFinish() }
         ) {
             Text(
                 text = "Encerrar",
@@ -68,7 +68,7 @@ private fun FinishMatchPreview() {
                 .background(MaterialTheme.colorScheme.background)
                 .padding(MaterialTheme.spacing.medium)
         ) {
-            FinishMatch()
+            FinishMatch(onClickFinish = {})
         }
     }
 }

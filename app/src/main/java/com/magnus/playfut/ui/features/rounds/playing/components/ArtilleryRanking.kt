@@ -22,18 +22,18 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.magnus.playfut.R
-import com.magnus.playfut.ui.domain.model.ui.Artillery
+import com.magnus.playfut.ui.features.rounds.playing.states.RoundArtilleryItem
 import com.magnus.playfut.ui.theme.AppTheme
 import com.magnus.playfut.ui.theme.spacing
 
 @Composable
-fun ArtilleryRanking(ranking: List<Artillery>) {
+fun ArtilleryRanking(artillery: List<RoundArtilleryItem>) {
     Column(
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small),
         modifier = Modifier.fillMaxWidth()
     ) {
         Text(
-            text = "Artilheiros da Rodada (${ranking.size})",
+            text = "Artilheiros da Rodada (${artillery.size})",
             fontSize = 14.sp,
             color = MaterialTheme.colorScheme.onSurface
         )
@@ -42,7 +42,7 @@ fun ArtilleryRanking(ranking: List<Artillery>) {
                 .fillMaxWidth()
                 .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(8.dp))
         ) {
-            if (ranking.isEmpty()) {
+            if (artillery.isEmpty()) {
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier
@@ -59,9 +59,9 @@ fun ArtilleryRanking(ranking: List<Artillery>) {
                 }
             }
 
-            ranking.sortedByDescending { it.totalGoals }.forEachIndexed { index, it ->
+            artillery.sortedByDescending { it.goals }.forEachIndexed { index, it ->
                 ArtilleryItem(item = it)
-                if (index < ranking.size - 1) {
+                if (index < artillery.size - 1) {
                     HorizontalDivider()
                 }
             }
@@ -70,7 +70,7 @@ fun ArtilleryRanking(ranking: List<Artillery>) {
 }
 
 @Composable
-private fun ArtilleryItem(item: Artillery) {
+private fun ArtilleryItem(item: RoundArtilleryItem) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
@@ -79,12 +79,12 @@ private fun ArtilleryItem(item: Artillery) {
     ) {
         Text(
             modifier = Modifier.weight(1f),
-            text = item.playerName,
+            text = item.name ?: "Desconhecido",
             color = MaterialTheme.colorScheme.onSurface,
             fontSize = 14.sp
         )
         Text(
-            text = item.totalGoals.toString(),
+            text = item.goals.toString(),
             color = MaterialTheme.colorScheme.onSurface,
             fontSize = 14.sp,
             fontWeight = FontWeight.Bold
@@ -107,8 +107,10 @@ private fun ArtilleryRankingPreview() {
                 .padding(MaterialTheme.spacing.medium)
         ) {
             ArtilleryRanking(
-                ranking = listOf(
-
+                artillery = listOf(
+                    RoundArtilleryItem("André", 2),
+                    RoundArtilleryItem("Magno", 4),
+                    RoundArtilleryItem("José", 2)
                 )
             )
         }

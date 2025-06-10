@@ -3,8 +3,8 @@ package com.magnus.playfut.ui.domain.repository.local
 import com.magnus.playfut.ui.domain.database.daos.PlayerDao
 import com.magnus.playfut.ui.domain.database.entities.structure.PlayerEntity
 import com.magnus.playfut.ui.domain.database.entities.structure.toPlayer
-import com.magnus.playfut.ui.domain.datasource.PlayerDataSource
-import com.magnus.playfut.ui.domain.model.PlayerType
+import com.magnus.playfut.ui.domain.model.structure.PlayerType
+import com.magnus.playfut.ui.domain.repository.datasource.PlayerDataSource
 
 class LocalPlayerRepository (
     private val dao: PlayerDao

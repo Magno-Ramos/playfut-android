@@ -8,23 +8,45 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material3.Button
-import androidx.compose.material3.Icon
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.magnus.playfut.ui.domain.model.structure.Player
+import com.magnus.playfut.ui.features.common.InputSelect
+import com.magnus.playfut.ui.features.rounds.playing.states.RoundTeamItem
 import com.magnus.playfut.ui.theme.AppTheme
 import com.magnus.playfut.ui.theme.spacing
 
 @Composable
-fun GoalRegisterForm() {
+fun GoalRegisterForm(
+    players: List<Player>,
+    teams: List<RoundTeamItem>
+) {
+    val playerOptions = players.map { it.name to it.id }
+    var selectedPlayer by remember { mutableStateOf(playerOptions.first().first) }
+
+    val teamsOptions = teams.map { it.name to it.id }
+    var selectedTeam by remember { mutableStateOf(teamsOptions.first().first) }
+
+    fun onSelectPlayer(id: String) {
+        selectedPlayer = players.first { it.id == id }.name
+    }
+
+    fun onSelectTeam(id: String) {
+        selectedTeam = teams.first { it.id == id }.name
+    }
+
     Column(
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium),
         modifier = Modifier
@@ -41,22 +63,36 @@ fun GoalRegisterForm() {
         Row(
             horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
         ) {
-            GoalRegisterFormSelectInput(
+            InputSelect<String>(
                 modifier = Modifier.weight(1f),
+                inputModifier = Modifier.border(
+                    1.dp,
+                    MaterialTheme.colorScheme.surfaceVariant,
+                    RoundedCornerShape(8.dp)
+                ),
+                options = playerOptions,
                 label = "Marcador:",
-                value = "Magno"
+                selectedOption = selectedPlayer,
+                onOptionSelected = ::onSelectPlayer
             )
-            GoalRegisterFormSelectInput(
+            InputSelect<String>(
                 modifier = Modifier.weight(1f),
+                inputModifier = Modifier.border(
+                    1.dp,
+                    MaterialTheme.colorScheme.surfaceVariant,
+                    RoundedCornerShape(8.dp)
+                ),
+                options = teamsOptions,
                 label = "Para:",
-                value = "Time A"
+                selectedOption = selectedTeam,
+                onOptionSelected = ::onSelectTeam
             )
         }
         Button(
             onClick = {},
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(8.dp),
-            colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+            colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.primary
             )
         ) {
@@ -65,44 +101,6 @@ fun GoalRegisterForm() {
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onPrimary
-            )
-        }
-    }
-}
-
-@Composable
-private fun GoalRegisterFormSelectInput(
-    modifier: Modifier = Modifier,
-    label: String,
-    value: String
-) {
-    Column (
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
-    ) {
-        Text(
-            text = label,
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Medium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .border(1.dp, MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(8.dp))
-                .padding(MaterialTheme.spacing.extraSmall, MaterialTheme.spacing.medium),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(
-                text = value,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Medium,
-                color = MaterialTheme.colorScheme.onBackground
-            )
-            Icon(
-                imageVector = Icons.Default.KeyboardArrowDown,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.onBackground
             )
         }
     }
@@ -117,7 +115,25 @@ private fun GoalRegisterFormPreview() {
                 .background(MaterialTheme.colorScheme.background)
                 .padding(MaterialTheme.spacing.medium)
         ) {
-            GoalRegisterForm()
+            GoalRegisterForm(
+                players = listOf(
+                    Player(id = "1", name = "Jogador 1"),
+                    Player(id = "2", name = "Jogador 2"),
+                    Player(id = "3", name = "Jogador 3"),
+                ),
+                teams = listOf(
+                    RoundTeamItem(
+                        id = "1",
+                        name = "Time 1",
+                        victories = 1
+                    ),
+                    RoundTeamItem(
+                        id = "2",
+                        name = "Time 2",
+                        victories = 2
+                    )
+                )
+            )
         }
     }
 }

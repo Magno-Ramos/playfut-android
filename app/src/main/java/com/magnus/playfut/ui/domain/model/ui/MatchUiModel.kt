@@ -1,6 +1,6 @@
 package com.magnus.playfut.ui.domain.model.ui
 
-import com.magnus.playfut.ui.domain.database.entities.relations.PojoMatchWithScoresAndTeams
+import com.magnus.playfut.ui.domain.database.entities.relations.MatchWithScoresAndTeams
 
 data class MatchUiModel(
     val matchId: Long,
@@ -11,7 +11,7 @@ data class MatchUiModel(
     val scores: List<ScoreUiModel>
 )
 
-fun PojoMatchWithScoresAndTeams.toUiModel(
+fun MatchWithScoresAndTeams.toUiModel(
     getPlayerName: (Long) -> String? = { id -> "Jogador $id" },
     getTeamName: (Long) -> String? = { id -> "Time $id" }
 ): MatchUiModel {

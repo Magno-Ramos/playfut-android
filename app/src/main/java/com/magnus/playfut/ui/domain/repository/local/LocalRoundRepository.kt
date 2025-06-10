@@ -1,28 +1,28 @@
 package com.magnus.playfut.ui.domain.repository.local
 
 import com.magnus.playfut.ui.domain.database.daos.RoundDao
-import com.magnus.playfut.ui.domain.database.entities.relations.PojoRoundWithDetails
-import com.magnus.playfut.ui.domain.database.entities.relations.toRound
-import com.magnus.playfut.ui.domain.database.entities.structure.RoundEntity
-import com.magnus.playfut.ui.domain.database.entities.structure.TeamEntity
-import com.magnus.playfut.ui.domain.datasource.RoundDataSource
-import com.magnus.playfut.ui.domain.model.Round
-import com.magnus.playfut.ui.domain.model.Team
+import com.magnus.playfut.ui.domain.helper.DistributorTeamSchema
+import com.magnus.playfut.ui.domain.model.structure.Round
+import com.magnus.playfut.ui.domain.model.structure.toRound
+import com.magnus.playfut.ui.domain.repository.datasource.RoundDataSource
 
 class LocalRoundRepository(
-    private val dao: RoundDao
+    private val dao: RoundDao,
 ) : RoundDataSource {
-    override suspend fun createRound(groupId: String, teams: List<Team>): Result<Long> = runCatching {
-        val roundEntity = RoundEntity(groupId = groupId.toLong())
-        val teamEntities = teams.map { TeamEntity(name = it.name) }
-        dao.insertRoundWithTeams(roundEntity, teamEntities)
+
+    override suspend fun createRound(groupId: String, schemas: List<DistributorTeamSchema>): Result<Long> {
+        return runCatching { dao.insertTeamsWithSchema(groupId.toLong(), schemas) }
     }
 
-    override suspend fun fetchRunningRound(groupId: String): Result<Round?> = runCatching {
-        dao.getRunningRound(groupId.toLong())?.toRound()
+    override suspend fun closeRound(roundId: String): Result<Unit> {
+        return runCatching { dao.closeRound(roundId.toLong()) }
     }
 
-    override suspend fun fetchRoundDetails(roundId: String): Result<PojoRoundWithDetails> = runCatching {
-        dao.getRoundDetails(roundId.toLong()) ?: throw Exception("Round not found")
+    override suspend fun closeAllRoundsByGroup(groupId: String): Result<Unit> {
+        return runCatching { dao.closeOpenRoundsByGroup(groupId.toLong()) }
+    }
+
+    override suspend fun getRoundById(roundId: String): Result<Round> {
+        return runCatching { dao.getRoundById(roundId.toLong()).toRound() }
     }
 }

@@ -1,4 +1,4 @@
-package com.magnus.playfut.ui.domain.model
+package com.magnus.playfut.ui.domain.model.structure
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

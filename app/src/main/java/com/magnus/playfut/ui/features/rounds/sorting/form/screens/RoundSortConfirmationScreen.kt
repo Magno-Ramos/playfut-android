@@ -14,17 +14,20 @@ import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.magnus.playfut.ui.domain.model.Team
+import com.magnus.playfut.ui.domain.helper.DistributorTeamSchema
 import com.magnus.playfut.ui.domain.state.ActionResultState
 import com.magnus.playfut.ui.extensions.activity
 import com.magnus.playfut.ui.features.common.AppToolbar
@@ -44,15 +47,29 @@ fun RoundSortConfirmationScreen(
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
     val createRoundState by viewModel.createRoundState.collectAsState()
+    val snackBarHostState = remember { SnackbarHostState() }
 
-    if (createRoundState is ActionResultState.Success<Long>) {
-        val roundId = (createRoundState as ActionResultState.Success<Long>).data
-        val intent = RoundPlayingActivity.createIntent(context, roundId.toString())
-        context.startActivity(intent)
-        context.activity?.finish()
+    fun showError() {
+        coroutineScope.launch {
+            snackBarHostState.showSnackbar("Desculpe, ocorreu um erro!")
+        }
     }
 
-    fun onClickEditTeam(team: Team) {
+    when(val state = createRoundState) {
+        ActionResultState.Idle -> {}
+        ActionResultState.Loading -> {}
+        is ActionResultState.Error -> {
+            print(state.message)
+            showError()
+        }
+        is ActionResultState.Success<Long> -> {
+            val intent = RoundPlayingActivity.createIntent(context, state.data.toString())
+            context.startActivity(intent)
+            context.activity?.finish()
+        }
+    }
+
+    fun onClickEditTeam(team: DistributorTeamSchema) {
         viewModel.editableTeam = team
         navController.navigate(RoundSortRoutes.EditTeam.route)
     }
@@ -81,10 +98,11 @@ fun RoundSortConfirmationScreen(
                     Text(text = "Iniciar Rodada")
                 }
             }
-        }
+        },
+        snackbarHost = { SnackbarHost(snackBarHostState) },
     ) { paddings ->
         Box(modifier = Modifier.padding(paddings)) {
-            viewModel.teams?.takeIf { it.isNotEmpty() }?.let { mTeams ->
+            viewModel.distributorTeamSchema?.takeIf { it.isNotEmpty() }?.let { mTeams ->
                 RoundSortConfirmationContent(
                     teams = mTeams,
                     onClickEditTeam = ::onClickEditTeam
@@ -97,8 +115,8 @@ fun RoundSortConfirmationScreen(
 @Composable
 private fun RoundSortConfirmationContent(
     modifier: Modifier = Modifier,
-    teams: List<Team> = emptyList(),
-    onClickEditTeam: (Team) -> Unit = {},
+    teams: List<DistributorTeamSchema> = emptyList(),
+    onClickEditTeam: (DistributorTeamSchema) -> Unit = {},
 ) {
     val scrollState = rememberScrollState()
     Column(
@@ -124,7 +142,16 @@ private fun RoundSortConfirmationContent(
 private fun RoundSortConfirmationContentPreview() {
     AppTheme {
         Column(Modifier.background(MaterialTheme.colorScheme.background)) {
-            RoundSortConfirmationContent()
+            RoundSortConfirmationContent(
+                teams = listOf(
+                    DistributorTeamSchema(
+                        teamName = "Time 1",
+                        goalKeepers = listOf(),
+                        startPlaying = listOf(),
+                        substitutes = listOf()
+                    )
+                )
+            )
         }
     }
 }

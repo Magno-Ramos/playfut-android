@@ -24,13 +24,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.magnus.playfut.ui.domain.model.ui.MatchUiModel
+import com.magnus.playfut.ui.features.rounds.playing.states.RoundMatchItem
 import com.magnus.playfut.ui.theme.AppTheme
 import com.magnus.playfut.ui.theme.spacing
 
 
 @Composable
-fun MatchList(matches: List<MatchUiModel>) {
+fun MatchList(matches: List<RoundMatchItem>) {
     Column(
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small),
         modifier = Modifier.fillMaxWidth()
@@ -42,7 +42,7 @@ fun MatchList(matches: List<MatchUiModel>) {
         )
 
         if (matches.isEmpty()) {
-            Box (
+            Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -60,10 +60,10 @@ fun MatchList(matches: List<MatchUiModel>) {
 
         for (match in matches) {
             MatchItem(
-                homeTeam = match.homeTeamName,
-                awayTeam = match.awayTeamName,
-                homeScore = match.homeTeamScore,
-                awayScore = match.awayTeamScore
+                homeTeam = match.homeTeam ?: "Desconhecido",
+                awayTeam = match.awayTeam ?: "Desconhecido",
+                homeScore = match.homeScore,
+                awayScore = match.awayScore
             )
         }
     }
@@ -135,21 +135,17 @@ private fun MatchItemPreview() {
         ) {
             MatchList(
                 matches = listOf(
-                    MatchUiModel(
-                        matchId = 1,
-                        homeTeamName = "Time A",
-                        awayTeamName = "Time B",
-                        homeTeamScore = 2,
-                        awayTeamScore = 1,
-                        scores = emptyList()
+                    RoundMatchItem(
+                        homeTeam = "Time A",
+                        awayTeam = "Time B",
+                        homeScore = 2,
+                        awayScore = 1
                     ),
-                    MatchUiModel(
-                        matchId = 1,
-                        homeTeamName = "Time A",
-                        awayTeamName = "Time B",
-                        homeTeamScore = 3,
-                        awayTeamScore = 3,
-                        scores = emptyList()
+                    RoundMatchItem(
+                        homeTeam = "Time C",
+                        awayTeam = "Time D",
+                        homeScore = 3,
+                        awayScore = 0
                     )
                 )
             )

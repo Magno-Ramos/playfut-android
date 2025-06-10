@@ -9,3 +9,5 @@ sealed class UiState<out T> {
 fun UiState<*>.isLoading() = this is UiState.Loading
 fun UiState<*>.isError() = this is UiState.Error
 fun UiState<*>.isSuccess() = this is UiState.Success
+
+fun <T> UiState<T>.asSuccess() = this as? UiState.Success

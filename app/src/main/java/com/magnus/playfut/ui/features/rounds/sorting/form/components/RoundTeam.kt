@@ -30,17 +30,16 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.magnus.playfut.R
-import com.magnus.playfut.ui.domain.model.Player
-import com.magnus.playfut.ui.domain.model.Team
-import com.magnus.playfut.ui.domain.model.TeamSchema
+import com.magnus.playfut.ui.domain.helper.DistributorTeamSchema
+import com.magnus.playfut.ui.domain.model.structure.Player
 import com.magnus.playfut.ui.theme.AppColor
 import com.magnus.playfut.ui.theme.AppTheme
 
 @Composable
 fun RoundTeam(
     modifier: Modifier = Modifier,
-    team: Team,
-    onClickEditTeam: (Team) -> Unit = {}
+    team: DistributorTeamSchema,
+    onClickEditTeam: (DistributorTeamSchema) -> Unit = {}
 ) {
     Column(
         modifier = modifier
@@ -61,7 +60,7 @@ fun RoundTeam(
             )
             Text(
                 modifier = Modifier.weight(1f),
-                text = team.name,
+                text = team.teamName,
                 fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.onSurface,
                 fontSize = 14.sp
@@ -77,21 +76,21 @@ fun RoundTeam(
         HorizontalDivider()
         TeamPlayerSchema(
             title = "Goleiros",
-            players = team.schema.goalKeepers,
+            players = team.goalKeepers,
             opened = false
         )
 
         HorizontalDivider()
         TeamPlayerSchema(
             title = "Titulares",
-            players = team.schema.startPlaying,
+            players = team.startPlaying,
             opened = false
         )
 
         HorizontalDivider()
         TeamPlayerSchema(
             title = "Reservas",
-            players = team.schema.substitutes,
+            players = team.substitutes,
             opened = false
         )
     }
@@ -154,15 +153,11 @@ private fun RoundTeamPreview() {
                 .padding(24.dp)
         ) {
             RoundTeam(
-                team = Team(
-                    id = "1",
-                    name = "Time Azul",
-                    schema = TeamSchema(
-                        goalKeepers = emptyList(),
-                        startPlaying = emptyList(),
-                        substitutes = emptyList(),
-                        replacementSuggestions = emptyList()
-                    )
+                team = DistributorTeamSchema(
+                    teamName = "",
+                    goalKeepers = emptyList(),
+                    startPlaying = emptyList(),
+                    substitutes = emptyList()
                 )
             )
         }

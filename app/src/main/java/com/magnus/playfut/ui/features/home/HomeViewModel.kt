@@ -2,7 +2,7 @@ package com.magnus.playfut.ui.features.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.magnus.playfut.ui.domain.model.Group
+import com.magnus.playfut.ui.domain.model.relations.GroupWithPlayersAndRoundsCount
 import com.magnus.playfut.ui.domain.repository.GroupRepository
 import com.magnus.playfut.ui.domain.state.UiState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,8 +13,8 @@ class HomeViewModel(
     private val repository: GroupRepository
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow<UiState<List<Group>>>(UiState.Loading)
-    val uiState: StateFlow<UiState<List<Group>>> = _uiState
+    private val _uiState = MutableStateFlow<UiState<List<GroupWithPlayersAndRoundsCount>>>(UiState.Loading)
+    val uiState: StateFlow<UiState<List<GroupWithPlayersAndRoundsCount>>> = _uiState
 
     fun fetchGroups() {
         viewModelScope.launch {

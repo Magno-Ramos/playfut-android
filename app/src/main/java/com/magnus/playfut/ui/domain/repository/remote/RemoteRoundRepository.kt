@@ -1,23 +1,26 @@
 package com.magnus.playfut.ui.domain.repository.remote
 
-import com.magnus.playfut.ui.domain.database.entities.relations.PojoRoundWithDetails
-import com.magnus.playfut.ui.domain.datasource.RoundDataSource
-import com.magnus.playfut.ui.domain.model.Round
-import com.magnus.playfut.ui.domain.model.Team
+import com.magnus.playfut.ui.domain.helper.DistributorTeamSchema
+import com.magnus.playfut.ui.domain.model.structure.Round
+import com.magnus.playfut.ui.domain.repository.datasource.RoundDataSource
 
 class RemoteRoundRepository : RoundDataSource {
     override suspend fun createRound(
         groupId: String,
-        teams: List<Team>
+        distributorTeamSchema: List<DistributorTeamSchema>
     ): Result<Long> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun fetchRunningRound(groupId: String): Result<Round?> {
+    override suspend fun closeRound(roundId: String): Result<Unit> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun fetchRoundDetails(roundId: String): Result<PojoRoundWithDetails> {
+    override suspend fun closeAllRoundsByGroup(groupId: String): Result<Unit> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getRoundById(roundId: String): Result<Round> {
         TODO("Not yet implemented")
     }
 }

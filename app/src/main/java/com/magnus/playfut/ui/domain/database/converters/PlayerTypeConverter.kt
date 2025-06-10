@@ -1,7 +1,7 @@
 package com.magnus.playfut.ui.domain.database.converters
 
 import androidx.room.TypeConverter
-import com.magnus.playfut.ui.domain.model.PlayerType
+import com.magnus.playfut.ui.domain.model.structure.PlayerType
 
 class PlayerTypeConverter {
     @TypeConverter

@@ -1,10 +1,9 @@
 package com.magnus.playfut.ui.domain.repository
 
 import com.google.firebase.auth.FirebaseAuth
-import com.magnus.playfut.ui.domain.database.entities.relations.PojoRoundWithDetails
-import com.magnus.playfut.ui.domain.datasource.RoundDataSource
-import com.magnus.playfut.ui.domain.model.Round
-import com.magnus.playfut.ui.domain.model.Team
+import com.magnus.playfut.ui.domain.helper.DistributorTeamSchema
+import com.magnus.playfut.ui.domain.model.structure.Round
+import com.magnus.playfut.ui.domain.repository.datasource.RoundDataSource
 import com.magnus.playfut.ui.domain.repository.local.LocalRoundRepository
 import com.magnus.playfut.ui.domain.repository.remote.RemoteRoundRepository
 
@@ -17,15 +16,20 @@ class RoundRepository(
     private val source
         get() = if (auth.currentUser != null) remoteDataSource else localDataSource
 
-    override suspend fun createRound(groupId: String, teams: List<Team>): Result<Long> {
-        return source.createRound(groupId, teams)
+    override suspend fun createRound(
+        groupId: String,
+        distributorTeamSchema: List<DistributorTeamSchema>
+    ): Result<Long> = source.createRound(groupId, distributorTeamSchema)
+
+    override suspend fun closeRound(roundId: String): Result<Unit> {
+        return source.closeRound(roundId)
     }
 
-    override suspend fun fetchRunningRound(groupId: String): Result<Round?> {
-        return source.fetchRunningRound(groupId)
+    override suspend fun closeAllRoundsByGroup(groupId: String): Result<Unit> {
+        return source.closeAllRoundsByGroup(groupId)
     }
 
-    override suspend fun fetchRoundDetails(roundId: String): Result<PojoRoundWithDetails> {
-        return source.fetchRoundDetails(roundId)
+    override suspend fun getRoundById(roundId: String): Result<Round> {
+        return source.getRoundById(roundId)
     }
 }

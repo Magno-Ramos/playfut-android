@@ -30,12 +30,13 @@ import com.magnus.playfut.ui.theme.spacing
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun InputSelect(
+fun <T> InputSelect(
     modifier: Modifier = Modifier,
+    inputModifier: Modifier = Modifier,
     label: String? = null,
-    options: List<String>,
+    options: List<Pair<String, T>>,
     selectedOption: String?,
-    onOptionSelected: (String) -> Unit
+    onOptionSelected: (T) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
     Column(
@@ -69,7 +70,7 @@ fun InputSelect(
                     focusedContainerColor = MaterialTheme.colorScheme.surface,
                     unfocusedContainerColor = MaterialTheme.colorScheme.surface
                 ),
-                modifier = Modifier
+                modifier = inputModifier
                     .menuAnchor(MenuAnchorType.PrimaryEditable, true)
                     .fillMaxWidth()
             )
@@ -80,9 +81,9 @@ fun InputSelect(
             ) {
                 options.forEach { option ->
                     DropdownMenuItem(
-                        text = { Text(option) },
+                        text = { Text(option.first) },
                         onClick = {
-                            onOptionSelected(option)
+                            onOptionSelected(option.second)
                             expanded = false
                         }
                     )
@@ -103,7 +104,10 @@ private fun InputSelectPreview() {
         ) {
             InputSelect(
                 label = "Escolha um item",
-                options = listOf("Opção A", "Opção B", "Opção C"),
+                options = listOf(
+                    "Opção A" to 1,
+                    "Opção B" to 2
+                ),
                 selectedOption = "Opção B",
                 onOptionSelected = { }
             )

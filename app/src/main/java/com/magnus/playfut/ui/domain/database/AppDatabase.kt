@@ -7,16 +7,19 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.magnus.playfut.ui.domain.database.converters.DateConverter
 import com.magnus.playfut.ui.domain.database.converters.PlayerTypeConverter
+import com.magnus.playfut.ui.domain.database.converters.SchemaPlayerRoleConverter
 import com.magnus.playfut.ui.domain.database.daos.GroupDao
 import com.magnus.playfut.ui.domain.database.daos.MatchDao
 import com.magnus.playfut.ui.domain.database.daos.PlayerDao
 import com.magnus.playfut.ui.domain.database.daos.RoundDao
 import com.magnus.playfut.ui.domain.database.daos.ScoreDao
-import com.magnus.playfut.ui.domain.database.entities.relations.RoundTeamCrossRefEntity
+import com.magnus.playfut.ui.domain.database.daos.TeamDao
+import com.magnus.playfut.ui.domain.database.entities.relations.schema.SchemaPlayerCrossRef
 import com.magnus.playfut.ui.domain.database.entities.structure.GroupEntity
 import com.magnus.playfut.ui.domain.database.entities.structure.MatchEntity
 import com.magnus.playfut.ui.domain.database.entities.structure.PlayerEntity
 import com.magnus.playfut.ui.domain.database.entities.structure.RoundEntity
+import com.magnus.playfut.ui.domain.database.entities.structure.SchemaEntity
 import com.magnus.playfut.ui.domain.database.entities.structure.ScoreEntity
 import com.magnus.playfut.ui.domain.database.entities.structure.TeamEntity
 
@@ -28,10 +31,11 @@ import com.magnus.playfut.ui.domain.database.entities.structure.TeamEntity
         TeamEntity::class,
         MatchEntity::class,
         ScoreEntity::class,
-        RoundTeamCrossRefEntity::class,
+        SchemaEntity::class,
+        SchemaPlayerCrossRef::class
     ], version = 1
 )
-@TypeConverters(DateConverter::class, PlayerTypeConverter::class)
+@TypeConverters(DateConverter::class, PlayerTypeConverter::class, SchemaPlayerRoleConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun groupDao(): GroupDao
@@ -43,6 +47,8 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun matchDao(): MatchDao
 
     abstract fun scoreDao(): ScoreDao
+
+    abstract fun teamDao(): TeamDao
 
     companion object {
         fun build(application: Application): AppDatabase {
