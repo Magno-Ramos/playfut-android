@@ -47,8 +47,8 @@ fun MatchScore(
             )
             Text(
                 text = homeScore.toString(),
-                fontSize = 28.sp,
-                fontWeight = FontWeight.Bold,
+                fontSize = 36.sp,
+                fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.primary
             )
         }
@@ -70,8 +70,8 @@ fun MatchScore(
             )
             Text(
                 text = awayScore.toString(),
-                fontSize = 28.sp,
-                fontWeight = FontWeight.Bold,
+                fontSize = 36.sp,
+                fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.primary
             )
         }

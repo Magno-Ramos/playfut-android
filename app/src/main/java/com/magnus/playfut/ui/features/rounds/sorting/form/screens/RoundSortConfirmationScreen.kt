@@ -34,7 +34,6 @@ import com.magnus.playfut.ui.features.common.AppToolbar
 import com.magnus.playfut.ui.features.rounds.playing.RoundPlayingActivity
 import com.magnus.playfut.ui.features.rounds.sorting.form.RoundSortRoutes
 import com.magnus.playfut.ui.features.rounds.sorting.form.RoundSortViewModel
-import com.magnus.playfut.ui.features.rounds.sorting.form.components.RoundConfirmationHeader
 import com.magnus.playfut.ui.features.rounds.sorting.form.components.RoundTeam
 import com.magnus.playfut.ui.theme.AppTheme
 import kotlinx.coroutines.launch
@@ -59,7 +58,6 @@ fun RoundSortConfirmationScreen(
         ActionResultState.Idle -> {}
         ActionResultState.Loading -> {}
         is ActionResultState.Error -> {
-            print(state.message)
             showError()
         }
         is ActionResultState.Success<Long> -> {
@@ -126,7 +124,6 @@ private fun RoundSortConfirmationContent(
             .verticalScroll(scrollState)
             .padding(16.dp)
     ) {
-        RoundConfirmationHeader()
         for (team in teams) {
             RoundTeam(
                 team = team,

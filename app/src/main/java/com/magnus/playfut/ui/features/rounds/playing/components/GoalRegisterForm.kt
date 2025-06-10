@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -53,16 +52,18 @@ fun GoalRegisterForm(
     }
 
     fun onSelectTeam(id: String) {
+        selectedPlayer = null
         val team = teams.first { it.id == id }
         selectedTeam = team.name
         playerOptions = players.filter { it.teamId == team.id }.map { it.playerName to it.playerId }
-        selectedPlayer = playerOptions.firstOrNull()?.first
     }
 
     fun onClickRegister() {
+        if (selectedPlayer == null) return
         val player = players.first { it.playerName == selectedPlayer }
         val team = teams.first { it.name == selectedTeam }
         onClickRegisterGoal(player, team)
+        selectedPlayer = null
     }
 
     Column(
@@ -78,11 +79,8 @@ fun GoalRegisterForm(
             fontWeight = FontWeight.SemiBold,
             color = MaterialTheme.colorScheme.onBackground
         )
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
-        ) {
+        Column (verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)) {
             InputSelect<String>(
-                modifier = Modifier.weight(1f),
                 inputModifier = Modifier.border(
                     1.dp,
                     MaterialTheme.colorScheme.surfaceVariant,
@@ -94,7 +92,6 @@ fun GoalRegisterForm(
                 onOptionSelected = ::onSelectTeam
             )
             InputSelect<String>(
-                modifier = Modifier.weight(1f),
                 inputModifier = Modifier.border(
                     1.dp,
                     MaterialTheme.colorScheme.surfaceVariant,
@@ -107,6 +104,7 @@ fun GoalRegisterForm(
             )
         }
         Button(
+            enabled = selectedPlayer != null && selectedTeam.isNotEmpty(),
             onClick = { onClickRegister() },
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(8.dp),
