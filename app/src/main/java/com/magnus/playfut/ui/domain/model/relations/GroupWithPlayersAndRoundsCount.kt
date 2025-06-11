@@ -1,6 +1,6 @@
 package com.magnus.playfut.ui.domain.model.relations
 
-import com.magnus.playfut.ui.domain.database.entities.relations.PojoGroupWithPlayersAndRoundsCount
+import com.magnus.playfut.ui.domain.database.entities.relations.pojo.PojoGroupWithPlayersAndRoundsCount
 import java.util.Date
 
 class GroupWithPlayersAndRoundsCount (
@@ -12,7 +12,7 @@ class GroupWithPlayersAndRoundsCount (
 )
 
 fun PojoGroupWithPlayersAndRoundsCount.toGroup() = GroupWithPlayersAndRoundsCount(
-    id = group.id.toString(),
+    id = group.groupId.toString(),
     name = group.name,
     playersCount = playerCount,
     roundsCount = roundCount,

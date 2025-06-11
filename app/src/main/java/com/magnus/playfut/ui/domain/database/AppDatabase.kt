@@ -14,8 +14,8 @@ import com.magnus.playfut.ui.domain.database.daos.PlayerDao
 import com.magnus.playfut.ui.domain.database.daos.RoundDao
 import com.magnus.playfut.ui.domain.database.daos.ScoreDao
 import com.magnus.playfut.ui.domain.database.daos.TeamDao
-import com.magnus.playfut.ui.domain.database.entities.relations.SchemaPlayerCrossRef
-import com.magnus.playfut.ui.domain.database.entities.relations.TeamRoundCrossRef
+import com.magnus.playfut.ui.domain.database.entities.relations.crossref.CrossRefSchemaPlayer
+import com.magnus.playfut.ui.domain.database.entities.relations.crossref.CrossRefTeamRound
 import com.magnus.playfut.ui.domain.database.entities.structure.GroupEntity
 import com.magnus.playfut.ui.domain.database.entities.structure.MatchEntity
 import com.magnus.playfut.ui.domain.database.entities.structure.PlayerEntity
@@ -33,8 +33,8 @@ import com.magnus.playfut.ui.domain.database.entities.structure.TeamEntity
         MatchEntity::class,
         ScoreEntity::class,
         SchemaEntity::class,
-        SchemaPlayerCrossRef::class,
-        TeamRoundCrossRef::class
+        CrossRefSchemaPlayer::class,
+        CrossRefTeamRound::class
     ], version = 1
 )
 @TypeConverters(DateConverter::class, PlayerTypeConverter::class, SchemaPlayerRoleConverter::class)

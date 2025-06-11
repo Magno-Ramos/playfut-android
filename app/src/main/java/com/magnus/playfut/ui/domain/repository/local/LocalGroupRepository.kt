@@ -30,10 +30,10 @@ class LocalGroupRepository (
     }
 
     override suspend fun editGroup(id: String, name: String): Result<Unit> = runCatching {
-        dao.updateGroup(GroupEntity(id = id.toLong(), name = name))
+        dao.updateGroup(GroupEntity(groupId = id.toLong(), name = name))
     }
 
     override suspend fun deleteGroup(groupId: String) = runCatching {
-        dao.deleteGroup(GroupEntity(id = groupId.toLong()))
+        dao.deleteGroup(GroupEntity(groupId = groupId.toLong()))
     }
 }

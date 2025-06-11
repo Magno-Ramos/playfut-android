@@ -22,7 +22,7 @@ import androidx.room.PrimaryKey
 )
 data class MatchEntity (
     @PrimaryKey(autoGenerate = true)
-    val id: Long = 0,
+    val matchId: Long = 0,
     val homeTeamId: Long,
     val awayTeamId: Long,
     val roundId: Long

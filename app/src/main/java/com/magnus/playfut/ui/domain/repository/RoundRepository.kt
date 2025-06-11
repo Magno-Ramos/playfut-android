@@ -2,7 +2,7 @@ package com.magnus.playfut.ui.domain.repository
 
 import com.google.firebase.auth.FirebaseAuth
 import com.magnus.playfut.ui.domain.helper.DistributorTeamSchema
-import com.magnus.playfut.ui.domain.model.relations.RoundWithTeams
+import com.magnus.playfut.ui.domain.model.relations.RoundWithDetails
 import com.magnus.playfut.ui.domain.model.structure.Round
 import com.magnus.playfut.ui.domain.repository.datasource.RoundDataSource
 import com.magnus.playfut.ui.domain.repository.local.LocalRoundRepository
@@ -34,7 +34,7 @@ class RoundRepository(
         return source.getRoundById(roundId)
     }
 
-    override suspend fun getRoundWithTeamsById(roundId: String): Result<RoundWithTeams> {
-        return source.getRoundWithTeamsById(roundId)
+    override suspend fun getRoundWithDetails(roundId: String): Result<RoundWithDetails> {
+        return source.getRoundWithDetails(roundId)
     }
 }

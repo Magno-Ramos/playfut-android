@@ -11,13 +11,13 @@ import com.magnus.playfut.ui.domain.model.structure.PlayerType
     foreignKeys = [
         ForeignKey(
             entity = GroupEntity::class,
-            parentColumns = ["id"],
-            childColumns = ["groupId"],
+            parentColumns = ["groupId"],
+            childColumns = ["groupOwnerId"],
             onDelete = ForeignKey.Companion.CASCADE
         )
     ],
     indices = [
-        Index(value = ["groupId"])
+        Index(value = ["groupOwnerId"])
     ]
 )
 data class PlayerEntity(
@@ -25,6 +25,6 @@ data class PlayerEntity(
     val playerId: Long = 0,
     val name: String = "",
     val skillLevel: Int = 0,
-    val groupId: Long = 0,
+    val groupOwnerId: Long = 0,
     val type: PlayerType = PlayerType.UNIVERSAL
 )

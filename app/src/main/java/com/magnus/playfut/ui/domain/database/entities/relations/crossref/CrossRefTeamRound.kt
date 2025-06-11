@@ -1,4 +1,4 @@
-package com.magnus.playfut.ui.domain.database.entities.relations
+package com.magnus.playfut.ui.domain.database.entities.relations.crossref
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
@@ -28,7 +28,7 @@ import com.magnus.playfut.ui.domain.database.entities.structure.TeamEntity
         Index(value = ["roundId"])
     ]
 )
-data class TeamRoundCrossRef(
+data class CrossRefTeamRound(
     val teamId: Long,
     val roundId: Long
 )

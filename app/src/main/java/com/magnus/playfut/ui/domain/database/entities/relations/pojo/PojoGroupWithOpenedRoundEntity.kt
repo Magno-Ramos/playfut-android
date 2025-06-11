@@ -1,10 +1,10 @@
-package com.magnus.playfut.ui.domain.database.entities.relations
+package com.magnus.playfut.ui.domain.database.entities.relations.pojo
 
 import androidx.room.Embedded
 import com.magnus.playfut.ui.domain.database.entities.structure.GroupEntity
 import com.magnus.playfut.ui.domain.database.entities.structure.RoundEntity
 
-data class GroupWithOpenedRoundEntity(
+class PojoGroupWithOpenedRoundEntity(
     @Embedded val group: GroupEntity,
     @Embedded val round: RoundEntity?,
     val playerCount: Int = 0,

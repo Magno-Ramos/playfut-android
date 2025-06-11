@@ -1,9 +1,9 @@
-package com.magnus.playfut.ui.domain.database.entities.relations
+package com.magnus.playfut.ui.domain.database.entities.relations.pojo
 
 import androidx.room.Embedded
 import com.magnus.playfut.ui.domain.database.entities.structure.GroupEntity
 
-data class PojoGroupWithPlayersAndRoundsCount(
+class PojoGroupWithPlayersAndRoundsCount(
     @Embedded
     val group: GroupEntity,
     val playerCount: Int,

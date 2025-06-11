@@ -28,7 +28,7 @@ enum class PlayerType(val type: String) {
 
 fun PlayerEntity.toPlayer() = Player(
     id = playerId.toString(),
-    groupId = groupId.toString(),
+    groupId = groupOwnerId.toString(),
     name = name,
     skillLevel = skillLevel,
     type = type

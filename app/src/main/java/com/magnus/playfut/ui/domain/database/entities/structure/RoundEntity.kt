@@ -11,19 +11,19 @@ import java.util.Date
     foreignKeys = [
         ForeignKey(
             entity = GroupEntity::class,
-            parentColumns = ["id"],
-            childColumns = ["groupId"],
+            parentColumns = ["groupId"],
+            childColumns = ["groupOwnerId"],
             onDelete = ForeignKey.CASCADE
         )
     ],
     indices = [
-        Index(value = ["groupId"])
+        Index(value = ["groupOwnerId"])
     ]
 )
 data class RoundEntity(
     @PrimaryKey(autoGenerate = true)
     val roundId: Long = 0,
-    val groupId: Long,
+    val groupOwnerId: Long,
     val date: Date = Date(),
     val opened: Boolean = true
 )

@@ -1,7 +1,7 @@
 package com.magnus.playfut.ui.domain.repository.datasource
 
 import com.magnus.playfut.ui.domain.helper.DistributorTeamSchema
-import com.magnus.playfut.ui.domain.model.relations.RoundWithTeams
+import com.magnus.playfut.ui.domain.model.relations.RoundWithDetails
 import com.magnus.playfut.ui.domain.model.structure.Round
 
 interface RoundDataSource {
@@ -16,5 +16,5 @@ interface RoundDataSource {
 
     suspend fun getRoundById(roundId: String): Result<Round>
 
-    suspend fun getRoundWithTeamsById(roundId: String): Result<RoundWithTeams>
+    suspend fun getRoundWithDetails(roundId: String): Result<RoundWithDetails>
 }

@@ -1,4 +1,4 @@
-package com.magnus.playfut.ui.domain.database.entities.relations
+package com.magnus.playfut.ui.domain.database.entities.relations.pojo
 
 import androidx.room.Embedded
 import androidx.room.Relation
@@ -6,7 +6,7 @@ import com.magnus.playfut.ui.domain.database.entities.structure.MatchEntity
 import com.magnus.playfut.ui.domain.database.entities.structure.ScoreEntity
 import com.magnus.playfut.ui.domain.database.entities.structure.TeamEntity
 
-data class MatchWithScoresAndTeams(
+class PojoMatchWithScoresAndTeams(
     @Embedded val match: MatchEntity,
 
     @Relation(
@@ -22,15 +22,9 @@ data class MatchWithScoresAndTeams(
     val awayTeam: TeamEntity?,
 
     @Relation(
-        parentColumn = "id",
+        parentColumn = "matchId",
         entityColumn = "matchId",
         entity = ScoreEntity::class
     )
     val scores: List<ScoreEntity>
-) {
-    val homeScore: Int
-        get() = scores.count { it.teamIdScored == match.homeTeamId }
-
-    val awayScore: Int
-        get() = scores.count { it.teamIdScored == match.awayTeamId }
-}
+)

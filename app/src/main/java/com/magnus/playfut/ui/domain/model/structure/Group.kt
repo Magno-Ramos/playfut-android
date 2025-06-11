@@ -10,7 +10,7 @@ class Group(
 )
 
 fun GroupEntity.toGroup() = Group(
-    id = id.toString(),
+    id = groupId.toString(),
     name = name,
     createdAt = createdAt
 )

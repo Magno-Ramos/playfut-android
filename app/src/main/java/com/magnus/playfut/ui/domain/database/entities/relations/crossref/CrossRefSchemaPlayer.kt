@@ -1,4 +1,4 @@
-package com.magnus.playfut.ui.domain.database.entities.relations
+package com.magnus.playfut.ui.domain.database.entities.relations.crossref
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
@@ -34,7 +34,7 @@ enum class SchemaPlayerRole {
         Index(value = ["schemaId"]),
     ]
 )
-data class SchemaPlayerCrossRef(
+data class CrossRefSchemaPlayer(
     val schemaId: Long,
     val playerId: Long,
     val role: SchemaPlayerRole

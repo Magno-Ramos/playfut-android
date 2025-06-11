@@ -1,6 +1,6 @@
 package com.magnus.playfut.ui.domain.model.ui
 
-import com.magnus.playfut.ui.domain.database.entities.relations.MatchWithScoresAndTeams
+import com.magnus.playfut.ui.domain.database.entities.relations.pojo.PojoMatchWithScoresAndTeams
 
 data class MatchUiModel(
     val matchId: Long,
@@ -11,7 +11,7 @@ data class MatchUiModel(
     val scores: List<ScoreUiModel>
 )
 
-fun MatchWithScoresAndTeams.toUiModel(
+fun PojoMatchWithScoresAndTeams.toUiModel(
     getPlayerName: (Long) -> String? = { id -> "Jogador $id" },
     getTeamName: (Long) -> String? = { id -> "Time $id" }
 ): MatchUiModel {
@@ -19,7 +19,7 @@ fun MatchWithScoresAndTeams.toUiModel(
     val calculatedAwayScore = this.scores.count { it.teamIdScored == this.match.awayTeamId }
 
     return MatchUiModel(
-        matchId = this.match.id,
+        matchId = this.match.matchId,
         homeTeamName = this.homeTeam?.name ?: "Desconhecido",
         awayTeamName = this.awayTeam?.name ?: "Desconhecido",
         homeTeamScore = calculatedHomeScore,

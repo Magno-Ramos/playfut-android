@@ -1,6 +1,6 @@
 package com.magnus.playfut.ui.domain.model.relations
 
-import com.magnus.playfut.ui.domain.database.entities.relations.GroupWithOpenedRoundEntity
+import com.magnus.playfut.ui.domain.database.entities.relations.pojo.PojoGroupWithOpenedRoundEntity
 import com.magnus.playfut.ui.domain.model.structure.Round
 import com.magnus.playfut.ui.domain.model.structure.toRound
 import java.util.Date
@@ -16,9 +16,9 @@ data class GroupWithOpenedRound(
     fun hasOpenedRound() = openedRound != null
 }
 
-fun GroupWithOpenedRoundEntity.toGroupWithOpenedRound(): GroupWithOpenedRound {
+fun PojoGroupWithOpenedRoundEntity.toGroupWithOpenedRound(): GroupWithOpenedRound {
     return GroupWithOpenedRound(
-        id = group.id.toString(),
+        id = group.groupId.toString(),
         name = group.name,
         playersCount = playerCount,
         roundsCount = roundCount,

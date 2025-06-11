@@ -19,7 +19,7 @@ interface PlayerDao {
     @Delete
     suspend fun deletePlayer(player: PlayerEntity)
 
-    @Query("SELECT * FROM players WHERE groupId = :groupId")
+    @Query("SELECT * FROM players WHERE groupOwnerId = :groupId")
     suspend fun getPlayersByGroupId(groupId: Long): List<PlayerEntity>
 
     @Transaction

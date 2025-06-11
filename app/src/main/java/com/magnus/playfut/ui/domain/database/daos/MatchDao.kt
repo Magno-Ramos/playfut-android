@@ -5,18 +5,13 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
-import com.magnus.playfut.ui.domain.database.entities.relations.MatchWithScoresAndTeams
 import com.magnus.playfut.ui.domain.database.entities.structure.MatchEntity
 import com.magnus.playfut.ui.domain.database.entities.structure.ScoreEntity
 import com.magnus.playfut.ui.domain.model.form.MatchForm
 
 @Dao
 interface MatchDao {
-    @Transaction
-    @Query("SELECT * FROM matches WHERE id = :matchId")
-    suspend fun getMatchWithScores(matchId: Long): MatchWithScoresAndTeams?
-
-    @Query("SELECT * FROM matches WHERE roundId = :roundId ORDER BY id ASC")
+    @Query("SELECT * FROM matches WHERE roundId = :roundId ORDER BY matchId ASC")
     suspend fun getMatchesForRound(roundId: String): List<MatchEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

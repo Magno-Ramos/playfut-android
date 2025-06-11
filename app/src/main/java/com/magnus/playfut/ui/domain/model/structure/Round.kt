@@ -12,7 +12,7 @@ class Round(
 
 fun RoundEntity.toRound() = Round(
     id = roundId.toString(),
-    groupId = groupId.toString(),
+    groupId = groupOwnerId.toString(),
     date = date,
     opened = opened,
 )

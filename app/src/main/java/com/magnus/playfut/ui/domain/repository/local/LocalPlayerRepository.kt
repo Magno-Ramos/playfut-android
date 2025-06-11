@@ -18,7 +18,7 @@ class LocalPlayerRepository(
     ) = runCatching {
         dao.insertPlayer(
             PlayerEntity(
-                groupId = groupId.toLong(),
+                groupOwnerId = groupId.toLong(),
                 name = name,
                 type = type,
                 skillLevel = quality
@@ -38,7 +38,7 @@ class LocalPlayerRepository(
                 playerId = id.toLong(),
                 name = name,
                 type = type,
-                groupId = groupId.toLong(),
+                groupOwnerId = groupId.toLong(),
                 skillLevel = quality
             )
         )

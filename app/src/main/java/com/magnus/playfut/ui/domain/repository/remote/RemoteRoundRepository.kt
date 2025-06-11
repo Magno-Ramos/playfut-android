@@ -1,7 +1,7 @@
 package com.magnus.playfut.ui.domain.repository.remote
 
 import com.magnus.playfut.ui.domain.helper.DistributorTeamSchema
-import com.magnus.playfut.ui.domain.model.relations.RoundWithTeams
+import com.magnus.playfut.ui.domain.model.relations.RoundWithDetails
 import com.magnus.playfut.ui.domain.model.structure.Round
 import com.magnus.playfut.ui.domain.repository.datasource.RoundDataSource
 
@@ -25,7 +25,7 @@ class RemoteRoundRepository : RoundDataSource {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getRoundWithTeamsById(roundId: String): Result<RoundWithTeams> {
+    override suspend fun getRoundWithDetails(roundId: String): Result<RoundWithDetails> {
         TODO("Not yet implemented")
     }
 }

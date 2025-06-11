@@ -7,7 +7,7 @@ import java.util.Date
 @Entity(tableName = "groups")
 data class GroupEntity(
     @PrimaryKey(autoGenerate = true)
-    val id: Long = 0,
+    val groupId: Long = 0,
     val name: String = "",
     val createdAt: Date = Date()
 )

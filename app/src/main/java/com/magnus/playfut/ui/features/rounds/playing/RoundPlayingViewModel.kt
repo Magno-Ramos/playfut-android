@@ -38,9 +38,7 @@ class RoundPlayingViewModel(
     fun fetchRound(roundId: String) {
         viewModelScope.launch {
             runCatching {
-                val round = roundRepository.getRoundWithTeamsById(roundId).getOrThrow()
-                val matches = matchRepository.getMatchesFromRound(roundId).getOrThrow()
-                val scores = scoreRepository.getScoresByRound(roundId).getOrThrow()
+                val round = roundRepository.getRoundWithDetails(roundId).getOrThrow()
                 val players = round.teams.map { team ->
                     playerRepository.fetchPlayersByTeam(team.id, round.data.id).getOrThrow().map { player ->
                         RoundPlayerItem(team.id, player.id, player.name)
@@ -51,8 +49,8 @@ class RoundPlayingViewModel(
                     data = RoundPlayingHomeViewState(
                         groupId = round.data.groupId,
                         teams = round.teams,
-                        matches = matches,
-                        scores = scores,
+                        matches = round.matches,
+                        scores = round.scores,
                         players = players,
                         roundName = "Rodada ${round.data.id}",
                         roundId = round.data.id

@@ -9,7 +9,7 @@ data class Match (
 )
 
 fun MatchEntity.toMatch() = Match(
-    id = id.toString(),
+    id = matchId.toString(),
     homeTeamId = homeTeamId.toString(),
     awayTeamId = awayTeamId.toString()
 )
