@@ -158,7 +158,7 @@ private fun RoundPlayingHomeMenu(
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.large)
     ) {
         GradientButton(
-            text = "Adicionar Partida",
+            text = "Nova Partida",
             subtext = "Qual time ganhará dessa vez?",
             onClick = { navController.navigate(RoundPlayingRoutes.MatchSelection.route) },
             endIcon = {
