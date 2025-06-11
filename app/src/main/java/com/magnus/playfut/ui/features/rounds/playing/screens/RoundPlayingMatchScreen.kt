@@ -6,13 +6,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
@@ -27,13 +30,16 @@ import com.magnus.playfut.ui.features.rounds.playing.components.FinishMatch
 import com.magnus.playfut.ui.features.rounds.playing.components.GoalRegisterForm
 import com.magnus.playfut.ui.features.rounds.playing.components.MatchScore
 import com.magnus.playfut.ui.features.rounds.playing.components.ScoreList
+import com.magnus.playfut.ui.features.rounds.playing.sheets.CloseMatchConfirmActionSheet
 import com.magnus.playfut.ui.features.rounds.playing.states.RoundPlayerItem
 import com.magnus.playfut.ui.features.rounds.playing.states.RoundRemoveGoal
 import com.magnus.playfut.ui.features.rounds.playing.states.RoundScoreItem
 import com.magnus.playfut.ui.features.rounds.playing.states.RoundTeamItem
 import com.magnus.playfut.ui.theme.spacing
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RoundPlayingMatchScreen(
     viewModel: RoundPlayingViewModel = koinViewModel(),
@@ -43,6 +49,10 @@ fun RoundPlayingMatchScreen(
     val roundState by viewModel.roundState.collectAsState()
     val closeMatchState by viewModel.closeMatchState.collectAsState()
     val allPlayers = roundState.asSuccess()?.data?.players.orEmpty()
+
+    val closeMatchSheetState = rememberModalBottomSheetState()
+    val scope = rememberCoroutineScope()
+    var showCloseMatchModalBottomSheet by remember { mutableStateOf(false) }
 
     val homeTeam = viewModel.matchHomeTeam ?: return
     val awayTeam = viewModel.matchAwayTeam ?: return
@@ -58,6 +68,23 @@ fun RoundPlayingMatchScreen(
     if (closeMatchState.isSuccess()) {
         navController.popBackStack(navController.graph.startDestinationId, inclusive = false)
         viewModel.resetCloseMatchState()
+    }
+
+    fun applyFinishMatch() {
+        viewModel.closeMatch(
+            MatchForm(
+                roundId = roundState.asSuccess()?.data?.roundId.orEmpty(),
+                homeTeamId = homeTeam.id,
+                awayTeamId = awayTeam.id,
+                scores = scores.map {
+                    MatchItemScore(
+                        playerId = it.playerId,
+                        scoredTeamId = it.teamId,
+                        isOwnGoal = false
+                    )
+                }
+            )
+        )
     }
 
     fun onClickRegisterGoal(player: RoundPlayerItem, team: RoundTeamItem) {
@@ -85,21 +112,21 @@ fun RoundPlayingMatchScreen(
         }
     }
 
-    fun onClickFinishMatch() {
-        viewModel.closeMatch(
-            MatchForm(
-                roundId = roundState.asSuccess()?.data?.roundId.orEmpty(),
-                homeTeamId = homeTeam.id,
-                awayTeamId = awayTeam.id,
-                scores = scores.map {
-                    MatchItemScore(
-                        playerId = it.playerId,
-                        scoredTeamId = it.teamId,
-                        isOwnGoal = false
-                    )
-                }
-            )
-        )
+    fun onClickDismissCloseMatchModalBottom() {
+        scope.launch {
+            closeMatchSheetState.hide()
+        }.invokeOnCompletion {
+            showCloseMatchModalBottomSheet = false
+        }
+    }
+
+    fun onClickConfirmCloseMatch() {
+        scope.launch {
+            closeMatchSheetState.hide()
+        }.invokeOnCompletion {
+            showCloseMatchModalBottomSheet = false
+            applyFinishMatch()
+        }
     }
 
     Scaffold(
@@ -133,9 +160,19 @@ fun RoundPlayingMatchScreen(
                 scores = scores,
                 onClickRemove = { onClickRemoveGoal(it) }
             )
-            FinishMatch(
-                onClickFinish = ::onClickFinishMatch
-            )
+            FinishMatch(onClickFinish = { showCloseMatchModalBottomSheet = true })
+
+            if (showCloseMatchModalBottomSheet) {
+                CloseMatchConfirmActionSheet(
+                    homeTeamName = homeTeam.name,
+                    awayTeamName = awayTeam.name,
+                    homeScore = homeScore,
+                    awayScore = awayScore,
+                    onConfirm = { onClickConfirmCloseMatch() },
+                    onDismiss = { onClickDismissCloseMatchModalBottom() },
+                    sheetState = closeMatchSheetState
+                )
+            }
 
             if (removeGoalConfirmation.isVisible) {
                 AppAlertDialog(
