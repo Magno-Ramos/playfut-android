@@ -1,6 +1,8 @@
 package com.magnus.playfut.ui.features.rounds.playing.screens
 
+import android.media.MediaPlayer
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -11,14 +13,18 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
+import com.magnus.playfut.R
 import com.magnus.playfut.domain.model.form.MatchForm
 import com.magnus.playfut.domain.model.form.MatchItemScore
 import com.magnus.playfut.domain.state.asSuccess
@@ -27,6 +33,7 @@ import com.magnus.playfut.ui.features.common.AppAlertDialog
 import com.magnus.playfut.ui.features.common.AppToolbar
 import com.magnus.playfut.ui.features.rounds.playing.RoundPlayingViewModel
 import com.magnus.playfut.ui.features.rounds.playing.components.FinishMatch
+import com.magnus.playfut.ui.features.rounds.playing.components.GoalCelebration
 import com.magnus.playfut.ui.features.rounds.playing.components.GoalRegisterForm
 import com.magnus.playfut.ui.features.rounds.playing.components.MatchScore
 import com.magnus.playfut.ui.features.rounds.playing.components.ScoreList
@@ -45,6 +52,10 @@ fun RoundPlayingMatchScreen(
     viewModel: RoundPlayingViewModel = koinViewModel(),
     navController: NavController
 ) {
+    val context = LocalContext.current
+    val mediaPlayer = remember { MediaPlayer.create(context, R.raw.cheer_sound) }
+    var playGoalAnimation by remember { mutableStateOf(false) }
+
     val scrollState = rememberScrollState()
     val roundState by viewModel.roundState.collectAsState()
     val closeMatchState by viewModel.closeMatchState.collectAsState()
@@ -64,6 +75,12 @@ fun RoundPlayingMatchScreen(
     var scores by remember { mutableStateOf(listOf<RoundScoreItem>()) }
     var homeScore = scores.count { it.teamId == homeTeam.id }
     var awayScore = scores.count { it.teamId == awayTeam.id }
+
+    DisposableEffect(Unit) {
+        onDispose {
+            mediaPlayer.release()
+        }
+    }
 
     if (closeMatchState.isSuccess()) {
         navController.popBackStack(navController.graph.startDestinationId, inclusive = false)
@@ -94,6 +111,13 @@ fun RoundPlayingMatchScreen(
             playerName = player.playerName,
             teamName = team.name
         )
+
+        if (mediaPlayer.isPlaying) {
+            mediaPlayer.seekTo(0)
+        }
+
+        playGoalAnimation = true
+        mediaPlayer.start()
     }
 
     fun onClickRemoveGoal(score: RoundScoreItem) {
@@ -137,51 +161,60 @@ fun RoundPlayingMatchScreen(
             )
         }
     ) { paddings ->
-        Column(
-            verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium),
-            modifier = Modifier
-                .padding(paddings)
-                .padding(MaterialTheme.spacing.medium)
-                .fillMaxSize()
-                .verticalScroll(scrollState)
-        ) {
-            MatchScore(
-                homeTeam = homeTeam.name,
-                awayTeam = awayTeam.name,
-                homeScore = homeScore,
-                awayScore = awayScore
-            )
-            GoalRegisterForm(
-                players = players,
-                teams = teams,
-                onClickRegisterGoal = ::onClickRegisterGoal
-            )
-            ScoreList(
-                scores = scores,
-                onClickRemove = { onClickRemoveGoal(it) }
-            )
-            FinishMatch(onClickFinish = { showCloseMatchModalBottomSheet = true })
-
-            if (showCloseMatchModalBottomSheet) {
-                CloseMatchConfirmActionSheet(
-                    homeTeamName = homeTeam.name,
-                    awayTeamName = awayTeam.name,
+        Box(modifier = Modifier.padding(paddings)) {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(MaterialTheme.spacing.medium)
+                    .verticalScroll(scrollState)
+            ) {
+                MatchScore(
+                    homeTeam = homeTeam.name,
+                    awayTeam = awayTeam.name,
                     homeScore = homeScore,
-                    awayScore = awayScore,
-                    onConfirm = { onClickConfirmCloseMatch() },
-                    onDismiss = { onClickDismissCloseMatchModalBottom() },
-                    sheetState = closeMatchSheetState
+                    awayScore = awayScore
                 )
+                GoalRegisterForm(
+                    players = players,
+                    teams = teams,
+                    onClickRegisterGoal = ::onClickRegisterGoal
+                )
+                ScoreList(
+                    scores = scores,
+                    onClickRemove = { onClickRemoveGoal(it) }
+                )
+                FinishMatch(onClickFinish = { showCloseMatchModalBottomSheet = true })
+
+                if (showCloseMatchModalBottomSheet) {
+                    CloseMatchConfirmActionSheet(
+                        homeTeamName = homeTeam.name,
+                        awayTeamName = awayTeam.name,
+                        homeScore = homeScore,
+                        awayScore = awayScore,
+                        onConfirm = { onClickConfirmCloseMatch() },
+                        onDismiss = { onClickDismissCloseMatchModalBottom() },
+                        sheetState = closeMatchSheetState
+                    )
+                }
+
+                if (removeGoalConfirmation.isVisible) {
+                    AppAlertDialog(
+                        dialogTitle = "Remover Gol",
+                        dialogText = "Tem certeza que deseja remover o gol?",
+                        confirmButtonText = "Confirmar",
+                        dismissButtonText = "Cancelar",
+                        onDismissRequest = { onClickCancelRemoveGoal() },
+                        onConfirmation = { onClickConfirmRemoveGoal() }
+                    )
+                }
             }
 
-            if (removeGoalConfirmation.isVisible) {
-                AppAlertDialog(
-                    dialogTitle = "Remover Gol",
-                    dialogText = "Tem certeza que deseja remover o gol?",
-                    confirmButtonText = "Confirmar",
-                    dismissButtonText = "Cancelar",
-                    onDismissRequest = { onClickCancelRemoveGoal() },
-                    onConfirmation = { onClickConfirmRemoveGoal() }
+            if (playGoalAnimation) {
+                GoalCelebration(
+                    modifier = Modifier.align(Alignment.Center),
+                    isPlaying = playGoalAnimation,
+                    onFinished = { playGoalAnimation = false },
                 )
             }
         }

@@ -85,4 +85,6 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.navigation.dynamic.features.fragment)
     implementation(libs.kotlinx.serialization.json)
+
+    implementation("com.airbnb.android:lottie-compose:6.6.6")
 }
