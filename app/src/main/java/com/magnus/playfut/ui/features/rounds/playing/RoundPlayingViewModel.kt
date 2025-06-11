@@ -2,13 +2,13 @@ package com.magnus.playfut.ui.features.rounds.playing
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.magnus.playfut.ui.domain.model.form.MatchForm
-import com.magnus.playfut.ui.domain.repository.MatchRepository
-import com.magnus.playfut.ui.domain.repository.PlayerRepository
-import com.magnus.playfut.ui.domain.repository.RoundRepository
-import com.magnus.playfut.ui.domain.repository.ScoreRepository
-import com.magnus.playfut.ui.domain.state.ActionResultState
-import com.magnus.playfut.ui.domain.state.UiState
+import com.magnus.playfut.domain.model.form.MatchForm
+import com.magnus.playfut.domain.repository.MatchRepository
+import com.magnus.playfut.domain.repository.PlayerRepository
+import com.magnus.playfut.domain.repository.RoundRepository
+import com.magnus.playfut.domain.repository.ScoreRepository
+import com.magnus.playfut.domain.state.ActionResultState
+import com.magnus.playfut.domain.state.UiState
 import com.magnus.playfut.ui.features.rounds.playing.states.RoundPlayerItem
 import com.magnus.playfut.ui.features.rounds.playing.states.RoundPlayingHomeViewState
 import com.magnus.playfut.ui.features.rounds.playing.states.RoundTeamItem

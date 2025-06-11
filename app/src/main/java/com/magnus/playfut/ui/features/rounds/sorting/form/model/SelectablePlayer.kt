@@ -1,8 +1,8 @@
 package com.magnus.playfut.ui.features.rounds.sorting.form.model
 
 import android.os.Parcelable
-import com.magnus.playfut.ui.domain.model.structure.Player
-import com.magnus.playfut.ui.domain.model.structure.PlayerType
+import com.magnus.playfut.domain.model.structure.Player
+import com.magnus.playfut.domain.model.structure.PlayerType
 import kotlinx.parcelize.Parcelize
 
 @Parcelize

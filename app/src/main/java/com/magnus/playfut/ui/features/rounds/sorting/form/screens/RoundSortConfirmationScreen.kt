@@ -27,8 +27,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.magnus.playfut.ui.domain.helper.DistributorTeamSchema
-import com.magnus.playfut.ui.domain.state.ActionResultState
+import com.magnus.playfut.domain.helper.DistributorTeamSchema
+import com.magnus.playfut.domain.state.ActionResultState
 import com.magnus.playfut.ui.extensions.activity
 import com.magnus.playfut.ui.features.common.AppToolbar
 import com.magnus.playfut.ui.features.rounds.playing.RoundPlayingActivity

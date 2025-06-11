@@ -2,9 +2,9 @@ package com.magnus.playfut.ui.features.groups.menu
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.magnus.playfut.ui.domain.model.relations.GroupWithOpenedRound
-import com.magnus.playfut.ui.domain.repository.GroupRepository
-import com.magnus.playfut.ui.domain.state.UiState
+import com.magnus.playfut.domain.model.relations.GroupWithOpenedRound
+import com.magnus.playfut.domain.repository.GroupRepository
+import com.magnus.playfut.domain.state.UiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch

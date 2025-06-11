@@ -19,7 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import com.magnus.playfut.ui.domain.model.relations.GroupWithOpenedRound
+import com.magnus.playfut.domain.model.relations.GroupWithOpenedRound
 import com.magnus.playfut.ui.features.common.MenuItem
 import com.magnus.playfut.ui.theme.AppTheme
 import com.magnus.playfut.ui.theme.spacing

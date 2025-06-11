@@ -1,0 +1,15 @@
+package com.magnus.playfut.domain.model.structure
+
+import com.magnus.playfut.domain.database.entities.structure.MatchEntity
+
+data class Match (
+    val id: String,
+    val homeTeamId: String,
+    val awayTeamId: String,
+)
+
+fun MatchEntity.toMatch() = Match(
+    id = matchId.toString(),
+    homeTeamId = homeTeamId.toString(),
+    awayTeamId = awayTeamId.toString()
+)

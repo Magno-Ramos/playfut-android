@@ -18,7 +18,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.magnus.playfut.ui.domain.state.ActionResultState
+import com.magnus.playfut.domain.state.ActionResultState
 import com.magnus.playfut.ui.features.common.AppToolbar
 import com.magnus.playfut.ui.features.groups.settings.components.DeleteBottomSheet
 import com.magnus.playfut.ui.features.groups.settings.components.DeleteButton

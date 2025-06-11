@@ -19,7 +19,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.magnus.playfut.ui.domain.state.asSuccess
+import com.magnus.playfut.domain.state.asSuccess
 import com.magnus.playfut.ui.features.common.AppToolbar
 import com.magnus.playfut.ui.features.rounds.playing.RoundPlayingRoutes
 import com.magnus.playfut.ui.features.rounds.playing.RoundPlayingViewModel

@@ -27,8 +27,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import com.magnus.playfut.ui.domain.model.structure.Player
-import com.magnus.playfut.ui.domain.state.ActionResultState
+import com.magnus.playfut.domain.model.structure.Player
+import com.magnus.playfut.domain.state.ActionResultState
 import com.magnus.playfut.ui.extensions.activity
 import com.magnus.playfut.ui.features.common.AppToolbar
 import com.magnus.playfut.ui.features.player.components.PlayerForm

@@ -29,9 +29,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.magnus.playfut.R
-import com.magnus.playfut.ui.domain.state.UiState
-import com.magnus.playfut.ui.domain.state.asSuccess
-import com.magnus.playfut.ui.domain.state.isSuccess
+import com.magnus.playfut.domain.state.UiState
+import com.magnus.playfut.domain.state.asSuccess
+import com.magnus.playfut.domain.state.isSuccess
 import com.magnus.playfut.ui.extensions.activity
 import com.magnus.playfut.ui.features.common.AppAlertDialog
 import com.magnus.playfut.ui.features.common.AppToolbar

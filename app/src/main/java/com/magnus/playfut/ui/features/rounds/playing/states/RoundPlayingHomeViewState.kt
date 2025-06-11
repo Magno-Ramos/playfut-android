@@ -1,8 +1,8 @@
 package com.magnus.playfut.ui.features.rounds.playing.states
 
-import com.magnus.playfut.ui.domain.model.structure.Match
-import com.magnus.playfut.ui.domain.model.structure.Score
-import com.magnus.playfut.ui.domain.model.structure.Team
+import com.magnus.playfut.domain.model.structure.Match
+import com.magnus.playfut.domain.model.structure.Score
+import com.magnus.playfut.domain.model.structure.Team
 
 class RoundPlayingHomeViewState(
     val groupId: String,

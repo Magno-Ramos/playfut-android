@@ -16,8 +16,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
-import com.magnus.playfut.ui.domain.model.relations.GroupWithPlayersAndRoundsCount
-import com.magnus.playfut.ui.domain.state.UiState
+import com.magnus.playfut.domain.model.relations.GroupWithPlayersAndRoundsCount
+import com.magnus.playfut.domain.state.UiState
 import com.magnus.playfut.ui.features.common.ErrorView
 import com.magnus.playfut.ui.features.common.LoadingView
 import com.magnus.playfut.ui.features.groups.form.GroupsFormActivity

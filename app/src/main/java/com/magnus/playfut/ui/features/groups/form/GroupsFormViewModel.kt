@@ -2,9 +2,12 @@ package com.magnus.playfut.ui.features.groups.form
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.magnus.playfut.ui.domain.repository.GroupRepository
-import com.magnus.playfut.ui.domain.state.ActionResultState
-import com.magnus.playfut.ui.domain.state.ActionResultState.*
+import com.magnus.playfut.domain.repository.GroupRepository
+import com.magnus.playfut.domain.state.ActionResultState
+import com.magnus.playfut.domain.state.ActionResultState.Error
+import com.magnus.playfut.domain.state.ActionResultState.Idle
+import com.magnus.playfut.domain.state.ActionResultState.Loading
+import com.magnus.playfut.domain.state.ActionResultState.Success
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch

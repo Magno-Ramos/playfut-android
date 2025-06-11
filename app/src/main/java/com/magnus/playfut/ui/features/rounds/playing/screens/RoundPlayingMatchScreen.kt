@@ -16,10 +16,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
-import com.magnus.playfut.ui.domain.model.form.MatchForm
-import com.magnus.playfut.ui.domain.model.form.MatchItemScore
-import com.magnus.playfut.ui.domain.state.asSuccess
-import com.magnus.playfut.ui.domain.state.isSuccess
+import com.magnus.playfut.domain.model.form.MatchForm
+import com.magnus.playfut.domain.model.form.MatchItemScore
+import com.magnus.playfut.domain.state.asSuccess
+import com.magnus.playfut.domain.state.isSuccess
 import com.magnus.playfut.ui.features.common.AppAlertDialog
 import com.magnus.playfut.ui.features.common.AppToolbar
 import com.magnus.playfut.ui.features.rounds.playing.RoundPlayingViewModel

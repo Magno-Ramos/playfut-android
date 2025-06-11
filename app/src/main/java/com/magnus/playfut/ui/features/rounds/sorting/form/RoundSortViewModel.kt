@@ -2,12 +2,12 @@ package com.magnus.playfut.ui.features.rounds.sorting.form
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.magnus.playfut.ui.domain.helper.DistributorTeamSchema
-import com.magnus.playfut.ui.domain.model.structure.Player
-import com.magnus.playfut.ui.domain.repository.PlayerRepository
-import com.magnus.playfut.ui.domain.repository.RoundRepository
-import com.magnus.playfut.ui.domain.state.ActionResultState
-import com.magnus.playfut.ui.domain.state.UiState
+import com.magnus.playfut.domain.helper.DistributorTeamSchema
+import com.magnus.playfut.domain.model.structure.Player
+import com.magnus.playfut.domain.repository.PlayerRepository
+import com.magnus.playfut.domain.repository.RoundRepository
+import com.magnus.playfut.domain.state.ActionResultState
+import com.magnus.playfut.domain.state.UiState
 import com.magnus.playfut.ui.features.rounds.sorting.form.model.SelectablePlayer
 import com.magnus.playfut.ui.features.rounds.sorting.form.model.toSelectablePlayer
 import kotlinx.coroutines.flow.MutableStateFlow

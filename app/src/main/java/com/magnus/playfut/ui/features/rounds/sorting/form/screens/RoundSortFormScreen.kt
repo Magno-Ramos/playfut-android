@@ -22,10 +22,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.magnus.playfut.ui.domain.helper.PlayerDistributorV2
-import com.magnus.playfut.ui.domain.state.isError
-import com.magnus.playfut.ui.domain.state.isLoading
-import com.magnus.playfut.ui.domain.state.isSuccess
+import com.magnus.playfut.domain.helper.PlayerDistributorV2
+import com.magnus.playfut.domain.state.isError
+import com.magnus.playfut.domain.state.isLoading
+import com.magnus.playfut.domain.state.isSuccess
 import com.magnus.playfut.ui.extensions.activity
 import com.magnus.playfut.ui.features.common.AppToolbar
 import com.magnus.playfut.ui.features.rounds.sorting.form.RoundSortRoutes
