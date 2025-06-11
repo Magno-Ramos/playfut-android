@@ -32,7 +32,7 @@ import com.magnus.playfut.R
 import com.magnus.playfut.domain.state.UiState
 import com.magnus.playfut.domain.state.asSuccess
 import com.magnus.playfut.domain.state.isSuccess
-import com.magnus.playfut.ui.extensions.activity
+import com.magnus.playfut.extensions.activity
 import com.magnus.playfut.ui.features.common.AppAlertDialog
 import com.magnus.playfut.ui.features.common.AppToolbar
 import com.magnus.playfut.ui.features.common.ErrorView

@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.magnus.playfut.domain.helper.DistributorTeamSchema
 import com.magnus.playfut.domain.state.ActionResultState
-import com.magnus.playfut.ui.extensions.activity
+import com.magnus.playfut.extensions.activity
 import com.magnus.playfut.ui.features.common.AppToolbar
 import com.magnus.playfut.ui.features.rounds.playing.RoundPlayingActivity
 import com.magnus.playfut.ui.features.rounds.sorting.form.RoundSortRoutes

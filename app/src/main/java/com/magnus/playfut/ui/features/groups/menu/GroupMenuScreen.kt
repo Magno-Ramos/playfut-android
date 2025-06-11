@@ -16,7 +16,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.magnus.playfut.domain.model.relations.GroupWithOpenedRound
 import com.magnus.playfut.domain.state.UiState
-import com.magnus.playfut.ui.extensions.activity
+import com.magnus.playfut.extensions.activity
 import com.magnus.playfut.ui.features.common.AppToolbar
 import com.magnus.playfut.ui.features.groups.form.GroupsFormActivity
 import com.magnus.playfut.ui.features.groups.menu.components.GroupMenu

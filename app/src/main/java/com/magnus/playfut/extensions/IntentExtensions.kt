@@ -1,4 +1,4 @@
-package com.magnus.playfut.ui.extensions
+package com.magnus.playfut.extensions
 
 import android.content.Intent
 import android.os.Build

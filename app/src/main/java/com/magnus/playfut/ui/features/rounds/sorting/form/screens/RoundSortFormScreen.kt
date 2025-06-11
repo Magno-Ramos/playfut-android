@@ -26,7 +26,7 @@ import com.magnus.playfut.domain.helper.PlayerDistributorV2
 import com.magnus.playfut.domain.state.isError
 import com.magnus.playfut.domain.state.isLoading
 import com.magnus.playfut.domain.state.isSuccess
-import com.magnus.playfut.ui.extensions.activity
+import com.magnus.playfut.extensions.activity
 import com.magnus.playfut.ui.features.common.AppToolbar
 import com.magnus.playfut.ui.features.rounds.sorting.form.RoundSortRoutes
 import com.magnus.playfut.ui.features.rounds.sorting.form.RoundSortViewModel
