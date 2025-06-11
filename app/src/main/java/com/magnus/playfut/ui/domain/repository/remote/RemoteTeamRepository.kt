@@ -7,8 +7,4 @@ class RemoteTeamRepository : TeamDataSource {
     override suspend fun getTeamById(teamId: String): Result<Team?> {
         TODO("Not yet implemented")
     }
-
-    override suspend fun getTeamsByRound(roundId: String): Result<List<Team>> {
-        TODO("Not yet implemented")
-    }
 }

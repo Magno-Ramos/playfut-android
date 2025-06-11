@@ -11,8 +11,4 @@ class LocalTeamRepository (
     override suspend fun getTeamById(teamId: String): Result<Team?> {
         return runCatching { dao.getTeamById(teamId)?.toTeam() }
     }
-
-    override suspend fun getTeamsByRound(roundId: String): Result<List<Team>> {
-        return runCatching { dao.getTeamsByRoundId(roundId).map { it.toTeam() } }
-    }
 }

@@ -10,12 +10,15 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.magnus.playfut.ui.features.rounds.playing.screens.RoundPlayingHomeScreen
 import com.magnus.playfut.ui.features.rounds.playing.screens.RoundPlayingMatchScreen
 import com.magnus.playfut.ui.features.rounds.playing.screens.RoundPlayingMatchSelectorScreen
+import com.magnus.playfut.ui.features.rounds.playing.screens.RoundPlayingTeamScreen
 import com.magnus.playfut.ui.theme.AppTheme
 import org.koin.androidx.compose.koinViewModel
 
@@ -98,6 +101,16 @@ private fun RoundPlayingNavigation(roundId: String, viewModel: RoundPlayingViewM
         composable(RoundPlayingRoutes.Match.route) {
             RoundPlayingMatchScreen(
                 viewModel = viewModel,
+                navController = navController
+            )
+        }
+
+        composable (
+            route = RoundPlayingRoutes.TeamDetail.route,
+            arguments = listOf(navArgument("teamId") { type = NavType.StringType })
+        ) {
+            RoundPlayingTeamScreen(
+                teamId = it.arguments?.getString("teamId").orEmpty(),
                 navController = navController
             )
         }

@@ -1,12 +1,14 @@
-package com.magnus.playfut.ui.domain.database.entities.structure
+package com.magnus.playfut.ui.domain.database.entities.relations
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
-import androidx.room.PrimaryKey
+import com.magnus.playfut.ui.domain.database.entities.structure.RoundEntity
+import com.magnus.playfut.ui.domain.database.entities.structure.TeamEntity
 
 @Entity(
-    tableName = "schemas",
+    tableName = "team_round_cross_ref",
+    primaryKeys = ["teamId", "roundId"],
     foreignKeys = [
         ForeignKey(
             entity = TeamEntity::class,
@@ -22,13 +24,11 @@ import androidx.room.PrimaryKey
         )
     ],
     indices = [
-        Index("teamId"),
-        Index("roundId")
+        Index(value = ["teamId"]),
+        Index(value = ["roundId"])
     ]
 )
-data class SchemaEntity(
-    @PrimaryKey(autoGenerate = true)
-    val schemaId: Long = 0,
+data class TeamRoundCrossRef(
     val teamId: Long,
     val roundId: Long
 )

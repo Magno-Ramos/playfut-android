@@ -6,6 +6,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(
+    tableName = "replacements",
     foreignKeys = [
         ForeignKey(
             entity = SchemaEntity::class,

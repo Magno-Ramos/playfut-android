@@ -13,10 +13,10 @@ import com.magnus.playfut.ui.domain.model.form.MatchForm
 @Dao
 interface MatchDao {
     @Transaction
-    @Query("SELECT * FROM MatchEntity WHERE id = :matchId")
+    @Query("SELECT * FROM matches WHERE id = :matchId")
     suspend fun getMatchWithScores(matchId: Long): MatchWithScoresAndTeams?
 
-    @Query("SELECT * FROM MatchEntity WHERE roundId = :roundId ORDER BY id ASC")
+    @Query("SELECT * FROM matches WHERE roundId = :roundId ORDER BY id ASC")
     suspend fun getMatchesForRound(roundId: String): List<MatchEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

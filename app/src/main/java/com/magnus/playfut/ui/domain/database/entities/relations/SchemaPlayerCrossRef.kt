@@ -1,4 +1,4 @@
-package com.magnus.playfut.ui.domain.database.entities.relations.schema
+package com.magnus.playfut.ui.domain.database.entities.relations
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
@@ -13,7 +13,8 @@ enum class SchemaPlayerRole {
 }
 
 @Entity(
-    primaryKeys = ["schemaId", "playerId", "role"],
+    tableName = "schema_player_cross_ref",
+    primaryKeys = ["schemaId", "playerId"],
     foreignKeys = [
         ForeignKey(
             entity = SchemaEntity::class,
@@ -29,7 +30,8 @@ enum class SchemaPlayerRole {
         )
     ],
     indices = [
-        Index(value = ["playerId"])
+        Index(value = ["playerId"]),
+        Index(value = ["schemaId"]),
     ]
 )
 data class SchemaPlayerCrossRef(

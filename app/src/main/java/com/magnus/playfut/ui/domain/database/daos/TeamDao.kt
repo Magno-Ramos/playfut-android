@@ -8,7 +8,4 @@ import com.magnus.playfut.ui.domain.database.entities.structure.TeamEntity
 interface TeamDao {
     @Query("SELECT * FROM teams WHERE teamId = :teamId")
     suspend fun getTeamById(teamId: String): TeamEntity?
-
-    @Query("SELECT * FROM teams WHERE roundId = :roundId")
-    suspend fun getTeamsByRoundId(roundId: String): List<TeamEntity>
 }

@@ -1,7 +1,7 @@
 package com.magnus.playfut.ui.domain.database.converters
 
 import androidx.room.TypeConverter
-import com.magnus.playfut.ui.domain.database.entities.relations.schema.SchemaPlayerRole
+import com.magnus.playfut.ui.domain.database.entities.relations.SchemaPlayerRole
 
 class SchemaPlayerRoleConverter {
     @TypeConverter

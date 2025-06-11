@@ -12,7 +12,7 @@ interface ScoreDao {
             P.name AS playerName,
             COUNT(S.scoreId) AS totalGoals
         FROM
-            ScoreEntity S
+            scores S
         INNER JOIN
             players P ON S.playerId = P.playerId
         WHERE
@@ -25,6 +25,6 @@ interface ScoreDao {
     """)
     suspend fun fetchPlayerGoalsInRound(targetRoundId: Long): List<Artillery>
 
-    @Query("SELECT * FROM ScoreEntity WHERE roundId = :roundId")
+    @Query("SELECT * FROM scores WHERE roundId = :roundId")
     suspend fun getScoresByRound(roundId: String): List<ScoreEntity>
 }

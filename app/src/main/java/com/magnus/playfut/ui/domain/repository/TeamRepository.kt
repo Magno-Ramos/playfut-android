@@ -18,8 +18,4 @@ class TeamRepository(
     override suspend fun getTeamById(teamId: String): Result<Team?> {
         return source.getTeamById(teamId)
     }
-
-    override suspend fun getTeamsByRound(roundId: String): Result<List<Team>> {
-        return source.getTeamsByRound(roundId)
-    }
 }

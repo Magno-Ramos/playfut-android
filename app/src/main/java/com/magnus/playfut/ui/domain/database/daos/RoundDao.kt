@@ -5,9 +5,11 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import com.magnus.playfut.ui.domain.database.entities.relations.PojoRoundWithTeams
 import com.magnus.playfut.ui.domain.database.entities.relations.RoundWithDetails
-import com.magnus.playfut.ui.domain.database.entities.relations.schema.SchemaPlayerCrossRef
-import com.magnus.playfut.ui.domain.database.entities.relations.schema.SchemaPlayerRole
+import com.magnus.playfut.ui.domain.database.entities.relations.SchemaPlayerCrossRef
+import com.magnus.playfut.ui.domain.database.entities.relations.SchemaPlayerRole
+import com.magnus.playfut.ui.domain.database.entities.relations.TeamRoundCrossRef
 import com.magnus.playfut.ui.domain.database.entities.structure.RoundEntity
 import com.magnus.playfut.ui.domain.database.entities.structure.SchemaEntity
 import com.magnus.playfut.ui.domain.database.entities.structure.TeamEntity
@@ -35,11 +37,18 @@ interface RoundDao {
     @Query("SELECT * FROM rounds WHERE roundId = :roundId")
     suspend fun getRoundDetails(roundId: Long): RoundWithDetails?
 
-    @Insert
+    @Transaction
+    @Query("SELECT * FROM rounds WHERE roundId = :roundId")
+    suspend fun getRoundWithTeams(roundId: String): PojoRoundWithTeams
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertSchema(schema: SchemaEntity): Long
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertSchemaPlayerCrossRef(refs: List<SchemaPlayerCrossRef>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertTeamRoundCrossRef(ref: TeamRoundCrossRef)
 
     @Query("UPDATE rounds SET opened = 0 WHERE roundId = :roundId")
     suspend fun closeRound(roundId: Long)
@@ -50,10 +59,12 @@ interface RoundDao {
         val roundId = insertRound(RoundEntity(groupId = groupId, opened = true))
 
         schemas.forEach { distributorTeamSchema ->
-            val team = TeamEntity(name = distributorTeamSchema.teamName, roundId = roundId)
+            val team = TeamEntity(name = distributorTeamSchema.teamName)
             val teamId = insertTeam(team)
 
-            val schema = SchemaEntity(teamId = teamId)
+            insertTeamRoundCrossRef(TeamRoundCrossRef(roundId = roundId, teamId = teamId))
+
+            val schema = SchemaEntity(teamId = teamId, roundId = roundId)
             val schemaId = insertSchema(schema)
 
             val allPlayersRef = distributorTeamSchema.goalKeepers.map {
@@ -75,6 +86,7 @@ interface RoundDao {
                     role = SchemaPlayerRole.SUBSTITUTE
                 )
             }
+
             insertSchemaPlayerCrossRef(allPlayersRef)
         }
         return roundId

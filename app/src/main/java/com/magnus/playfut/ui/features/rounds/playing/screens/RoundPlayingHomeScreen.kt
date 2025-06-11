@@ -44,6 +44,7 @@ import com.magnus.playfut.ui.features.rounds.playing.components.GradientButton
 import com.magnus.playfut.ui.features.rounds.playing.components.MatchList
 import com.magnus.playfut.ui.features.rounds.playing.components.TeamGroup
 import com.magnus.playfut.ui.features.rounds.playing.states.RoundPlayingHomeViewState
+import com.magnus.playfut.ui.features.rounds.playing.states.RoundTeamItem
 import com.magnus.playfut.ui.theme.spacing
 
 @Composable
@@ -72,6 +73,10 @@ fun RoundPlayingHomeScreen(
         }
     }
 
+    fun onClickTeam(team: RoundTeamItem) {
+        navController.navigate(RoundPlayingRoutes.TeamDetail.createRoute(team.id))
+    }
+
     LaunchedEffect(Unit) {
         viewModel.fetchRound(roundId)
     }
@@ -86,7 +91,8 @@ fun RoundPlayingHomeScreen(
                 is UiState.Success<RoundPlayingHomeViewState> -> RoundPlayingHomeContent(
                     state = state.data,
                     navController = navController,
-                    onClickConfirmCloseRound = ::onClickConfirmCloseRound
+                    onClickConfirmCloseRound = ::onClickConfirmCloseRound,
+                    onClickTeam = ::onClickTeam
                 )
             }
         }
@@ -97,7 +103,8 @@ fun RoundPlayingHomeScreen(
 private fun RoundPlayingHomeContent(
     state: RoundPlayingHomeViewState,
     navController: NavController = NavController(LocalContext.current),
-    onClickConfirmCloseRound: () -> Unit = {}
+    onClickConfirmCloseRound: () -> Unit = {},
+    onClickTeam: (RoundTeamItem) -> Unit = {}
 ) {
     val scrollState = rememberScrollState()
     var closeRoundDialogVisible by remember { mutableStateOf(false) }
@@ -110,6 +117,7 @@ private fun RoundPlayingHomeContent(
         RoundPlayingHomeMenu(
             viewState = state,
             navController = navController,
+            onClickTeam = { onClickTeam(it) }
         )
 
         TextButton(
@@ -141,6 +149,7 @@ private fun RoundPlayingHomeContent(
 
 @Composable
 private fun RoundPlayingHomeMenu(
+    onClickTeam: (RoundTeamItem) -> Unit = {},
     viewState: RoundPlayingHomeViewState,
     navController: NavController
 ) {
@@ -162,9 +171,7 @@ private fun RoundPlayingHomeMenu(
         )
         TeamGroup(
             teams = viewState.teams,
-            onClickItem = { team ->
-
-            }
+            onClickItem = { team -> onClickTeam(team) }
         )
         MatchList(matches = viewState.matches)
         ArtilleryRanking(artillery = viewState.artillery)

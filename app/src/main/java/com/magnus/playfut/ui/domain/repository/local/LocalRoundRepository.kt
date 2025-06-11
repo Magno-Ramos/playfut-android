@@ -2,6 +2,8 @@ package com.magnus.playfut.ui.domain.repository.local
 
 import com.magnus.playfut.ui.domain.database.daos.RoundDao
 import com.magnus.playfut.ui.domain.helper.DistributorTeamSchema
+import com.magnus.playfut.ui.domain.model.relations.RoundWithTeams
+import com.magnus.playfut.ui.domain.model.relations.toRoundWithTeams
 import com.magnus.playfut.ui.domain.model.structure.Round
 import com.magnus.playfut.ui.domain.model.structure.toRound
 import com.magnus.playfut.ui.domain.repository.datasource.RoundDataSource
@@ -24,5 +26,9 @@ class LocalRoundRepository(
 
     override suspend fun getRoundById(roundId: String): Result<Round> {
         return runCatching { dao.getRoundById(roundId.toLong()).toRound() }
+    }
+
+    override suspend fun getRoundWithTeamsById(roundId: String): Result<RoundWithTeams> {
+        return runCatching { dao.getRoundWithTeams(roundId).toRoundWithTeams() }
     }
 }

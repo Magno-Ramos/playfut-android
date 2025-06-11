@@ -7,7 +7,6 @@ import com.magnus.playfut.ui.domain.repository.MatchRepository
 import com.magnus.playfut.ui.domain.repository.PlayerRepository
 import com.magnus.playfut.ui.domain.repository.RoundRepository
 import com.magnus.playfut.ui.domain.repository.ScoreRepository
-import com.magnus.playfut.ui.domain.repository.TeamRepository
 import com.magnus.playfut.ui.domain.state.ActionResultState
 import com.magnus.playfut.ui.domain.state.UiState
 import com.magnus.playfut.ui.features.rounds.playing.states.RoundPlayerItem
@@ -21,7 +20,6 @@ class RoundPlayingViewModel(
     private val roundRepository: RoundRepository,
     private val scoreRepository: ScoreRepository,
     private val playerRepository: PlayerRepository,
-    private val teamRepository: TeamRepository,
     private val matchRepository: MatchRepository
 ) : ViewModel() {
 
@@ -40,25 +38,24 @@ class RoundPlayingViewModel(
     fun fetchRound(roundId: String) {
         viewModelScope.launch {
             runCatching {
-                val round = roundRepository.getRoundById(roundId).getOrThrow()
-                val teams = teamRepository.getTeamsByRound(roundId).getOrThrow()
+                val round = roundRepository.getRoundWithTeamsById(roundId).getOrThrow()
                 val matches = matchRepository.getMatchesFromRound(roundId).getOrThrow()
                 val scores = scoreRepository.getScoresByRound(roundId).getOrThrow()
-                val players = teams.map { team ->
-                    playerRepository.fetchPlayersByTeam(team.id, round.id).getOrThrow().map { player ->
+                val players = round.teams.map { team ->
+                    playerRepository.fetchPlayersByTeam(team.id, round.data.id).getOrThrow().map { player ->
                         RoundPlayerItem(team.id, player.id, player.name)
                     }
                 }.flatten()
 
                 _roundState.value = UiState.Success(
                     data = RoundPlayingHomeViewState(
-                        groupId = round.groupId,
-                        teams = teams,
+                        groupId = round.data.groupId,
+                        teams = round.teams,
                         matches = matches,
                         scores = scores,
                         players = players,
-                        roundName = "Rodada ${round.id}",
-                        roundId = round.id
+                        roundName = "Rodada ${round.data.id}",
+                        roundId = round.data.id
                     )
                 )
             }.onFailure {
