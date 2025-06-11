@@ -15,12 +15,6 @@ fun BottomNavigationBarContent(
     currentScreen: HomeMenu,
     onClickMenu: (HomeMenu) -> Unit
 ) {
-//    val itemColors = NavigationBarItemDefaults.colors(
-//        selectedIconColor = onPrimaryLight,
-//        unselectedIconColor = secondaryLight,
-//        indicatorColor = AppColor.primary
-//    )
-
     NavigationBar {
         NavigationBarItem(
             selected = currentScreen == HomeMenu.Groups,
