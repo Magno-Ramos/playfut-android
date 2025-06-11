@@ -57,7 +57,7 @@ fun RoundSortPlayerSelectionScreen(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(MaterialTheme.colorScheme.surface, CircleShape)
+                        .background(MaterialTheme.colorScheme.surfaceContainer, CircleShape)
                         .padding(8.dp, 4.dp),
                 ) {
                     Checkbox(

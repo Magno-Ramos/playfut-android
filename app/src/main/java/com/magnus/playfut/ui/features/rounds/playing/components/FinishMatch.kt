@@ -31,7 +31,7 @@ fun FinishMatch(
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small),
         modifier = Modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(8.dp))
+            .background(MaterialTheme.colorScheme.surfaceContainer, RoundedCornerShape(8.dp))
             .padding(MaterialTheme.spacing.medium)
     ) {
         Text(

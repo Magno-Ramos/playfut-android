@@ -38,7 +38,7 @@ fun TeamItem(
         modifier = modifier
             .clip(RoundedCornerShape(8.dp))
             .clickable(role = Role.Button) { onClickItem() }
-            .background(MaterialTheme.colorScheme.surface)
+            .background(MaterialTheme.colorScheme.surfaceContainer)
             .padding(MaterialTheme.spacing.large, MaterialTheme.spacing.extraSmall)
     ) {
         Icon(

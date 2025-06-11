@@ -33,7 +33,7 @@ fun RoundPlayersInput(
             .fillMaxWidth()
             .clip(RoundedCornerShape(8.dp))
             .clickable(onClick = { onClickChange() })
-            .background(MaterialTheme.colorScheme.surface)
+            .background(MaterialTheme.colorScheme.surfaceContainer)
             .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {

@@ -39,7 +39,7 @@ fun PlayerQualityInput(
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(12.dp))
+                .background(MaterialTheme.colorScheme.surfaceContainer, RoundedCornerShape(12.dp))
                 .padding(16.dp, 8.dp)
         ) {
             Slider(

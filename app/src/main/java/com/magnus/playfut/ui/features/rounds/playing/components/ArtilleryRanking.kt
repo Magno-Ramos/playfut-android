@@ -42,14 +42,14 @@ fun ArtilleryRanking(artillery: List<RoundArtilleryItem>) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(8.dp))
+                .background(MaterialTheme.colorScheme.surfaceContainer, RoundedCornerShape(8.dp))
         ) {
             if (artillery.isEmpty()) {
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(8.dp))
+                        .background(MaterialTheme.colorScheme.surfaceContainer, RoundedCornerShape(8.dp))
                         .padding(MaterialTheme.spacing.large),
                 ) {
                     Text(

@@ -72,7 +72,7 @@ fun GroupItem(
     ) {
         Column(
             modifier = Modifier
-                .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(12.dp))
+                .background(MaterialTheme.colorScheme.surfaceContainer, RoundedCornerShape(12.dp))
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {

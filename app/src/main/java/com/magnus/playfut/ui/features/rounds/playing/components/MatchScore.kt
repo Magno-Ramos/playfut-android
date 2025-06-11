@@ -37,7 +37,7 @@ fun MatchScore(
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small),
         modifier = Modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(8.dp))
+            .background(MaterialTheme.colorScheme.surfaceContainer, RoundedCornerShape(8.dp))
             .padding(MaterialTheme.spacing.medium)
     ) {
         Column(
@@ -107,7 +107,7 @@ fun MatchScoreOutline(
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small),
         modifier = Modifier
             .fillMaxWidth()
-            .border(1.dp, color = MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(8.dp))
+            .border(1.dp, color = MaterialTheme.colorScheme.surfaceContainer, RoundedCornerShape(8.dp))
             .padding(MaterialTheme.spacing.medium)
     ) {
         Column(

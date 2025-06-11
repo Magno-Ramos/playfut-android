@@ -41,7 +41,7 @@ fun MatchList(matches: List<RoundMatchItem>) {
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(8.dp))
+                    .background(MaterialTheme.colorScheme.surfaceContainer, RoundedCornerShape(8.dp))
                     .padding(MaterialTheme.spacing.large),
             ) {
                 Text(
@@ -76,7 +76,7 @@ fun MatchItem(
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small),
         modifier = Modifier
             .clip(RoundedCornerShape(8.dp))
-            .background(MaterialTheme.colorScheme.surface)
+            .background(MaterialTheme.colorScheme.surfaceContainer)
             .padding(
                 MaterialTheme.spacing.medium,
                 MaterialTheme.spacing.extraSmall

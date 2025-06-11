@@ -44,7 +44,7 @@ fun RoundTeam(
     Column(
         modifier = modifier
             .clip(RoundedCornerShape(8.dp))
-            .background(MaterialTheme.colorScheme.surface)
+            .background(MaterialTheme.colorScheme.surfaceContainer)
     ) {
         Row(
             modifier = Modifier

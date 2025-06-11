@@ -33,7 +33,7 @@ fun GroupHeader(
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.micro),
         modifier = Modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(12.dp))
+            .background(MaterialTheme.colorScheme.surfaceContainer, RoundedCornerShape(12.dp))
             .padding(MaterialTheme.spacing.medium)
     ) {
         Text(

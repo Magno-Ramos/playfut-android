@@ -48,7 +48,7 @@ fun MenuItem(
     modifier = if (isPrimary) {
         modifier.background(MaterialTheme.colorScheme.primary)
     } else {
-        modifier.background(MaterialTheme.colorScheme.surface)
+        modifier.background(MaterialTheme.colorScheme.surfaceContainer)
     }
 
     Row(

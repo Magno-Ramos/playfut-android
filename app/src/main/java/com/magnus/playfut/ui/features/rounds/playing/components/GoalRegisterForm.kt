@@ -70,7 +70,7 @@ fun GoalRegisterForm(
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium),
         modifier = Modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(8.dp))
+            .background(MaterialTheme.colorScheme.surfaceContainer, RoundedCornerShape(8.dp))
             .padding(MaterialTheme.spacing.medium),
     ) {
         Text(

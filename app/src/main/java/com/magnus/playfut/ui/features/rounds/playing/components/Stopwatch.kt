@@ -31,7 +31,7 @@ fun Stopwatch(
     Column(
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small),
         modifier = Modifier
-            .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(8.dp))
+            .background(MaterialTheme.colorScheme.surfaceContainer, RoundedCornerShape(8.dp))
             .padding(MaterialTheme.spacing.medium)
     ) {
         StopwatchHeader(timeInSeconds)

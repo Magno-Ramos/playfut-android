@@ -52,7 +52,7 @@ fun PlayerItem(
                 onClick = onClick,
                 role = Role.Button,
             )
-            .background(MaterialTheme.colorScheme.surface)
+            .background(MaterialTheme.colorScheme.surfaceContainer)
             .padding(horizontal = 16.dp, vertical = 12.dp)
     ) {
         Icon(

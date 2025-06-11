@@ -23,7 +23,7 @@ fun RoundConfirmationHeader(modifier: Modifier = Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(MaterialTheme.spacing.small))
+            .background(MaterialTheme.colorScheme.surfaceContainer, RoundedCornerShape(MaterialTheme.spacing.small))
             .padding(MaterialTheme.spacing.medium),
     ) {
         Text(text = "Rodada 02", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface)
