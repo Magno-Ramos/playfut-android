@@ -1,0 +1,583 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "bc01a0c2587c97e6624854c33a21d9c7",
+    "entities": [
+      {
+        "tableName": "groups",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`groupId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `createdAt` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "groupId",
+            "columnName": "groupId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "groupId"
+          ]
+        }
+      },
+      {
+        "tableName": "players",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`playerId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `skillLevel` INTEGER NOT NULL, `groupOwnerId` INTEGER NOT NULL, `type` TEXT NOT NULL, FOREIGN KEY(`groupOwnerId`) REFERENCES `groups`(`groupId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "playerId",
+            "columnName": "playerId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "skillLevel",
+            "columnName": "skillLevel",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "groupOwnerId",
+            "columnName": "groupOwnerId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "playerId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_players_groupOwnerId",
+            "unique": false,
+            "columnNames": [
+              "groupOwnerId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_players_groupOwnerId` ON `${TABLE_NAME}` (`groupOwnerId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "groups",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "groupOwnerId"
+            ],
+            "referencedColumns": [
+              "groupId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "rounds",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`roundId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `groupOwnerId` INTEGER NOT NULL, `date` INTEGER NOT NULL, `opened` INTEGER NOT NULL, FOREIGN KEY(`groupOwnerId`) REFERENCES `groups`(`groupId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "roundId",
+            "columnName": "roundId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "groupOwnerId",
+            "columnName": "groupOwnerId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "date",
+            "columnName": "date",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opened",
+            "columnName": "opened",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "roundId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_rounds_groupOwnerId",
+            "unique": false,
+            "columnNames": [
+              "groupOwnerId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_rounds_groupOwnerId` ON `${TABLE_NAME}` (`groupOwnerId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "groups",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "groupOwnerId"
+            ],
+            "referencedColumns": [
+              "groupId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "teams",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`teamId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "teamId",
+            "columnName": "teamId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "teamId"
+          ]
+        }
+      },
+      {
+        "tableName": "matches",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`matchId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `homeTeamId` INTEGER NOT NULL, `awayTeamId` INTEGER NOT NULL, `roundId` INTEGER NOT NULL, FOREIGN KEY(`roundId`) REFERENCES `rounds`(`roundId`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "matchId",
+            "columnName": "matchId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "homeTeamId",
+            "columnName": "homeTeamId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "awayTeamId",
+            "columnName": "awayTeamId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "roundId",
+            "columnName": "roundId",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "matchId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_matches_roundId",
+            "unique": false,
+            "columnNames": [
+              "roundId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_matches_roundId` ON `${TABLE_NAME}` (`roundId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "rounds",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "roundId"
+            ],
+            "referencedColumns": [
+              "roundId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "scores",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`scoreId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `playerId` INTEGER NOT NULL, `roundId` INTEGER NOT NULL, `matchId` INTEGER NOT NULL, `teamIdScored` INTEGER NOT NULL, `isOwnGoal` INTEGER NOT NULL, FOREIGN KEY(`matchId`) REFERENCES `matches`(`matchId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`playerId`) REFERENCES `players`(`playerId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`roundId`) REFERENCES `rounds`(`roundId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "scoreId",
+            "columnName": "scoreId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "playerId",
+            "columnName": "playerId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "roundId",
+            "columnName": "roundId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "matchId",
+            "columnName": "matchId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "teamIdScored",
+            "columnName": "teamIdScored",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isOwnGoal",
+            "columnName": "isOwnGoal",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "scoreId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_scores_matchId",
+            "unique": false,
+            "columnNames": [
+              "matchId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_scores_matchId` ON `${TABLE_NAME}` (`matchId`)"
+          },
+          {
+            "name": "index_scores_playerId",
+            "unique": false,
+            "columnNames": [
+              "playerId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_scores_playerId` ON `${TABLE_NAME}` (`playerId`)"
+          },
+          {
+            "name": "index_scores_roundId",
+            "unique": false,
+            "columnNames": [
+              "roundId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_scores_roundId` ON `${TABLE_NAME}` (`roundId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "matches",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "matchId"
+            ],
+            "referencedColumns": [
+              "matchId"
+            ]
+          },
+          {
+            "table": "players",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "playerId"
+            ],
+            "referencedColumns": [
+              "playerId"
+            ]
+          },
+          {
+            "table": "rounds",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "roundId"
+            ],
+            "referencedColumns": [
+              "roundId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "schemas",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`schemaId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `teamId` INTEGER NOT NULL, `roundId` INTEGER NOT NULL, FOREIGN KEY(`teamId`) REFERENCES `teams`(`teamId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`roundId`) REFERENCES `rounds`(`roundId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "schemaId",
+            "columnName": "schemaId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "teamId",
+            "columnName": "teamId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "roundId",
+            "columnName": "roundId",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "schemaId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_schemas_teamId",
+            "unique": false,
+            "columnNames": [
+              "teamId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_schemas_teamId` ON `${TABLE_NAME}` (`teamId`)"
+          },
+          {
+            "name": "index_schemas_roundId",
+            "unique": false,
+            "columnNames": [
+              "roundId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_schemas_roundId` ON `${TABLE_NAME}` (`roundId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "teams",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "teamId"
+            ],
+            "referencedColumns": [
+              "teamId"
+            ]
+          },
+          {
+            "table": "rounds",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "roundId"
+            ],
+            "referencedColumns": [
+              "roundId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "schema_player_cross_ref",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`schemaId` INTEGER NOT NULL, `playerId` INTEGER NOT NULL, `role` TEXT NOT NULL, PRIMARY KEY(`schemaId`, `playerId`), FOREIGN KEY(`schemaId`) REFERENCES `schemas`(`schemaId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`playerId`) REFERENCES `players`(`playerId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "schemaId",
+            "columnName": "schemaId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "playerId",
+            "columnName": "playerId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "role",
+            "columnName": "role",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "schemaId",
+            "playerId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_schema_player_cross_ref_playerId",
+            "unique": false,
+            "columnNames": [
+              "playerId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_schema_player_cross_ref_playerId` ON `${TABLE_NAME}` (`playerId`)"
+          },
+          {
+            "name": "index_schema_player_cross_ref_schemaId",
+            "unique": false,
+            "columnNames": [
+              "schemaId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_schema_player_cross_ref_schemaId` ON `${TABLE_NAME}` (`schemaId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "schemas",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "schemaId"
+            ],
+            "referencedColumns": [
+              "schemaId"
+            ]
+          },
+          {
+            "table": "players",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "playerId"
+            ],
+            "referencedColumns": [
+              "playerId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "team_round_cross_ref",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`teamId` INTEGER NOT NULL, `roundId` INTEGER NOT NULL, PRIMARY KEY(`teamId`, `roundId`), FOREIGN KEY(`teamId`) REFERENCES `teams`(`teamId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`roundId`) REFERENCES `rounds`(`roundId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "teamId",
+            "columnName": "teamId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "roundId",
+            "columnName": "roundId",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "teamId",
+            "roundId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_team_round_cross_ref_teamId",
+            "unique": false,
+            "columnNames": [
+              "teamId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_team_round_cross_ref_teamId` ON `${TABLE_NAME}` (`teamId`)"
+          },
+          {
+            "name": "index_team_round_cross_ref_roundId",
+            "unique": false,
+            "columnNames": [
+              "roundId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_team_round_cross_ref_roundId` ON `${TABLE_NAME}` (`roundId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "teams",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "teamId"
+            ],
+            "referencedColumns": [
+              "teamId"
+            ]
+          },
+          {
+            "table": "rounds",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "roundId"
+            ],
+            "referencedColumns": [
+              "roundId"
+            ]
+          }
+        ]
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'bc01a0c2587c97e6624854c33a21d9c7')"
+    ]
+  }
+}
