@@ -38,7 +38,7 @@ fun GroupHeader(
     ) {
         Text(
             text = groupName,
-            fontSize = 16.sp,
+            fontSize = 22.sp,
             fontWeight = FontWeight.SemiBold,
             color = MaterialTheme.colorScheme.onSurface
         )

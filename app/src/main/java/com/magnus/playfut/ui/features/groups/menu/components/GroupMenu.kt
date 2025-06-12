@@ -10,15 +10,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Flag
 import androidx.compose.material.icons.filled.History
-import androidx.compose.material.icons.filled.Sports
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.PeopleAlt
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import com.magnus.playfut.R
 import com.magnus.playfut.domain.model.relations.GroupWithOpenedRound
 import com.magnus.playfut.ui.features.common.MenuItem
 import com.magnus.playfut.ui.theme.AppTheme
@@ -45,28 +47,28 @@ fun GroupMenu(
         )
         Spacer(Modifier.height(MaterialTheme.spacing.micro))
         MenuItem(
-            icon = if (group.hasOpenedRound()) Icons.Default.Flag else Icons.Default.Sports,
-            title = if (group.hasOpenedRound()) "Continuar Rodada" else "Nova Rodada",
+            icon = if (group.hasOpenedRound()) rememberVectorPainter(Icons.Default.Flag) else painterResource(R.drawable.apparel_24),
+            title = if (group.hasOpenedRound()) "Continuar Rodada" else "Sortear Times",
             isPrimary = group.hasOpenedRound(),
             onClick = { openNewRound() }
         )
         MenuItem(
-            icon = Icons.Outlined.PeopleAlt,
+            icon = rememberVectorPainter(Icons.Outlined.PeopleAlt),
             title = "Jogadores",
             onClick = { openPlayers() }
         )
         MenuItem(
-            icon = Icons.Default.History,
+            icon = rememberVectorPainter(Icons.Default.History),
             title = "Histórico de rodadas",
             onClick = { openRoundsHistory() },
         )
         MenuItem(
-            icon = Icons.Outlined.Edit,
+            icon = rememberVectorPainter(Icons.Outlined.Edit),
             title = "Editar Grupo",
             onClick = { openEditGroup() }
         )
         MenuItem(
-            icon = Icons.Outlined.Settings,
+            icon = rememberVectorPainter(Icons.Outlined.Settings),
             title = "Configurações",
             onClick = { openSettings() }
         )

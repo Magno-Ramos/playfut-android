@@ -18,7 +18,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
@@ -28,7 +29,7 @@ import com.magnus.playfut.ui.theme.spacing
 
 @Composable
 fun MenuItem(
-    icon: ImageVector,
+    icon: Painter,
     title: String,
     subtitle: String? = null,
     isPrimary: Boolean = false,
@@ -57,7 +58,7 @@ fun MenuItem(
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         Icon(
-            imageVector = icon,
+            painter = icon,
             contentDescription = null,
             tint = secondaryTextColor
         )
@@ -66,7 +67,7 @@ fun MenuItem(
             Text(
                 text = title,
                 modifier = Modifier.weight(1f),
-                fontWeight = FontWeight.Medium,
+                fontWeight = FontWeight.SemiBold,
                 color = primaryTextColor,
                 fontSize = 14.sp
             )
@@ -101,13 +102,13 @@ private fun MenuItemPreview() {
     AppTheme {
         Column (verticalArrangement = Arrangement.spacedBy(16.dp)) {
             MenuItem(
-                icon = Icons.Default.Sports,
+                icon = rememberVectorPainter(Icons.Default.Sports),
                 title = "Nova Rodada",
                 subtitle = "Faça o sorteio dos times para nova rodada",
                 isPrimary = true
             )
             MenuItem(
-                icon = Icons.Default.Sports,
+                icon = rememberVectorPainter(Icons.Default.Sports),
                 title = "Nova Rodada",
                 subtitle = "Faça o sorteio dos times para nova rodada",
                 isPrimary = false

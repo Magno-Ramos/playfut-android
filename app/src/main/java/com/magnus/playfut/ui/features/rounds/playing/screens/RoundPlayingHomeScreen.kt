@@ -3,12 +3,15 @@ package com.magnus.playfut.ui.features.rounds.playing.screens
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Icon
+import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -22,13 +25,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.magnus.playfut.R
 import com.magnus.playfut.domain.state.UiState
 import com.magnus.playfut.domain.state.asSuccess
 import com.magnus.playfut.domain.state.isSuccess
@@ -40,7 +41,6 @@ import com.magnus.playfut.ui.features.common.LoadingView
 import com.magnus.playfut.ui.features.rounds.playing.RoundPlayingRoutes
 import com.magnus.playfut.ui.features.rounds.playing.RoundPlayingViewModel
 import com.magnus.playfut.ui.features.rounds.playing.components.ArtilleryRanking
-import com.magnus.playfut.ui.features.rounds.playing.components.GradientButton
 import com.magnus.playfut.ui.features.rounds.playing.components.MatchList
 import com.magnus.playfut.ui.features.rounds.playing.components.TeamGroup
 import com.magnus.playfut.ui.features.rounds.playing.states.RoundPlayingHomeViewState
@@ -82,7 +82,17 @@ fun RoundPlayingHomeScreen(
     }
 
     Scaffold(
-        topBar = { AppBar(title = title) },
+        topBar = { AppToolbar(title = title, onClickBack = { context.activity?.finish() }) },
+        bottomBar = {
+            BottomAppBar (contentPadding = PaddingValues(horizontal = MaterialTheme.spacing.medium)) {
+                Button(
+                    modifier = Modifier.fillMaxWidth().height(48.dp),
+                    onClick = { navController.navigate(RoundPlayingRoutes.MatchSelection.route) }
+                ) {
+                    Text(text = "Nova Partida")
+                }
+            }
+        }
     ) { paddings ->
         Box(modifier = Modifier.padding(paddings)) {
             when (val state = roundState) {
@@ -90,7 +100,6 @@ fun RoundPlayingHomeScreen(
                 is UiState.Error -> ErrorView("Desculpe, ocorreu um erro!")
                 is UiState.Success<RoundPlayingHomeViewState> -> RoundPlayingHomeContent(
                     state = state.data,
-                    navController = navController,
                     onClickConfirmCloseRound = ::onClickConfirmCloseRound,
                     onClickTeam = ::onClickTeam
                 )
@@ -102,7 +111,6 @@ fun RoundPlayingHomeScreen(
 @Composable
 private fun RoundPlayingHomeContent(
     state: RoundPlayingHomeViewState,
-    navController: NavController = NavController(LocalContext.current),
     onClickConfirmCloseRound: () -> Unit = {},
     onClickTeam: (RoundTeamItem) -> Unit = {}
 ) {
@@ -116,7 +124,6 @@ private fun RoundPlayingHomeContent(
     Column(Modifier.verticalScroll(scrollState)) {
         RoundPlayingHomeMenu(
             viewState = state,
-            navController = navController,
             onClickTeam = { onClickTeam(it) }
         )
 
@@ -150,25 +157,12 @@ private fun RoundPlayingHomeContent(
 @Composable
 private fun RoundPlayingHomeMenu(
     onClickTeam: (RoundTeamItem) -> Unit = {},
-    viewState: RoundPlayingHomeViewState,
-    navController: NavController
+    viewState: RoundPlayingHomeViewState
 ) {
     Column(
         modifier = Modifier.padding(MaterialTheme.spacing.medium),
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.large)
     ) {
-        GradientButton(
-            text = "Nova Partida",
-            subtext = "Qual time ganhará dessa vez?",
-            onClick = { navController.navigate(RoundPlayingRoutes.MatchSelection.route) },
-            endIcon = {
-                Icon(
-                    painter = painterResource(R.drawable.ball_soccer),
-                    contentDescription = null,
-                    tint = Color.White
-                )
-            }
-        )
         TeamGroup(
             teams = viewState.teams,
             onClickItem = { team -> onClickTeam(team) }
@@ -176,13 +170,4 @@ private fun RoundPlayingHomeMenu(
         MatchList(matches = viewState.matches)
         ArtilleryRanking(artillery = viewState.artillery)
     }
-}
-
-@Composable
-private fun AppBar(title: String) {
-    val context = LocalContext.current
-    AppToolbar(
-        title = title,
-        onClickBack = { context.activity?.finish() }
-    )
 }
