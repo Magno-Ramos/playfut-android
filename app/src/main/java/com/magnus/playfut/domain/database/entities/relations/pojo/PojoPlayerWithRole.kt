@@ -5,8 +5,9 @@ import androidx.room.Relation
 import com.magnus.playfut.domain.database.entities.relations.crossref.CrossRefSchemaPlayer
 import com.magnus.playfut.domain.database.entities.structure.PlayerEntity
 
-class PojoPlayerWithRole(
-    @Embedded val crossRef: CrossRefSchemaPlayer,
+data class PojoPlayerWithRole(
+    @Embedded
+    val crossRef: CrossRefSchemaPlayer,
 
     @Relation(
         parentColumn = "playerId",

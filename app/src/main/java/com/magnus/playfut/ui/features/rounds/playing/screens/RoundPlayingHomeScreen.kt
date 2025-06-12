@@ -74,7 +74,7 @@ fun RoundPlayingHomeScreen(
     }
 
     fun onClickTeam(team: RoundTeamItem) {
-        navController.navigate(RoundPlayingRoutes.TeamDetail.createRoute(team.id))
+        navController.navigate(RoundPlayingRoutes.TeamDetail.createRoute(team.id, roundId))
     }
 
     LaunchedEffect(Unit) {

@@ -41,6 +41,7 @@ val appModules = module {
     single { get<AppDatabase>().matchDao() }
     single { get<AppDatabase>().scoreDao() }
     single { get<AppDatabase>().teamDao() }
+    single { get<AppDatabase>().schemaDao() }
     single { FirebaseAuth.getInstance() }
 
     single { RemoteGroupRepository(get()) }
@@ -59,7 +60,7 @@ val appModules = module {
     single { RemoteScoreRepository() }
     single { ScoreRepository(get(), get(), get()) }
 
-    single { LocalTeamRepository(get()) }
+    single { LocalTeamRepository(get(), get()) }
     single { RemoteTeamRepository() }
     single { TeamRepository(get(), get(), get()) }
 

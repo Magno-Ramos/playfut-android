@@ -12,6 +12,7 @@ import com.magnus.playfut.domain.database.daos.GroupDao
 import com.magnus.playfut.domain.database.daos.MatchDao
 import com.magnus.playfut.domain.database.daos.PlayerDao
 import com.magnus.playfut.domain.database.daos.RoundDao
+import com.magnus.playfut.domain.database.daos.SchemaDao
 import com.magnus.playfut.domain.database.daos.ScoreDao
 import com.magnus.playfut.domain.database.daos.TeamDao
 import com.magnus.playfut.domain.database.entities.relations.crossref.CrossRefSchemaPlayer
@@ -51,6 +52,8 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun scoreDao(): ScoreDao
 
     abstract fun teamDao(): TeamDao
+
+    abstract fun schemaDao(): SchemaDao
 
     companion object {
         fun build(application: Application): AppDatabase {

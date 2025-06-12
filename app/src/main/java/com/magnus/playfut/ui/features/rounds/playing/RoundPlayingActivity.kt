@@ -107,10 +107,14 @@ private fun RoundPlayingNavigation(roundId: String, viewModel: RoundPlayingViewM
 
         composable (
             route = RoundPlayingRoutes.TeamDetail.route,
-            arguments = listOf(navArgument("teamId") { type = NavType.StringType })
+            arguments = listOf(
+                navArgument("teamId") { type = NavType.StringType },
+                navArgument("roundId") { type = NavType.StringType },
+            )
         ) {
             RoundPlayingTeamScreen(
                 teamId = it.arguments?.getString("teamId").orEmpty(),
+                roundId = it.arguments?.getString("roundId").orEmpty(),
                 navController = navController
             )
         }
