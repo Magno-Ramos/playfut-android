@@ -166,7 +166,6 @@ fun RoundPlayingMatchScreen(
                 verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium),
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(MaterialTheme.spacing.medium)
                     .verticalScroll(scrollState)
             ) {
                 MatchScore(
@@ -176,6 +175,7 @@ fun RoundPlayingMatchScreen(
                     awayScore = awayScore
                 )
                 GoalRegisterForm(
+                    modifier = Modifier.padding(horizontal = MaterialTheme.spacing.medium),
                     players = players,
                     teams = teams,
                     onClickRegisterGoal = ::onClickRegisterGoal

@@ -4,11 +4,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -31,7 +31,7 @@ fun FinishMatch(
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small),
         modifier = Modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.surfaceContainer, RoundedCornerShape(8.dp))
+            .background(MaterialTheme.colorScheme.surfaceContainer)
             .padding(MaterialTheme.spacing.medium)
     ) {
         Text(
@@ -47,12 +47,8 @@ fun FinishMatch(
             fontWeight = FontWeight.Normal
         )
         Button(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().height(48.dp),
             shape = RoundedCornerShape(8.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = AppColor.green,
-                contentColor = AppColor.white
-            ),
             onClick = { onClickFinish() }
         ) {
             if (loading) {
@@ -76,9 +72,7 @@ fun FinishMatch(
 private fun FinishMatchPreview() {
     AppTheme {
         Column(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.background)
-                .padding(MaterialTheme.spacing.medium)
+            modifier = Modifier.background(MaterialTheme.colorScheme.background)
         ) {
             FinishMatch(
                 loading = false,

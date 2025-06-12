@@ -35,7 +35,7 @@ fun ScoreList(
     Column(
         Modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.surfaceContainer, RoundedCornerShape(8.dp))
+            .background(MaterialTheme.colorScheme.surfaceContainer)
             .padding(MaterialTheme.spacing.medium)
     ) {
         Text(
@@ -48,7 +48,7 @@ fun ScoreList(
 
         if (scores.isEmpty()) {
             Text(
-                modifier = Modifier.align(Alignment.CenterHorizontally),
+                modifier = Modifier.padding(vertical = MaterialTheme.spacing.medium).align(Alignment.CenterHorizontally),
                 text = "Nenhum gol registrado ainda",
                 fontSize = 14.sp,
                 color = MaterialTheme.colorScheme.onSurface,
@@ -95,11 +95,7 @@ fun ScoreList(
 @Composable
 private fun ScoreListPreview() {
     AppTheme {
-        Column(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.background)
-                .padding(MaterialTheme.spacing.medium)
-        ) {
+        Column(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
             ScoreList(
                 scores = listOf(
 //                    RoundScoreItem(

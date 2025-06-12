@@ -5,6 +5,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -32,6 +33,7 @@ import com.magnus.playfut.ui.theme.spacing
 
 @Composable
 fun GoalRegisterForm(
+    modifier: Modifier = Modifier,
     players: List<RoundPlayerItem>,
     teams: List<RoundTeamItem>,
     onClickRegisterGoal: (RoundPlayerItem, RoundTeamItem) -> Unit = { _, _ -> }
@@ -68,10 +70,7 @@ fun GoalRegisterForm(
 
     Column(
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium),
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.surfaceContainer, RoundedCornerShape(8.dp))
-            .padding(MaterialTheme.spacing.medium),
+        modifier = modifier.fillMaxWidth()
     ) {
         Text(
             text = "Registrar Gol",
@@ -79,7 +78,7 @@ fun GoalRegisterForm(
             fontWeight = FontWeight.SemiBold,
             color = MaterialTheme.colorScheme.onBackground
         )
-        Column (verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)) {
+        Column(verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)) {
             InputSelect<String>(
                 inputModifier = Modifier.border(
                     1.dp,
@@ -106,10 +105,11 @@ fun GoalRegisterForm(
         Button(
             enabled = selectedPlayer != null && selectedTeam.isNotEmpty(),
             onClick = { onClickRegister() },
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().height(48.dp),
             shape = RoundedCornerShape(8.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.primary
+                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                contentColor = MaterialTheme.colorScheme.onSecondaryContainer
             )
         ) {
             Icon(
@@ -125,11 +125,10 @@ fun GoalRegisterForm(
 private fun GoalRegisterFormPreview() {
     AppTheme {
         Column(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.background)
-                .padding(MaterialTheme.spacing.medium)
+            modifier = Modifier.background(MaterialTheme.colorScheme.background)
         ) {
             GoalRegisterForm(
+                modifier = Modifier.padding(16.dp),
                 players = listOf(
                     RoundPlayerItem(
                         teamId = "1",

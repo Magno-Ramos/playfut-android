@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
@@ -24,9 +25,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.magnus.playfut.ui.features.rounds.playing.components.MatchScoreOutline
+import com.magnus.playfut.ui.features.rounds.playing.components.MatchScore
 import com.magnus.playfut.ui.features.rounds.playing.components.MatchScoreSize
-import com.magnus.playfut.ui.theme.AppColor
 import com.magnus.playfut.ui.theme.AppTheme
 import com.magnus.playfut.ui.theme.spacing
 
@@ -45,46 +45,52 @@ fun CloseMatchConfirmActionSheet(
         sheetState = sheetState,
         onDismissRequest = onDismiss
     ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.padding(MaterialTheme.spacing.medium)
-        ) {
+        Column {
+            Column(
+                modifier = Modifier.padding(MaterialTheme.spacing.medium),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "Encerrar Partida",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp,
+                    textAlign = TextAlign.Center
+                )
+                Spacer(Modifier.height(MaterialTheme.spacing.small))
+                Text(
+                    text = "Tem certeza que deseja encerrar a partida entre $homeTeamName e $awayTeamName?",
+                    fontSize = 14.sp,
+                    textAlign = TextAlign.Center
+                )
+            }
             Text(
-                text = "Encerrar Partida",
-                fontWeight = FontWeight.Bold,
-                fontSize = 16.sp,
-                textAlign = TextAlign.Center
-            )
-            Spacer(Modifier.height(MaterialTheme.spacing.small))
-            Text(
-                text = "Tem certeza que deseja encerrar a partida entre $homeTeamName e $awayTeamName?",
-                fontSize = 14.sp,
-                textAlign = TextAlign.Center
-            )
-            Spacer(Modifier.height(MaterialTheme.spacing.medium))
-            Text(
+                modifier = Modifier.fillMaxWidth(),
                 text = "Placar atual",
                 fontSize = 12.sp,
                 textAlign = TextAlign.Center
             )
             Spacer(Modifier.height(MaterialTheme.spacing.tiny))
-            MatchScoreOutline(
+            MatchScore(
                 homeTeam = homeTeamName,
                 awayTeam = awayTeamName,
                 homeScore = homeScore,
                 awayScore = awayScore,
                 matchScoreSize = MatchScoreSize.MEDIUM
             )
-            Spacer(Modifier.height(MaterialTheme.spacing.extraLarge))
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier.padding(MaterialTheme.spacing.medium)
             ) {
                 Button(
                     modifier = Modifier
                         .weight(1f)
                         .height(48.dp),
                     onClick = { onDismiss() },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.secondary,
+                        contentColor = MaterialTheme.colorScheme.onSecondary
+                    )
                 ) {
                     Text(text = "Cancelar")
                 }
@@ -92,12 +98,9 @@ fun CloseMatchConfirmActionSheet(
                     modifier = Modifier
                         .weight(1f)
                         .height(48.dp),
-                    onClick = { onConfirm() },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = AppColor.green
-                    )
+                    onClick = { onConfirm() }
                 ) {
-                    Text(text = "Confirmar", color = AppColor.white)
+                    Text(text = "Confirmar")
                 }
             }
         }
