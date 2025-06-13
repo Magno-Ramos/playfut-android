@@ -44,8 +44,9 @@ class LocalPlayerRepository(
         )
     }
 
-    override suspend fun deletePlayer(id: String): Result<Unit> = runCatching {
-        dao.deletePlayer(PlayerEntity(playerId = id.toLong()))
+    override suspend fun removePlayer(id: String): Result<Unit> = runCatching {
+        val player = dao.getPlayerById(id.toLong())
+        dao.updatePlayer(player.copy(active = false))
     }
 
     override suspend fun fetchPlayers(groupId: String) = runCatching {

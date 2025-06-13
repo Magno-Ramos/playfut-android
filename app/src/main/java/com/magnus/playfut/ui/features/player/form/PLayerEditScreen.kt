@@ -70,8 +70,8 @@ fun PLayerEditScreen(
         )
     }
 
-    fun deletePlayer() {
-        viewModel.deletePlayer(player.id)
+    fun removePlayer() {
+        viewModel.removePlayer(player.id)
     }
 
     when (editState.value) {
@@ -110,7 +110,7 @@ fun PLayerEditScreen(
         bottomBar = {
             BottomEditPlayerBar(
                 clickEnabled = !isLoading,
-                onClickDelete = { deletePlayer() },
+                onClickRemove = { removePlayer() },
                 onClickSubmit = { submitForm() }
             )
         }
@@ -133,7 +133,7 @@ fun PLayerEditScreen(
 @Composable
 fun BottomEditPlayerBar(
     modifier: Modifier = Modifier,
-    onClickDelete: () -> Unit = {},
+    onClickRemove: () -> Unit = {},
     onClickSubmit: () -> Unit = {},
     clickEnabled: Boolean = true
 ) {
@@ -148,12 +148,13 @@ fun BottomEditPlayerBar(
             Button(
                 modifier = Modifier.weight(1f).height(48.dp),
                 enabled = clickEnabled,
-                onClick = { onClickDelete() },
+                onClick = { onClickRemove() },
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = AppColor.red
+                    containerColor = MaterialTheme.colorScheme.error,
+                    contentColor = MaterialTheme.colorScheme.onError
                 )
             ) {
-                Text(text = "Excluir", color = AppColor.white)
+                Text(text = "Remover")
             }
             Button(
                 modifier = Modifier.weight(1f).height(48.dp),

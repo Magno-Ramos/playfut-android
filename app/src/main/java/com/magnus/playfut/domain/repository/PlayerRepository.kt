@@ -31,8 +31,8 @@ class PlayerRepository(
         quality: Int
     ): Result<Unit> = source.editPlayer(id, groupId, name, type, quality)
 
-    override suspend fun deletePlayer(id: String): Result<Unit> {
-        return source.deletePlayer(id)
+    override suspend fun removePlayer(id: String): Result<Unit> {
+        return source.removePlayer(id)
     }
 
     override suspend fun fetchPlayers(groupId: String): Result<List<Player>> {

@@ -40,10 +40,10 @@ class PlayerFormViewModel(
         }
     }
 
-    fun deletePlayer(id: String) {
+    fun removePlayer(id: String) {
         viewModelScope.launch {
             _deletePlayerResult.value = ActionResultState.Loading
-            repository.deletePlayer(id)
+            repository.removePlayer(id)
                 .onSuccess { _deletePlayerResult.value = ActionResultState.Success(Unit) }
                 .onFailure { _deletePlayerResult.value = ActionResultState.Error(null) }
         }

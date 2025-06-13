@@ -19,7 +19,7 @@ interface PlayerDataSource {
         quality: Int
     ): Result<Unit>
 
-    suspend fun deletePlayer(id: String): Result<Unit>
+    suspend fun removePlayer(id: String): Result<Unit>
 
     suspend fun fetchPlayers(groupId: String): Result<List<Player>>
 

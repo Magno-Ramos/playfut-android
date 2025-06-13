@@ -24,7 +24,7 @@ class RemotePlayerRepository : PlayerDataSource {
         TODO("Not yet implemented")
     }
 
-    override suspend fun deletePlayer(id: String): Result<Unit> {
+    override suspend fun removePlayer(id: String): Result<Unit> {
         TODO("Not yet implemented")
     }
 

@@ -19,7 +19,10 @@ interface PlayerDao {
     @Delete
     suspend fun deletePlayer(player: PlayerEntity)
 
-    @Query("SELECT * FROM players WHERE groupOwnerId = :groupId")
+    @Query("SELECT * FROM players WHERE playerId = :id")
+    suspend fun getPlayerById(id: Long): PlayerEntity
+
+    @Query("SELECT * FROM players WHERE groupOwnerId = :groupId AND active = 1")
     suspend fun getPlayersByGroupId(groupId: Long): List<PlayerEntity>
 
     @Transaction
@@ -29,7 +32,7 @@ interface PlayerDao {
         INNER JOIN schema_player_cross_ref SP_CrossRef ON P.playerId = SP_CrossRef.playerId
         INNER JOIN Schemas S ON SP_CrossRef.schemaId = S.schemaId
         INNER JOIN Teams T ON S.teamId = T.teamId
-        WHERE T.teamId = :targetTeamId AND S.teamId = :targetTeamId AND S.roundId = :targetRoundId
+        WHERE T.teamId = :targetTeamId AND S.teamId = :targetTeamId AND S.roundId = :targetRoundId AND P.active = 1
     """)
     suspend fun getPlayersByTeamInRound(targetTeamId: String, targetRoundId: String): List<PlayerEntity>
 }

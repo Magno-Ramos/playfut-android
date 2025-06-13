@@ -26,5 +26,6 @@ data class PlayerEntity(
     val name: String = "",
     val skillLevel: Int = 0,
     val groupOwnerId: Long = 0,
-    val type: PlayerType = PlayerType.UNIVERSAL
+    val type: PlayerType = PlayerType.UNIVERSAL,
+    val active: Boolean = true
 )
