@@ -72,7 +72,7 @@ fun RoundPlayingHomeScreen(
 
     fun onClickConfirmCloseRound() {
         roundState.asSuccess()?.data?.let {
-            viewModel.closeRound(it.groupId)
+            viewModel.closeRound()
         }
     }
 

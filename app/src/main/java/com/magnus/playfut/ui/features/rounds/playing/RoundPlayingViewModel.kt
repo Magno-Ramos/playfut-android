@@ -77,51 +77,56 @@ class RoundPlayingViewModel(
         }
     }
 
-    fun closeRound(groupId: String) {
+    fun closeRound() {
         viewModelScope.launch {
             _closeRoundState.value = ActionResultState.Loading
 
-            var winnerTeamId: String? = null
-            roundState.value.asSuccess()?.data?.let {
-                val maxVictories = it.teams.maxOf { it.victories }
-                val winners = it.teams.filter { it.victories == maxVictories }
+            val roundState = roundState.value.asSuccess()?.data
 
-                if (winners.size == 1) {
-                    val winnerTeam = winners.first()
-                    winnerTeamId = winnerTeam.id
-
-                    val homeMatches = it.matches.filter { it.homeTeamId == winnerTeamId }
-                    val awayMatches = it.matches.filter { it.awayTeamId == winnerTeamId }
-
-                    val goalsScored = homeMatches.sumOf { it.homeScore } + awayMatches.sumOf { it.awayScore }
-                    val goalsConceded = homeMatches.sumOf { it.awayScore } + awayMatches.sumOf { it.homeScore }
-
-                    val winnerTeamDraws = homeMatches.count { it.homeScore == it.awayScore } +
-                            awayMatches.count { it.homeScore == it.awayScore }
-
-                    val winnerTeamLosses = homeMatches.count { it.homeScore < it.awayScore } +
-                            awayMatches.count { it.homeScore > it.awayScore }
-
-                    winnerViewState = RoundPlayingResultViewState.Victory(
-                        groupName = it.groupName,
-                        date = it.roundDate,
-                        teamName = winnerTeam.name,
-                        wins = winnerTeam.victories,
-                        draws = winnerTeamDraws,
-                        losses = winnerTeamLosses,
-                        goalsScored = goalsScored,
-                        goalsConceded = goalsConceded
-                    )
-                } else {
-                    winnerViewState = RoundPlayingResultViewState.Draw(
-                        groupName = it.groupName,
-                        date = it.roundDate,
-                        teams = winners.map { it.name }
-                    )
-                }
+            if (roundState == null) {
+                _closeRoundState.value = ActionResultState.Error("Unable to close round")
+                return@launch
             }
 
-            roundRepository.closeRound(groupId, winnerTeamId)
+            var winnerTeamId: String? = null
+            val maxVictories = roundState.teams.maxOf { it.victories }
+            val winners = roundState.teams.filter { it.victories == maxVictories }
+
+            if (winners.size == 1) {
+                val winnerTeam = winners.first()
+                winnerTeamId = winnerTeam.id
+
+                val homeMatches = roundState.matches.filter { it.homeTeamId == winnerTeamId }
+                val awayMatches = roundState.matches.filter { it.awayTeamId == winnerTeamId }
+
+                val goalsScored = homeMatches.sumOf { it.homeScore } + awayMatches.sumOf { it.awayScore }
+                val goalsConceded = homeMatches.sumOf { it.awayScore } + awayMatches.sumOf { it.homeScore }
+
+                val winnerTeamDraws = homeMatches.count { it.homeScore == it.awayScore } +
+                        awayMatches.count { it.homeScore == it.awayScore }
+
+                val winnerTeamLosses = homeMatches.count { it.homeScore < it.awayScore } +
+                        awayMatches.count { it.homeScore > it.awayScore }
+
+                winnerViewState = RoundPlayingResultViewState.Victory(
+                    groupName = roundState.groupName,
+                    date = roundState.roundDate,
+                    teamName = winnerTeam.name,
+                    wins = winnerTeam.victories,
+                    draws = winnerTeamDraws,
+                    losses = winnerTeamLosses,
+                    goalsScored = goalsScored,
+                    goalsConceded = goalsConceded
+                )
+            } else {
+                winnerViewState = RoundPlayingResultViewState.Draw(
+                    groupName = roundState.groupName,
+                    date = roundState.roundDate,
+                    teams = winners.map { it.name }
+                )
+            }
+
+            roundRepository.closeRound(roundState.roundId, winnerTeamId)
                 .onFailure { _closeRoundState.value = ActionResultState.Error(it.message) }
                 .onSuccess { _closeRoundState.value = ActionResultState.Success(Unit) }
         }
