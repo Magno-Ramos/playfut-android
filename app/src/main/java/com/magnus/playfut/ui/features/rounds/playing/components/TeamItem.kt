@@ -45,7 +45,7 @@ fun TeamItem(
             modifier = Modifier.size(20.dp),
             painter = painterResource(R.drawable.apparel),
             contentDescription = null,
-            tint = MaterialTheme.colorScheme.onPrimaryContainer
+            tint = MaterialTheme.colorScheme.onSurfaceVariant
         )
         Text(
             text = team,

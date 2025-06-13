@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
@@ -54,7 +55,8 @@ fun RoundTeam(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Icon(
-                painter = painterResource(R.drawable.apparel),
+                modifier = Modifier.size(20.dp),
+                painter = painterResource(R.drawable.apparel_outlined),
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onSurface
             )
@@ -154,7 +156,7 @@ private fun RoundTeamPreview() {
         ) {
             RoundTeam(
                 team = DistributorTeamSchema(
-                    teamName = "",
+                    teamName = "Time Preto",
                     goalKeepers = emptyList(),
                     startPlaying = emptyList(),
                     substitutes = emptyList()

@@ -1,7 +1,6 @@
 package com.magnus.playfut.ui.features.rounds.playing.screens
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -59,46 +58,45 @@ fun RoundPlayingResultScreen(viewModel: RoundPlayingViewModel) {
         }
     ) { paddings ->
         Box(modifier = Modifier.padding(paddings)) {
-            Column {
+            when (val state = winnerViewState) {
+                is RoundPlayingResultViewState.Draw -> DrawCard(
+                    groupName = state.groupName,
+                    teams = state.teams,
+                    date = state.date
+                )
 
-                when(val state = winnerViewState) {
-                    is RoundPlayingResultViewState.Draw -> DrawCard(
+                is RoundPlayingResultViewState.Victory -> {
+                    WinnerCard(
                         groupName = state.groupName,
-                        teams = state.teams,
-                        date = state.date
+                        teamName = state.teamName,
+                        wins = state.wins,
+                        draws = state.draws,
+                        losses = state.losses,
+                        goalsScored = state.goalsScored,
+                        goalsConceded = state.goalsConceded,
+                        date = state.date,
                     )
-                    is RoundPlayingResultViewState.Victory -> {
-                        WinnerCard(
-                            groupName = state.groupName,
-                            teamName = state.teamName,
-                            wins = state.wins,
-                            draws = state.draws,
-                            losses = state.losses,
-                            goalsScored = state.goalsScored,
-                            goalsConceded = state.goalsConceded,
-                            date = state.date,
-                        )
 
-                        KonfettiView(
-                            modifier = Modifier.fillMaxSize(),
-                            parties = listOf(
-                                Party(
-                                    emitter = Emitter(duration = 7, TimeUnit.SECONDS).perSecond(50),
-                                    angle = 270, // 270° = para baixo
-                                    spread = 360, // espalha na horizontal
-                                    speed = 25f,
-                                    maxSpeed = 4f,
-                                    damping = 0.9f,
-                                    shapes = listOf(Shape.Circle, Shape.Square),
-                                    colors = listOf(0xfce18a, 0xff726d, 0xf4306d, 0xb48def),
-                                    position = Position.Relative(0.5, 0.0), // meio do topo
-                                    size = listOf(Size.SMALL, Size.MEDIUM)
-                                )
+                    KonfettiView(
+                        modifier = Modifier.fillMaxSize(),
+                        parties = listOf(
+                            Party(
+                                emitter = Emitter(duration = 7, TimeUnit.SECONDS).perSecond(50),
+                                angle = 270, // 270° = para baixo
+                                spread = 360, // espalha na horizontal
+                                speed = 25f,
+                                maxSpeed = 4f,
+                                damping = 0.9f,
+                                shapes = listOf(Shape.Circle, Shape.Square),
+                                colors = listOf(0xfce18a, 0xff726d, 0xf4306d, 0xb48def),
+                                position = Position.Relative(0.5, 0.0), // meio do topo
+                                size = listOf(Size.SMALL, Size.MEDIUM)
                             )
                         )
-                    }
-                    else -> Unit
+                    )
                 }
+
+                else -> Unit
             }
         }
     }

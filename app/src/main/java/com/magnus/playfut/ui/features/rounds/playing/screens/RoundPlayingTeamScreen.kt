@@ -91,7 +91,7 @@ private fun TeamHeader(teamName: String) {
             modifier = Modifier.size(20.dp),
             painter = painterResource(R.drawable.apparel),
             contentDescription = null,
-            tint = MaterialTheme.colorScheme.onPrimaryContainer
+            tint = MaterialTheme.colorScheme.onSurfaceVariant
         )
         Text(
             modifier = Modifier.weight(1f),
