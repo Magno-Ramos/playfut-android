@@ -13,13 +13,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import com.magnus.playfut.ui.features.groups.form.GroupsFormActivity
 import com.magnus.playfut.ui.features.home.HomeMenu
-import com.magnus.playfut.ui.features.home.components.BottomNavigationBarContent
 import com.magnus.playfut.ui.features.home.components.HomeTopAppBarContent
+import com.magnus.playfut.ui.features.notifications.NotificationsActivity
 
 @Composable
 fun HomeScreen() {
     var currentScreen by remember { mutableStateOf(HomeMenu.Groups) }
     val context = LocalContext.current
+
+    fun openNotifications() {
+        val intent = NotificationsActivity.createIntent(context)
+        context.startActivity(intent)
+    }
+
+    fun openCreateGroup() {
+        val intent = GroupsFormActivity.createIntent(context)
+        context.startActivity(intent)
+    }
 
     Scaffold(
         topBar = {
@@ -28,21 +38,16 @@ fun HomeScreen() {
                     HomeMenu.Groups -> "Grupos"
                     HomeMenu.Account -> "Conta"
                 },
-                onClickNotification = {
-                    // TODO, implement notifications
-                },
-                onClickCreate = {
-                    val intent = GroupsFormActivity.createIntent(context)
-                    context.startActivity(intent)
-                }
+                onClickNotification = { openNotifications() },
+                onClickCreate = { openCreateGroup() }
             )
         },
-        bottomBar = {
-            BottomNavigationBarContent(
-                currentScreen = currentScreen,
-                onClickMenu = { currentScreen = it }
-            )
-        }
+//        bottomBar = {
+//            BottomNavigationBarContent(
+//                currentScreen = currentScreen,
+//                onClickMenu = { currentScreen = it }
+//            )
+//        }
     ) { innerPaddings ->
         Box(
             modifier = Modifier

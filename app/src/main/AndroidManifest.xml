@@ -43,5 +43,8 @@
         <activity
             android:name=".ui.features.rounds.playing.RoundPlayingActivity"
             android:exported="false" />
+        <activity
+            android:name=".ui.features.notifications.NotificationsActivity"
+            android:exported="false" />
     </application>
 </manifest>
