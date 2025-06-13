@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -87,9 +88,10 @@ private fun TeamHeader(teamName: String) {
             .padding(MaterialTheme.spacing.medium),
     ) {
         Icon(
-            painter = painterResource(R.drawable.apparel_24),
+            modifier = Modifier.size(20.dp),
+            painter = painterResource(R.drawable.apparel),
             contentDescription = null,
-            tint = MaterialTheme.colorScheme.onSurface
+            tint = MaterialTheme.colorScheme.onPrimaryContainer
         )
         Text(
             modifier = Modifier.weight(1f),
@@ -103,7 +105,7 @@ private fun TeamHeader(teamName: String) {
 
 @Composable
 private fun PlayerList(title: String, list: List<Player>) {
-    Expandable(title = "$title (${list.size})") {
+    Expandable(title = "$title (${list.size})", initExpanded = true) {
         Column {
             list.forEach { player ->
                 Text(

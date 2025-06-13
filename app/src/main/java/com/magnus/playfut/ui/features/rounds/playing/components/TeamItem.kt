@@ -43,9 +43,9 @@ fun TeamItem(
     ) {
         Icon(
             modifier = Modifier.size(20.dp),
-            painter = painterResource(R.drawable.apparel_24),
+            painter = painterResource(R.drawable.apparel),
             contentDescription = null,
-            tint = MaterialTheme.colorScheme.onSurface
+            tint = MaterialTheme.colorScheme.onPrimaryContainer
         )
         Text(
             text = team,

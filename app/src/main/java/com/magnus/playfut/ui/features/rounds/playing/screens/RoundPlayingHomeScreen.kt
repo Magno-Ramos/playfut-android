@@ -170,7 +170,7 @@ private fun RoundPlayingHomeMenu(
             teams = viewState.teams,
             onClickItem = { team -> onClickTeam(team) }
         )
-        MatchList(matches = viewState.matches)
         ArtilleryRanking(artillery = viewState.artillery)
+        MatchList(matches = viewState.matches)
     }
 }

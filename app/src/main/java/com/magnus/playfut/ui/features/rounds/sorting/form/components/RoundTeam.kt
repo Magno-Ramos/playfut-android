@@ -54,7 +54,7 @@ fun RoundTeam(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Icon(
-                painter = painterResource(R.drawable.apparel_24),
+                painter = painterResource(R.drawable.apparel),
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onSurface
             )

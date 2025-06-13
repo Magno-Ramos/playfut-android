@@ -98,7 +98,11 @@ fun CloseMatchConfirmActionSheet(
                     modifier = Modifier
                         .weight(1f)
                         .height(48.dp),
-                    onClick = { onConfirm() }
+                    onClick = { onConfirm() },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.error,
+                        contentColor = MaterialTheme.colorScheme.onError
+                    )
                 ) {
                     Text(text = "Confirmar")
                 }

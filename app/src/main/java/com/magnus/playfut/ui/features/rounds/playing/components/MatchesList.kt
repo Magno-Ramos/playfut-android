@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -53,13 +54,23 @@ fun MatchList(matches: List<RoundMatchItem>) {
             }
         }
 
-        for (match in matches) {
-            MatchItem(
-                homeTeam = match.homeTeam ?: "Desconhecido",
-                awayTeam = match.awayTeam ?: "Desconhecido",
-                homeScore = match.homeScore,
-                awayScore = match.awayScore
-            )
+        Column(
+            modifier = Modifier
+                .clip(RoundedCornerShape(8.dp))
+                .background(MaterialTheme.colorScheme.surfaceContainer, RoundedCornerShape(8.dp))
+        ) {
+            matches.forEachIndexed { index, match ->
+                MatchItem(
+                    homeTeam = match.homeTeam ?: "Desconhecido",
+                    awayTeam = match.awayTeam ?: "Desconhecido",
+                    homeScore = match.homeScore,
+                    awayScore = match.awayScore
+                )
+
+                if (index < matches.size - 1) {
+                    HorizontalDivider()
+                }
+            }
         }
     }
 }
@@ -74,13 +85,10 @@ fun MatchItem(
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small),
-        modifier = Modifier
-            .clip(RoundedCornerShape(8.dp))
-            .background(MaterialTheme.colorScheme.surfaceContainer)
-            .padding(
-                MaterialTheme.spacing.medium,
-                MaterialTheme.spacing.extraSmall
-            )
+        modifier = Modifier.padding(
+            horizontal = MaterialTheme.spacing.medium,
+            vertical = MaterialTheme.spacing.extraSmall
+        )
     ) {
         Column(Modifier.weight(1f)) {
             Text(

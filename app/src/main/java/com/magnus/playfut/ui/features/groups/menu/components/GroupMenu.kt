@@ -47,7 +47,7 @@ fun GroupMenu(
         )
         Spacer(Modifier.height(MaterialTheme.spacing.micro))
         MenuItem(
-            icon = if (group.hasOpenedRound()) rememberVectorPainter(Icons.Default.Flag) else painterResource(R.drawable.apparel_24),
+            icon = if (group.hasOpenedRound()) rememberVectorPainter(Icons.Default.Flag) else painterResource(R.drawable.apparel),
             title = if (group.hasOpenedRound()) "Continuar Rodada" else "Sortear Times",
             isPrimary = group.hasOpenedRound(),
             onClick = { openNewRound() }
