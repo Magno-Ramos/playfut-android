@@ -8,8 +8,10 @@ import androidx.room.Transaction
 import com.magnus.playfut.domain.database.entities.relations.crossref.CrossRefSchemaPlayer
 import com.magnus.playfut.domain.database.entities.relations.crossref.CrossRefTeamRound
 import com.magnus.playfut.domain.database.entities.relations.crossref.SchemaPlayerRole
+import com.magnus.playfut.domain.database.entities.relations.pojo.PojoRoundResultWithRoundAndTeam
 import com.magnus.playfut.domain.database.entities.relations.pojo.PojoRoundWithDetails
 import com.magnus.playfut.domain.database.entities.structure.RoundEntity
+import com.magnus.playfut.domain.database.entities.structure.RoundResultEntity
 import com.magnus.playfut.domain.database.entities.structure.SchemaEntity
 import com.magnus.playfut.domain.database.entities.structure.TeamEntity
 import com.magnus.playfut.domain.helper.DistributorTeamSchema
@@ -33,6 +35,14 @@ interface RoundDao {
     @Query("SELECT * FROM rounds WHERE roundId = :roundId")
     suspend fun getRoundDetails(roundId: String): PojoRoundWithDetails
 
+    @Transaction
+    @Query("""
+        SELECT rr.* FROM round_result_table rr
+        LEFT JOIN rounds r ON rr.roundId = r.roundId
+        WHERE r.groupOwnerId = :groupId
+    """)
+    suspend fun getRoundsByGroup(groupId: Long): List<PojoRoundResultWithRoundAndTeam>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertSchema(schema: SchemaEntity): Long
 
@@ -42,8 +52,18 @@ interface RoundDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTeamRoundCrossRef(ref: CrossRefTeamRound)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertRoundResult(result: RoundResultEntity)
+
     @Query("UPDATE rounds SET opened = 0 WHERE roundId = :roundId")
     suspend fun closeRound(roundId: Long)
+
+    @Transaction
+    suspend fun closeRoundAndAddResult(roundId: String, winnerTeamId: String?) {
+        closeRound(roundId.toLong())
+        val result = RoundResultEntity(roundId = roundId.toLong(), winnerTeamId = winnerTeamId?.toLong())
+        insertRoundResult(result)
+    }
 
     @Transaction
     suspend fun insertTeamsWithSchema(groupId: Long, schemas: List<DistributorTeamSchema>): Long {

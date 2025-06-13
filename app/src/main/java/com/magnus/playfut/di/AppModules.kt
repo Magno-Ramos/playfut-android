@@ -26,6 +26,7 @@ import com.magnus.playfut.ui.features.groups.settings.GroupSettingsViewModel
 import com.magnus.playfut.ui.features.home.HomeViewModel
 import com.magnus.playfut.ui.features.player.form.PlayerFormViewModel
 import com.magnus.playfut.ui.features.player.list.PlayerListViewModel
+import com.magnus.playfut.ui.features.rounds.history.RoundHistoryViewModel
 import com.magnus.playfut.ui.features.rounds.playing.RoundPlayingViewModel
 import com.magnus.playfut.ui.features.rounds.playing.screens.RoundPlayingTeamViewModel
 import com.magnus.playfut.ui.features.rounds.sorting.form.RoundSortViewModel
@@ -74,6 +75,7 @@ val appModules = module {
     viewModel { GroupSettingsViewModel(get()) }
     viewModel { PlayerListViewModel(get()) }
     viewModel { PlayerFormViewModel(get()) }
+    viewModel { RoundHistoryViewModel(get()) }
     viewModel { RoundPlayingTeamViewModel(get()) }
     viewModel { RoundSortViewModel(get(), get()) }
     viewModel { RoundPlayingViewModel(get(), get(), get(), get()) }

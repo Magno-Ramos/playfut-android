@@ -22,6 +22,7 @@ import com.magnus.playfut.ui.features.groups.form.GroupsFormActivity
 import com.magnus.playfut.ui.features.groups.menu.components.GroupMenu
 import com.magnus.playfut.ui.features.groups.settings.GroupSettingsActivity
 import com.magnus.playfut.ui.features.player.list.PlayerListActivity
+import com.magnus.playfut.ui.features.rounds.history.RoundHistoryActivity
 import com.magnus.playfut.ui.features.rounds.playing.RoundPlayingActivity
 import com.magnus.playfut.ui.features.rounds.sorting.form.RoundSortActivity
 import org.koin.androidx.compose.koinViewModel
@@ -66,7 +67,8 @@ fun GroupMenuScreen(
     }
 
     fun openRoundsHistory() {
-        // open rounds history
+        val intent = RoundHistoryActivity.createIntent(context, groupId)
+        context.startActivity(intent)
     }
 
     fun openSettings() {

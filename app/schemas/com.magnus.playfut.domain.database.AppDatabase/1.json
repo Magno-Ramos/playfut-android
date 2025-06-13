@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "1bd515b0a625542859950771df1e1b42",
+    "identityHash": "8618d229ac9d10887e53a052af20540f",
     "entities": [
       {
         "tableName": "groups",
@@ -437,6 +437,79 @@
         ]
       },
       {
+        "tableName": "round_result_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`roundResultId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `roundId` INTEGER NOT NULL, `winnerTeamId` INTEGER, FOREIGN KEY(`roundId`) REFERENCES `rounds`(`roundId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`winnerTeamId`) REFERENCES `teams`(`teamId`) ON UPDATE NO ACTION ON DELETE SET NULL )",
+        "fields": [
+          {
+            "fieldPath": "roundResultId",
+            "columnName": "roundResultId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "roundId",
+            "columnName": "roundId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "winnerTeamId",
+            "columnName": "winnerTeamId",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "roundResultId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_round_result_table_roundId",
+            "unique": false,
+            "columnNames": [
+              "roundId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_round_result_table_roundId` ON `${TABLE_NAME}` (`roundId`)"
+          },
+          {
+            "name": "index_round_result_table_winnerTeamId",
+            "unique": false,
+            "columnNames": [
+              "winnerTeamId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_round_result_table_winnerTeamId` ON `${TABLE_NAME}` (`winnerTeamId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "rounds",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "roundId"
+            ],
+            "referencedColumns": [
+              "roundId"
+            ]
+          },
+          {
+            "table": "teams",
+            "onDelete": "SET NULL",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "winnerTeamId"
+            ],
+            "referencedColumns": [
+              "teamId"
+            ]
+          }
+        ]
+      },
+      {
         "tableName": "schema_player_cross_ref",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`schemaId` INTEGER NOT NULL, `playerId` INTEGER NOT NULL, `role` TEXT NOT NULL, PRIMARY KEY(`schemaId`, `playerId`), FOREIGN KEY(`schemaId`) REFERENCES `schemas`(`schemaId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`playerId`) REFERENCES `players`(`playerId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
@@ -583,7 +656,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '1bd515b0a625542859950771df1e1b42')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8618d229ac9d10887e53a052af20540f')"
     ]
   }
 }
