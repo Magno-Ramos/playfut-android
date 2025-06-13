@@ -70,7 +70,7 @@ fun RoundPlayingMatchScreen(
     val homeTeam = viewModel.matchHomeTeam ?: return
     val awayTeam = viewModel.matchAwayTeam ?: return
 
-    val teams = roundState.asSuccess()?.data?.teams.orEmpty()
+    val teams = roundState.asSuccess()?.data?.teams.orEmpty().filter { it.id == homeTeam.id || it.id == awayTeam.id }
     var players by remember { mutableStateOf(allPlayers) }
     var removeGoalConfirmation by remember { mutableStateOf(RoundRemoveGoal(false)) }
 
