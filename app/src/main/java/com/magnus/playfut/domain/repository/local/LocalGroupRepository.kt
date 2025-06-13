@@ -13,8 +13,8 @@ import com.magnus.playfut.domain.repository.datasource.GroupDataSource
 class LocalGroupRepository (
     private val dao: GroupDao
 ) : GroupDataSource {
-    override suspend fun getGroupById(groupId: String): Result<Group?> {
-        return runCatching { dao.getGroupById(groupId.toLong())?.toGroup() }
+    override suspend fun getGroupById(groupId: String): Result<Group> {
+        return runCatching { dao.getGroupById(groupId.toLong()).toGroup() }
     }
 
     override suspend fun getGroupWithOpenedRound(groupId: String): Result<GroupWithOpenedRound?> = runCatching {

@@ -3,22 +3,24 @@ package com.magnus.playfut.ui.features.rounds.playing
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.magnus.playfut.domain.model.form.MatchForm
+import com.magnus.playfut.domain.repository.GroupRepository
 import com.magnus.playfut.domain.repository.MatchRepository
 import com.magnus.playfut.domain.repository.PlayerRepository
 import com.magnus.playfut.domain.repository.RoundRepository
-import com.magnus.playfut.domain.repository.ScoreRepository
 import com.magnus.playfut.domain.state.ActionResultState
 import com.magnus.playfut.domain.state.UiState
+import com.magnus.playfut.domain.state.asSuccess
 import com.magnus.playfut.ui.features.rounds.playing.states.RoundPlayerItem
 import com.magnus.playfut.ui.features.rounds.playing.states.RoundPlayingHomeViewState
+import com.magnus.playfut.ui.features.rounds.playing.states.RoundPlayingResultViewState
 import com.magnus.playfut.ui.features.rounds.playing.states.RoundTeamItem
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class RoundPlayingViewModel(
+    private val groupRepository: GroupRepository,
     private val roundRepository: RoundRepository,
-    private val scoreRepository: ScoreRepository,
     private val playerRepository: PlayerRepository,
     private val matchRepository: MatchRepository
 ) : ViewModel() {
@@ -35,10 +37,13 @@ class RoundPlayingViewModel(
     var matchHomeTeam: RoundTeamItem? = null
     var matchAwayTeam: RoundTeamItem? = null
 
+    var winnerViewState: RoundPlayingResultViewState? = null
+
     fun fetchRound(roundId: String) {
         viewModelScope.launch {
             runCatching {
                 val round = roundRepository.getRoundWithDetails(roundId).getOrThrow()
+                val group = groupRepository.getGroupById(round.data.groupId).getOrThrow()
                 val players = round.teams.map { team ->
                     playerRepository.fetchPlayersByTeam(team.id, round.data.id).getOrThrow().map { player ->
                         RoundPlayerItem(team.id, player.id, player.name)
@@ -48,12 +53,14 @@ class RoundPlayingViewModel(
                 _roundState.value = UiState.Success(
                     data = RoundPlayingHomeViewState(
                         groupId = round.data.groupId,
+                        groupName = group.name,
                         teams = round.teams,
                         matches = round.matches,
                         scores = round.scores,
                         players = players,
                         roundName = "Rodada ${round.data.id}",
-                        roundId = round.data.id
+                        roundId = round.data.id,
+                        roundDate = round.data.date
                     )
                 )
             }.onFailure {
@@ -75,7 +82,48 @@ class RoundPlayingViewModel(
             _closeRoundState.value = ActionResultState.Loading
             roundRepository.closeAllRoundsByGroup(groupId)
                 .onFailure { _closeRoundState.value = ActionResultState.Error(it.message) }
-                .onSuccess { _closeRoundState.value = ActionResultState.Success(Unit) }
+                .onSuccess {
+                    roundState.value.asSuccess()?.data?.let {
+                        val maxVictories = it.teams.maxOf { it.victories }
+                        val winners = it.teams.filter { it.victories == maxVictories }
+
+                        if (winners.size == 1) {
+                            val winnerTeam = winners.first()
+                            val winnerId = winnerTeam.id
+
+                            val homeMatches = it.matches.filter { it.homeTeamId == winnerId }
+                            val awayMatches = it.matches.filter { it.awayTeamId == winnerId }
+
+                            val goalsScored = homeMatches.sumOf { it.homeScore } + awayMatches.sumOf { it.awayScore }
+                            val goalsConceded = homeMatches.sumOf { it.awayScore } + awayMatches.sumOf { it.homeScore }
+
+                            val winnerTeamDraws = homeMatches.count { it.homeScore == it.awayScore } +
+                                    awayMatches.count { it.homeScore == it.awayScore }
+
+                            val winnerTeamLosses = homeMatches.count { it.homeScore < it.awayScore } +
+                                    awayMatches.count { it.homeScore > it.awayScore }
+
+                            winnerViewState = RoundPlayingResultViewState.Victory(
+                                groupName = it.groupName,
+                                date = it.roundDate,
+                                teamName = winnerTeam.name,
+                                wins = winnerTeam.victories,
+                                draws = winnerTeamDraws,
+                                losses = winnerTeamLosses,
+                                goalsScored = goalsScored,
+                                goalsConceded = goalsConceded
+                            )
+                        } else {
+                            winnerViewState = RoundPlayingResultViewState.Draw(
+                                groupName = it.groupName,
+                                date = it.roundDate,
+                                teams = winners.map { it.name }
+                            )
+                        }
+                    }
+
+                    _closeRoundState.value = ActionResultState.Success(Unit)
+                }
         }
     }
 

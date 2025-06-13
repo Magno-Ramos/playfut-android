@@ -22,7 +22,7 @@ interface GroupDao {
     suspend fun deleteGroup(group: GroupEntity)
 
     @Query("SELECT* FROM `groups` WHERE groupId = :groupId")
-    suspend fun getGroupById(groupId: Long): GroupEntity?
+    suspend fun getGroupById(groupId: Long): GroupEntity
 
     @Transaction
     @Query(

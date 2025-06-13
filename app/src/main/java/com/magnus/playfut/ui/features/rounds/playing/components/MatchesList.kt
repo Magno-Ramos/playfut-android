@@ -123,12 +123,16 @@ private fun MatchItemPreview() {
             MatchList(
                 matches = listOf(
                     RoundMatchItem(
+                        homeTeamId = "1",
+                        awayTeamId = "2",
                         homeTeam = "Time A",
                         awayTeam = "Time B",
                         homeScore = 2,
                         awayScore = 1
                     ),
                     RoundMatchItem(
+                        homeTeamId = "1",
+                        awayTeamId = "2",
                         homeTeam = "Time C",
                         awayTeam = "Time D",
                         homeScore = 3,

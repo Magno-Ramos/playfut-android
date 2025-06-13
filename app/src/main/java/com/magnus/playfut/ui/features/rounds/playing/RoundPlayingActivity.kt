@@ -18,6 +18,7 @@ import androidx.navigation.navArgument
 import com.magnus.playfut.ui.features.rounds.playing.screens.RoundPlayingHomeScreen
 import com.magnus.playfut.ui.features.rounds.playing.screens.RoundPlayingMatchScreen
 import com.magnus.playfut.ui.features.rounds.playing.screens.RoundPlayingMatchSelectorScreen
+import com.magnus.playfut.ui.features.rounds.playing.screens.RoundPlayingResultScreen
 import com.magnus.playfut.ui.features.rounds.playing.screens.RoundPlayingTeamScreen
 import com.magnus.playfut.ui.theme.AppTheme
 import org.koin.androidx.compose.koinViewModel
@@ -116,6 +117,12 @@ private fun RoundPlayingNavigation(roundId: String, viewModel: RoundPlayingViewM
                 teamId = it.arguments?.getString("teamId").orEmpty(),
                 roundId = it.arguments?.getString("roundId").orEmpty(),
                 navController = navController
+            )
+        }
+
+        composable (RoundPlayingRoutes.RoundResult.route) {
+            RoundPlayingResultScreen(
+                viewModel = viewModel
             )
         }
     }

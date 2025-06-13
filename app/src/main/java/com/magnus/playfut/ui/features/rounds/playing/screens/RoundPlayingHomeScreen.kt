@@ -64,7 +64,10 @@ fun RoundPlayingHomeScreen(
     }
 
     if (closeRoundState.isSuccess()) {
-        context.activity?.finish()
+        navController.navigate(RoundPlayingRoutes.RoundResult.route) {
+            popUpTo(0) { inclusive = true }
+            launchSingleTop = true
+        }
     }
 
     fun onClickConfirmCloseRound() {

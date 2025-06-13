@@ -3,12 +3,15 @@ package com.magnus.playfut.ui.features.rounds.playing.states
 import com.magnus.playfut.domain.model.structure.Match
 import com.magnus.playfut.domain.model.structure.Score
 import com.magnus.playfut.domain.model.structure.Team
+import java.util.Date
 
 class RoundPlayingHomeViewState(
     val groupId: String,
+    val groupName: String,
     val players: List<RoundPlayerItem>,
     val roundId: String,
     val roundName: String,
+    val roundDate: Date,
     teams: List<Team>,
     matches: List<Match>,
     scores: List<Score>,
@@ -22,6 +25,8 @@ class RoundPlayingHomeViewState(
     }
     val matches: List<RoundMatchItem> = matches.map {
         RoundMatchItem(
+            homeTeamId = it.homeTeamId,
+            awayTeamId = it.awayTeamId,
             homeTeam = getTeamName(it.homeTeamId, teams),
             awayTeam = getTeamName(it.awayTeamId, teams),
             homeScore = getTeamScore(it.id, it.homeTeamId, scores),
@@ -46,6 +51,8 @@ data class RoundTeamItem(
 )
 
 data class RoundMatchItem(
+    val homeTeamId: String?,
+    val awayTeamId: String?,
     val homeTeam: String?,
     val awayTeam: String?,
     val homeScore: Int,

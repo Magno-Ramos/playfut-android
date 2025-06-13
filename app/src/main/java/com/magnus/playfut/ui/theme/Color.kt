@@ -15,11 +15,17 @@ object AppColor {
     val red = Color(0xFFE95E56)
     val yellow = Color(0xFFFFCC00)
     val blue = Color(0xFF007AFF)
+    val black = Color(0xFF000000)
 
 //    val primaryGradient = listOf(
 //        Color(0xFF0491C4),
 //        Color(0xFF1B88AF)
 //    )
+
+    val gradientMagic = listOf(
+        Color(0xFF0491C4),
+        Color(0xFF2FBC8A)
+    )
 }
 
 val primaryLight = Color(0xFF0491C4)

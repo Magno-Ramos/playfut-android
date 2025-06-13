@@ -17,7 +17,7 @@ class GroupRepository(
     private val source
         get() = if (auth.currentUser != null) remoteRepository else localRepository
 
-    override suspend fun getGroupById(groupId: String): Result<Group?> {
+    override suspend fun getGroupById(groupId: String): Result<Group> {
         return source.getGroupById(groupId)
     }
 

@@ -9,7 +9,7 @@ import com.magnus.playfut.domain.repository.datasource.GroupDataSource
 class RemoteGroupRepository (
     private val auth: FirebaseAuth
 ) : GroupDataSource {
-    override suspend fun getGroupById(groupId: String): Result<Group?> {
+    override suspend fun getGroupById(groupId: String): Result<Group> {
         TODO("Not yet implemented")
     }
 

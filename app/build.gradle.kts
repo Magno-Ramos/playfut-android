@@ -87,4 +87,5 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
 
     implementation("com.airbnb.android:lottie-compose:6.6.6")
+    implementation("nl.dionsegijn:konfetti-compose:2.0.5")
 }
