@@ -17,17 +17,15 @@ object PlayerDistributorV2 {
         startersPerTeam: Int
     ): List<DistributorTeamSchema> {
         val finalTeams = mutableListOf<DistributorTeamSchema>()
-        require(players.size >= (teamCount * startersPerTeam)) { "Not enough players to distribute." }
+        require(players.size >= teamCount) { "Not enough players to distribute." }
 
-        val goalkeepers =
-            players.filter { it.type == PlayerType.GOALKEEPER }.sortedByDescending { it.skillLevel }
-                .shuffled()
-                .toMutableList()
+        val goalkeepers = players.filter { it.type == PlayerType.GOALKEEPER }
+            .shuffled()
+            .toMutableList()
 
-        val fieldPlayers =
-            players.filter { it.type != PlayerType.GOALKEEPER }.sortedByDescending { it.skillLevel }
-                .shuffled()
-                .toMutableList()
+        val fieldPlayers = players.filter { it.type != PlayerType.GOALKEEPER }
+            .shuffled()
+            .toMutableList()
 
         repeat(teamCount) { teamIndex ->
             val teamGoalKeepers = mutableListOf<Player>()
