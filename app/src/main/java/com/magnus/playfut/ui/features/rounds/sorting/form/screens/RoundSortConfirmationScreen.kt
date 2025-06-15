@@ -144,8 +144,7 @@ private fun RoundSortConfirmationContentPreview() {
                     DistributorTeamSchema(
                         teamName = "Time 1",
                         goalKeepers = listOf(),
-                        startPlaying = listOf(),
-                        substitutes = listOf()
+                        startPlaying = listOf()
                     )
                 )
             )

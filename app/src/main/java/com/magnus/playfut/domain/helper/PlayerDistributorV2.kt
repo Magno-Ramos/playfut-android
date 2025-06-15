@@ -7,7 +7,7 @@ data class DistributorTeamSchema(
     val teamName: String,
     val goalKeepers: List<Player>,
     val startPlaying: List<Player>,
-    val substitutes: List<Player>
+    val substitutes: MutableList<Player> = mutableListOf()
 )
 
 object PlayerDistributorV2 {
@@ -55,11 +55,6 @@ object PlayerDistributorV2 {
                 }
             }
 
-            // assign substitutes
-            teamFieldPlayers.forEach { player ->
-                teamSubstitutes.add(player)
-            }
-
             finalTeams.add(
                 DistributorTeamSchema(
                     teamName = "Time ${teamIndex + 1}",
@@ -68,6 +63,13 @@ object PlayerDistributorV2 {
                     substitutes = teamSubstitutes
                 )
             )
+        }
+
+        while (fieldPlayers.isNotEmpty()) {
+            for (team in finalTeams) {
+                val player = fieldPlayers.removeFirstOrNull() ?: break
+                team.substitutes.add(player)
+            }
         }
 
         return finalTeams

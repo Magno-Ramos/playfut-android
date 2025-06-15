@@ -158,8 +158,7 @@ private fun RoundTeamPreview() {
                 team = DistributorTeamSchema(
                     teamName = "Time Preto",
                     goalKeepers = emptyList(),
-                    startPlaying = emptyList(),
-                    substitutes = emptyList()
+                    startPlaying = emptyList()
                 )
             )
         }
