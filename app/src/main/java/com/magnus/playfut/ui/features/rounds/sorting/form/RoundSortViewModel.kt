@@ -38,10 +38,12 @@ class RoundSortViewModel(
     private val _playersCount = MutableStateFlow<Int?>(5)
     val playersCount: StateFlow<Int?> = _playersCount.asStateFlow()
 
+    private val _distributionType = MutableStateFlow(DistributionType.RANDOM)
+    val distributionType: StateFlow<DistributionType> = _distributionType.asStateFlow()
+
     var groupId: String = ""
     var editableTeam: DistributorTeamSchema? = null
     var distributorTeamSchema: List<DistributorTeamSchema>? = null
-    var distributionType: DistributionType = DistributionType.RANDOM
 
     fun updateTeamsCount(count: Int?) {
         _teamsCount.value = count
@@ -49,6 +51,10 @@ class RoundSortViewModel(
 
     fun updatePlayersCount(count: Int?) {
         _playersCount.value = count
+    }
+
+    fun updateDistributionType(type: DistributionType) {
+        _distributionType.value = type
     }
 
     fun toggleSelection(player: SelectablePlayer) {

@@ -16,7 +16,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -52,7 +51,7 @@ fun RoundSortFormScreen(
     val selectablePlayers by viewModel.selectablePlayers.collectAsState()
     val teamsCount by viewModel.teamsCount.collectAsState()
     val playersCount by viewModel.playersCount.collectAsState()
-    val playerDistributionType by remember { mutableStateOf(viewModel.distributionType) }
+    val playerDistributionType by viewModel.distributionType.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.fetchPlayers(groupId)
@@ -121,7 +120,7 @@ fun RoundSortFormScreen(
                     teamsCount = teamsCount?.toString() ?: "",
                     playersCount = playersCount?.toString() ?: "",
                     distributionType = playerDistributionType,
-                    onChangeDistributionType = { viewModel.distributionType = it },
+                    onChangeDistributionType = { viewModel.updateDistributionType(it) },
                     onChangeTeamsCount = { viewModel.updateTeamsCount(it.toIntOrNull()) },
                     onChangePlayersCount = { viewModel.updatePlayersCount(it.toIntOrNull()) },
                     onClickChangePlayers = { openSelectionScreen() }
