@@ -4,6 +4,7 @@ import com.magnus.playfut.domain.database.daos.PlayerDao
 import com.magnus.playfut.domain.database.entities.structure.PlayerEntity
 import com.magnus.playfut.domain.model.structure.Player
 import com.magnus.playfut.domain.model.structure.PlayerPosition
+import com.magnus.playfut.domain.model.structure.PlayerType
 import com.magnus.playfut.domain.model.structure.toPlayer
 import com.magnus.playfut.domain.repository.datasource.PlayerDataSource
 
@@ -14,14 +15,16 @@ class LocalPlayerRepository(
         groupId: String,
         name: String,
         type: PlayerPosition,
-        quality: Int
+        quality: Int,
+        playerType: PlayerType
     ) = runCatching {
         dao.insertPlayer(
             PlayerEntity(
                 groupOwnerId = groupId.toLong(),
                 name = name,
                 position = type,
-                skillLevel = quality
+                skillLevel = quality,
+                type = playerType
             )
         )
     }

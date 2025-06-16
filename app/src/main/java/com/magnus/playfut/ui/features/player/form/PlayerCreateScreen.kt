@@ -21,6 +21,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.magnus.playfut.domain.model.structure.PlayerPosition
+import com.magnus.playfut.domain.model.structure.PlayerType
 import com.magnus.playfut.domain.state.ActionResultState
 import com.magnus.playfut.extensions.activity
 import com.magnus.playfut.ui.features.common.AppToolbar
@@ -32,7 +33,8 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun PlayerCreateScreen(
     viewModel: PlayerFormViewModel = koinViewModel(),
-    groupId: String
+    groupId: String,
+    playerType: PlayerType = PlayerType.MEMBER
 ) {
     val context = LocalContext.current
     val createState = viewModel.createPlayerResult.collectAsStateWithLifecycle()
@@ -56,7 +58,8 @@ fun PlayerCreateScreen(
             groupId = groupId,
             name = playerName.value,
             type = playerPosition.value,
-            quality = playerQuality.intValue
+            quality = playerQuality.intValue,
+            playerType = playerType
         )
     }
 

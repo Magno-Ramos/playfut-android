@@ -3,6 +3,7 @@ package com.magnus.playfut.domain.repository
 import com.google.firebase.auth.FirebaseAuth
 import com.magnus.playfut.domain.model.structure.Player
 import com.magnus.playfut.domain.model.structure.PlayerPosition
+import com.magnus.playfut.domain.model.structure.PlayerType
 import com.magnus.playfut.domain.repository.datasource.PlayerDataSource
 import com.magnus.playfut.domain.repository.local.LocalPlayerRepository
 import com.magnus.playfut.domain.repository.remote.RemotePlayerRepository
@@ -20,8 +21,9 @@ class PlayerRepository(
         groupId: String,
         name: String,
         type: PlayerPosition,
-        quality: Int
-    ): Result<Unit> = source.createPlayer(groupId, name, type, quality)
+        quality: Int,
+        playerType: PlayerType
+    ): Result<Unit> = source.createPlayer(groupId, name, type, quality, playerType)
 
     override suspend fun editPlayer(
         id: String,

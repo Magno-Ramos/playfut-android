@@ -2,13 +2,15 @@ package com.magnus.playfut.domain.repository.datasource
 
 import com.magnus.playfut.domain.model.structure.Player
 import com.magnus.playfut.domain.model.structure.PlayerPosition
+import com.magnus.playfut.domain.model.structure.PlayerType
 
 interface PlayerDataSource {
     suspend fun createPlayer(
         groupId: String,
         name: String,
         type: PlayerPosition,
-        quality: Int
+        quality: Int,
+        playerType: PlayerType
     ): Result<Unit>
 
     suspend fun editPlayer(

@@ -37,7 +37,7 @@ class ActionResultScope<T> {
         loadingContent = content
     }
 
-    fun content(content: @Composable (T) -> Unit) {
+    fun success(content: @Composable (T) -> Unit) {
         successContent = content
     }
 
@@ -55,7 +55,7 @@ class UiHandlerScope<T> {
         loadingContent = content
     }
 
-    fun content(content: @Composable (T) -> Unit) {
+    fun success(content: @Composable (T) -> Unit) {
         successContent = content
     }
 

@@ -4,22 +4,17 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Shuffle
-import androidx.compose.material3.AssistChip
-import androidx.compose.material3.AssistChipDefaults
-import androidx.compose.material3.FilterChip
-import androidx.compose.material3.FilterChipDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.magnus.playfut.domain.helper.DistributionType
 import com.magnus.playfut.ui.features.common.TextInput
 import com.magnus.playfut.ui.theme.AppTheme
@@ -37,23 +32,31 @@ fun RoundSortingForm(
     onChangePlayersCount: (String) -> Unit = {},
     onClickChangePlayers: () -> Unit = {},
 ) {
-    Column(modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
-        ) {
-            DistributionType.entries.forEach { type ->
-                FilterChip(
-                    label = { Text(type.title) },
-                    onClick = { onChangeDistributionType(type) },
-                    selected = distributionType == type,
-                    leadingIcon = {
-                        Icon(
-                            imageVector = type.icon,
-                            contentDescription = null,
-                            modifier = Modifier.size(FilterChipDefaults.IconSize)
-                        )
-                    }
-                )
+    Column(
+        modifier = modifier.padding(MaterialTheme.spacing.medium),
+        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.large)
+    ) {
+
+        Column {
+            Text(
+                text = "Modo de distribuição",
+                color = MaterialTheme.colorScheme.onBackground,
+                fontWeight = FontWeight.Normal,
+                fontSize = 14.sp
+            )
+            Spacer(Modifier.height(MaterialTheme.spacing.small))
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
+            ) {
+                DistributionType.entries.forEach { type ->
+                    RoundFilterChip(
+                        modifier = Modifier.weight(1f),
+                        label = type.title,
+                        leadingIcon = type.icon,
+                        selected = type == distributionType,
+                        onClickSelect = { onChangeDistributionType(type) }
+                    )
+                }
             }
         }
 

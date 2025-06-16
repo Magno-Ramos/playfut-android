@@ -16,13 +16,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.magnus.playfut.domain.model.structure.PlayerType
 import com.magnus.playfut.ui.features.common.AppToolbar
 import com.magnus.playfut.ui.features.rounds.sorting.form.RoundSortViewModel
 import com.magnus.playfut.ui.features.rounds.sorting.form.model.SelectablePlayer
+import com.magnus.playfut.ui.theme.spacing
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -52,22 +53,21 @@ fun RoundSortPlayerSelectionScreen(
             modifier = Modifier.padding(paddings).padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            items(selectablePlayers) { player ->
+            items(selectablePlayers.sortedBy { it.type.ordinal }) { player ->
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(MaterialTheme.colorScheme.surfaceContainer, CircleShape)
-                        .padding(8.dp, 4.dp),
+                        .padding(MaterialTheme.spacing.small, MaterialTheme.spacing.tiny),
                 ) {
                     Checkbox(
                         checked = player.selected,
                         onCheckedChange = { toggleSelection(player) }
                     )
                     Text(
-                        text = player.name,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        textDecoration = if (!player.selected) TextDecoration.LineThrough else null
+                        text = if (player.type == PlayerType.GUEST) "${player.name} (Convidado)" else player.name,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
             }

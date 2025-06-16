@@ -2,6 +2,7 @@ package com.magnus.playfut.domain.repository.remote
 
 import com.magnus.playfut.domain.model.structure.Player
 import com.magnus.playfut.domain.model.structure.PlayerPosition
+import com.magnus.playfut.domain.model.structure.PlayerType
 import com.magnus.playfut.domain.repository.datasource.PlayerDataSource
 
 class RemotePlayerRepository : PlayerDataSource {
@@ -9,7 +10,8 @@ class RemotePlayerRepository : PlayerDataSource {
         groupId: String,
         name: String,
         type: PlayerPosition,
-        quality: Int
+        quality: Int,
+        playerType: PlayerType
     ): Result<Unit> {
         TODO("Not yet implemented")
     }

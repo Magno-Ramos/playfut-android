@@ -56,7 +56,7 @@ fun HomeScreenGroups(viewModel: HomeViewModel = koinViewModel()) {
     StateHandler(uiState) {
         loading { LoadingView() }
         error { ErrorView(message = "Desculpe, ocorreu um erro") }
-        content { groups -> SuccessState(groups = groups, onClickGroup = ::onClickGroup) }
+        success { groups -> SuccessState(groups = groups, onClickGroup = ::onClickGroup) }
     }
 }
 

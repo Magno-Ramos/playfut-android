@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.magnus.playfut.domain.model.structure.Player
+import com.magnus.playfut.domain.model.structure.PlayerType
 import com.magnus.playfut.extensions.getParcelableExtraCompat
 import com.magnus.playfut.ui.theme.AppTheme
 
@@ -17,6 +18,8 @@ class PlayerFormActivity : AppCompatActivity() {
 
         val groupId = intent.getStringExtra(EXTRA_GROUP_ID)
         val player = intent.getParcelableExtraCompat<Player>(EXTRA_PLAYER)
+        val playerTypeString = intent.getStringExtra(EXTRA_PLAYER_TYPE) ?: PlayerType.MEMBER.name
+        val playerType = PlayerType.valueOf(playerTypeString)
 
         title = when {
             player != null -> "Editar jogador"
@@ -28,7 +31,7 @@ class PlayerFormActivity : AppCompatActivity() {
             AppTheme {
                 when {
                     player != null -> PLayerEditScreen(player = player)
-                    groupId != null -> PlayerCreateScreen(groupId = groupId)
+                    groupId != null -> PlayerCreateScreen(groupId = groupId, playerType = playerType)
                     else -> finish()
                 }
             }
@@ -38,6 +41,7 @@ class PlayerFormActivity : AppCompatActivity() {
     companion object {
         private const val EXTRA_GROUP_ID = "EXTRA_GROUP_ID"
         private const val EXTRA_PLAYER = "EXTRA_PLAYER"
+        private const val EXTRA_PLAYER_TYPE = "EXTRA_PLAYER_TYPE"
 
         fun createIntentToEdit(context: Context, player: Player): Intent {
             return Intent(context, PlayerFormActivity::class.java).apply {
@@ -45,9 +49,10 @@ class PlayerFormActivity : AppCompatActivity() {
             }
         }
 
-        fun createIntentToCreate(context: Context, groupId: String): Intent {
+        fun createIntentToCreate(context: Context, groupId: String, playerType: PlayerType): Intent {
             return Intent(context, PlayerFormActivity::class.java).apply {
                 putExtra(EXTRA_GROUP_ID, groupId)
+                putExtra(EXTRA_PLAYER_TYPE, playerType.name)
             }
         }
     }

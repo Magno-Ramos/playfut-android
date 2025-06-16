@@ -92,7 +92,7 @@ fun GroupMenuScreen(
             StateHandler(groupState) {
                 loading { LoadingView() }
                 error { ErrorView("Desculpe, ocorreu um erro") }
-                content { group ->
+                success { group ->
                     GroupMenu(
                         group = group,
                         openNewRound = ::openNewRound,
