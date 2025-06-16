@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.magnus.playfut.domain.helper.DistributionType
-import com.magnus.playfut.domain.helper.PlayerDistributorV2
+import com.magnus.playfut.domain.helper.PlayerDistributorV3
 import com.magnus.playfut.domain.state.isError
 import com.magnus.playfut.domain.state.isLoading
 import com.magnus.playfut.domain.state.isSuccess
@@ -69,7 +69,7 @@ fun RoundSortFormScreen(
     fun sortPlayersInTeams() {
         runCatching {
             val selectedPlayers = selectablePlayers.filter { it.selected }.map { it.toPlayer() }
-            viewModel.distributorTeamSchema = PlayerDistributorV2.distribute(
+            viewModel.distributorTeamSchema = PlayerDistributorV3.distribute(
                 players = selectedPlayers,
                 teamCount = teamsCount ?: 0,
                 startersPerTeam = playersCount ?: 0,

@@ -27,6 +27,10 @@ enum class PlayerPosition(val position: String) {
     FORWARD("Atacante, Centroavante ou Pivô"),
     UNIVERSAL("Jogador que faz várias funções");
 
+    fun isGoalkeeper() = this == GOALKEEPER
+
+    fun isFieldPlayer() = this != GOALKEEPER
+
     companion object {
         fun fromType(type: String) = entries.first { it.position == type }
     }

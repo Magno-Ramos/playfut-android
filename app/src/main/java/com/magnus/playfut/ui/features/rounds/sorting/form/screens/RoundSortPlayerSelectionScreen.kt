@@ -17,6 +17,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.magnus.playfut.domain.model.structure.PlayerType
@@ -67,7 +68,8 @@ fun RoundSortPlayerSelectionScreen(
                     )
                     Text(
                         text = if (player.type == PlayerType.GUEST) "${player.name} (Convidado)" else player.name,
-                        color = MaterialTheme.colorScheme.onSurface
+                        color = MaterialTheme.colorScheme.onSurface,
+                        fontSize = 14.sp
                     )
                 }
             }
