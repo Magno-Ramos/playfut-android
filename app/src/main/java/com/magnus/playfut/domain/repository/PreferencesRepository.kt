@@ -6,9 +6,8 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.magnus.playfut.domain.helper.DistributionType
 import com.magnus.playfut.domain.repository.datasource.PreferencesDataSource
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class PreferencesRepository(
     private val context: Context
@@ -18,29 +17,6 @@ class PreferencesRepository(
     private val teamsCountKey = stringPreferencesKey("input_teams_count")
     private val playersCountKey = stringPreferencesKey("input_players_count")
     private val distributionTypeKey = stringPreferencesKey("input_distribution_type")
-
-    val scope = CoroutineScope(Dispatchers.IO)
-
-    var teamsCount = 2
-        private set
-
-    var playersCount = 5
-        private set
-
-    var distributionType = DistributionType.RANDOM
-        private set
-
-    init {
-        scope.launch {
-            context.playFutDataStore.data.collect { prefs ->
-                teamsCount = prefs[teamsCountKey]?.toIntOrNull() ?: 2
-                playersCount = prefs[playersCountKey]?.toIntOrNull() ?: 5
-                distributionType = DistributionType.entries.find {
-                    it.name == prefs[distributionTypeKey]
-                } ?: DistributionType.RANDOM
-            }
-        }
-    }
 
     override suspend fun saveDistributionType(type: DistributionType) {
         context.playFutDataStore.edit { prefs ->
@@ -57,6 +33,27 @@ class PreferencesRepository(
     override suspend fun saveInputPlayersCount(count: Int?) {
         context.playFutDataStore.edit { prefs ->
             prefs[playersCountKey] = count?.toString() ?: ""
+        }
+    }
+
+    override fun getDistributionType(): Flow<DistributionType> {
+        return context.playFutDataStore.data.map { prefs ->
+            val type = prefs[distributionTypeKey] ?: DistributionType.RANDOM.name
+            DistributionType.valueOf(type)
+        }
+    }
+
+    override fun getTeamsCount(): Flow<Int?> {
+        return context.playFutDataStore.data.map { prefs ->
+            val count = prefs[teamsCountKey]
+            count?.toIntOrNull()
+        }
+    }
+
+    override fun getPlayersCount(): Flow<Int?> {
+        return context.playFutDataStore.data.map { prefs ->
+            val count = prefs[playersCountKey]
+            count?.toIntOrNull()
         }
     }
 }

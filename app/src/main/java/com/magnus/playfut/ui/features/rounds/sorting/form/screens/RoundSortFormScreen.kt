@@ -22,6 +22,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.magnus.playfut.domain.helper.DistributionType
 import com.magnus.playfut.domain.helper.PlayerDistributorV2
 import com.magnus.playfut.domain.state.isError
 import com.magnus.playfut.domain.state.isLoading
@@ -49,9 +50,9 @@ fun RoundSortFormScreen(
 
     val playersState by viewModel.playersState.collectAsStateWithLifecycle()
     val selectablePlayers by viewModel.selectablePlayers.collectAsStateWithLifecycle()
-    val teamsCount by viewModel.teamsCount.collectAsStateWithLifecycle()
-    val playersCount by viewModel.playersCount.collectAsStateWithLifecycle()
-    val playerDistributionType by viewModel.distributionType.collectAsStateWithLifecycle()
+    val teamsCount by viewModel.teamsCount.collectAsStateWithLifecycle(initialValue = 2)
+    val playersCount by viewModel.playersCount.collectAsStateWithLifecycle(initialValue = 5)
+    val playerDistributionType by viewModel.distributionType.collectAsStateWithLifecycle(DistributionType.RANDOM)
 
     LaunchedEffect(Unit) {
         viewModel.fetchPlayers(groupId)

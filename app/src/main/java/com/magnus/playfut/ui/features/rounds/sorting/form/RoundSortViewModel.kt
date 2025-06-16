@@ -13,7 +13,6 @@ import com.magnus.playfut.domain.state.UiState
 import com.magnus.playfut.ui.features.rounds.sorting.form.model.SelectablePlayer
 import com.magnus.playfut.ui.features.rounds.sorting.form.model.toSelectablePlayer
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
@@ -22,7 +21,6 @@ class RoundSortViewModel(
     private val roundRepository: RoundRepository,
     private val prefsRepository: PreferencesRepository
 ) : ViewModel() {
-
     private var playersLoaded: Boolean = false
 
     private val _playersState = MutableStateFlow<UiState<List<Player>>>(UiState.Loading)
@@ -34,35 +32,27 @@ class RoundSortViewModel(
     private val _createRoundState = MutableStateFlow<ActionResultState<Long>>(ActionResultState.Idle)
     val createRoundState = _createRoundState.asStateFlow()
 
-    private val _teamsCount = MutableStateFlow<Int?>(prefsRepository.teamsCount)
-    val teamsCount: StateFlow<Int?> = _teamsCount.asStateFlow()
-
-    private val _playersCount = MutableStateFlow<Int?>(prefsRepository.playersCount)
-    val playersCount: StateFlow<Int?> = _playersCount.asStateFlow()
-
-    private val _distributionType = MutableStateFlow(prefsRepository.distributionType)
-    val distributionType: StateFlow<DistributionType> = _distributionType.asStateFlow()
+    val teamsCount = prefsRepository.getTeamsCount()
+    val playersCount = prefsRepository.getPlayersCount()
+    val distributionType = prefsRepository.getDistributionType()
 
     var groupId: String = ""
     var editableTeam: DistributorTeamSchema? = null
     var distributorTeamSchema: List<DistributorTeamSchema>? = null
 
     fun updateTeamsCount(count: Int?) {
-        _teamsCount.value = count
         viewModelScope.launch {
             prefsRepository.saveInputTeamsCount(count)
         }
     }
 
     fun updatePlayersCount(count: Int?) {
-        _playersCount.value = count
         viewModelScope.launch {
             prefsRepository.saveInputPlayersCount(count)
         }
     }
 
     fun updateDistributionType(type: DistributionType) {
-        _distributionType.value = type
         viewModelScope.launch {
             prefsRepository.saveDistributionType(type)
         }
