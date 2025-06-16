@@ -72,7 +72,7 @@ fun RoundSortingForm(
             }
         )
         TextInput(
-            label = "Quantos Jogadores por time?",
+            label = "Jogadores por time? (Com goleiro)",
             value = playersCount,
             keyboardType = KeyboardType.Number,
             onChangeValue = { value ->
