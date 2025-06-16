@@ -111,11 +111,10 @@ private fun RoundResultItem(item: RoundResult) {
     }
 
     Column(
-        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.tiny),
         modifier = Modifier
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.surfaceContainer, RoundedCornerShape(8.dp))
-            .padding(MaterialTheme.spacing.medium)
+            .padding(MaterialTheme.spacing.medium, MaterialTheme.spacing.small)
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
