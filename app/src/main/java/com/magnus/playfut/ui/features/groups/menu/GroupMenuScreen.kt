@@ -6,9 +6,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.Lifecycle
@@ -18,6 +15,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.magnus.playfut.domain.model.relations.GroupWithOpenedRound
 import com.magnus.playfut.domain.state.StateHandler
 import com.magnus.playfut.domain.state.UiState
+import com.magnus.playfut.domain.state.asSuccess
 import com.magnus.playfut.ui.features.common.AppToolbar
 import com.magnus.playfut.ui.features.common.ErrorView
 import com.magnus.playfut.ui.features.common.LoadingView
@@ -38,7 +36,7 @@ fun GroupMenuScreen(
 ) {
     val context = LocalContext.current
     val groupState by viewModel.uiState.collectAsStateWithLifecycle()
-    var groupName by remember { mutableStateOf("") }
+    var groupName = groupState.asSuccess()?.data?.name.orEmpty()
     val lifecycleOwner = LocalLifecycleOwner.current
 
     DisposableEffect(lifecycleOwner) {
