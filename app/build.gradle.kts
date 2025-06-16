@@ -89,4 +89,5 @@ dependencies {
     implementation(libs.lottie.compose)
     implementation(libs.konfetti.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.datastore.preferences)
 }

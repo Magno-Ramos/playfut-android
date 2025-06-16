@@ -6,6 +6,7 @@ import com.magnus.playfut.domain.helper.DistributionType
 import com.magnus.playfut.domain.helper.DistributorTeamSchema
 import com.magnus.playfut.domain.model.structure.Player
 import com.magnus.playfut.domain.repository.PlayerRepository
+import com.magnus.playfut.domain.repository.PreferencesRepository
 import com.magnus.playfut.domain.repository.RoundRepository
 import com.magnus.playfut.domain.state.ActionResultState
 import com.magnus.playfut.domain.state.UiState
@@ -18,7 +19,8 @@ import kotlinx.coroutines.launch
 
 class RoundSortViewModel(
     private val playerRepository: PlayerRepository,
-    private val roundRepository: RoundRepository
+    private val roundRepository: RoundRepository,
+    private val prefsRepository: PreferencesRepository
 ) : ViewModel() {
 
     private var playersLoaded: Boolean = false
@@ -32,13 +34,13 @@ class RoundSortViewModel(
     private val _createRoundState = MutableStateFlow<ActionResultState<Long>>(ActionResultState.Idle)
     val createRoundState = _createRoundState.asStateFlow()
 
-    private val _teamsCount = MutableStateFlow<Int?>(2)
+    private val _teamsCount = MutableStateFlow<Int?>(prefsRepository.teamsCount)
     val teamsCount: StateFlow<Int?> = _teamsCount.asStateFlow()
 
-    private val _playersCount = MutableStateFlow<Int?>(5)
+    private val _playersCount = MutableStateFlow<Int?>(prefsRepository.playersCount)
     val playersCount: StateFlow<Int?> = _playersCount.asStateFlow()
 
-    private val _distributionType = MutableStateFlow(DistributionType.RANDOM)
+    private val _distributionType = MutableStateFlow(prefsRepository.distributionType)
     val distributionType: StateFlow<DistributionType> = _distributionType.asStateFlow()
 
     var groupId: String = ""
@@ -47,14 +49,23 @@ class RoundSortViewModel(
 
     fun updateTeamsCount(count: Int?) {
         _teamsCount.value = count
+        viewModelScope.launch {
+            prefsRepository.saveInputTeamsCount(count)
+        }
     }
 
     fun updatePlayersCount(count: Int?) {
         _playersCount.value = count
+        viewModelScope.launch {
+            prefsRepository.saveInputPlayersCount(count)
+        }
     }
 
     fun updateDistributionType(type: DistributionType) {
         _distributionType.value = type
+        viewModelScope.launch {
+            prefsRepository.saveDistributionType(type)
+        }
     }
 
     fun toggleSelection(player: SelectablePlayer) {

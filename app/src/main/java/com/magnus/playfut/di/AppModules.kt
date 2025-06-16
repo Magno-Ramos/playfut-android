@@ -5,6 +5,7 @@ import com.magnus.playfut.domain.database.AppDatabase
 import com.magnus.playfut.domain.repository.GroupRepository
 import com.magnus.playfut.domain.repository.MatchRepository
 import com.magnus.playfut.domain.repository.PlayerRepository
+import com.magnus.playfut.domain.repository.PreferencesRepository
 import com.magnus.playfut.domain.repository.RoundRepository
 import com.magnus.playfut.domain.repository.ScoreRepository
 import com.magnus.playfut.domain.repository.TeamRepository
@@ -31,6 +32,7 @@ import com.magnus.playfut.ui.features.rounds.playing.RoundPlayingViewModel
 import com.magnus.playfut.ui.features.rounds.playing.screens.RoundPlayingTeamViewModel
 import com.magnus.playfut.ui.features.rounds.sorting.form.RoundSortViewModel
 import org.koin.android.ext.koin.androidApplication
+import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
@@ -44,6 +46,8 @@ val appModules = module {
     single { get<AppDatabase>().teamDao() }
     single { get<AppDatabase>().schemaDao() }
     single { FirebaseAuth.getInstance() }
+
+    single { PreferencesRepository(androidContext()) }
 
     single { RemoteGroupRepository(get()) }
     single { LocalGroupRepository(get()) }
@@ -77,6 +81,6 @@ val appModules = module {
     viewModel { PlayerFormViewModel(get()) }
     viewModel { RoundHistoryViewModel(get()) }
     viewModel { RoundPlayingTeamViewModel(get()) }
-    viewModel { RoundSortViewModel(get(), get()) }
+    viewModel { RoundSortViewModel(get(), get(), get()) }
     viewModel { RoundPlayingViewModel(get(), get(), get(), get()) }
 }
