@@ -10,8 +10,14 @@ data class Player(
     val name: String = "",
     val skillLevel: Int = 0,
     val position: PlayerPosition = PlayerPosition.UNIVERSAL,
+    val type: PlayerType = PlayerType.MEMBER,
     val groupId: String = "",
 ) : Parcelable
+
+enum class PlayerType {
+    MEMBER,
+    GUEST
+}
 
 enum class PlayerPosition(val position: String) {
     GOALKEEPER("Goleiro"),
@@ -31,5 +37,6 @@ fun PlayerEntity.toPlayer() = Player(
     groupId = groupOwnerId.toString(),
     name = name,
     skillLevel = skillLevel,
-    position = type
+    type = type,
+    position = position
 )

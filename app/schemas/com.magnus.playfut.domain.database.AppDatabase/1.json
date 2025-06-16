@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "8618d229ac9d10887e53a052af20540f",
+    "identityHash": "1b41e60050233fa7182ec0952faa7553",
     "entities": [
       {
         "tableName": "groups",
@@ -36,7 +36,7 @@
       },
       {
         "tableName": "players",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`playerId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `skillLevel` INTEGER NOT NULL, `groupOwnerId` INTEGER NOT NULL, `type` TEXT NOT NULL, `active` INTEGER NOT NULL, FOREIGN KEY(`groupOwnerId`) REFERENCES `groups`(`groupId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`playerId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `skillLevel` INTEGER NOT NULL, `groupOwnerId` INTEGER NOT NULL, `position` TEXT NOT NULL, `type` TEXT NOT NULL, `active` INTEGER NOT NULL, FOREIGN KEY(`groupOwnerId`) REFERENCES `groups`(`groupId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "playerId",
@@ -60,6 +60,12 @@
             "fieldPath": "groupOwnerId",
             "columnName": "groupOwnerId",
             "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "position",
+            "columnName": "position",
+            "affinity": "TEXT",
             "notNull": true
           },
           {
@@ -656,7 +662,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8618d229ac9d10887e53a052af20540f')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '1b41e60050233fa7182ec0952faa7553')"
     ]
   }
 }

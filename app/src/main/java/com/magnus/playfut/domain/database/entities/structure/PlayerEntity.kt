@@ -5,6 +5,7 @@ import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.magnus.playfut.domain.model.structure.PlayerPosition
+import com.magnus.playfut.domain.model.structure.PlayerType
 
 @Entity(
     tableName = "players",
@@ -26,6 +27,7 @@ data class PlayerEntity(
     val name: String = "",
     val skillLevel: Int = 0,
     val groupOwnerId: Long = 0,
-    val type: PlayerPosition = PlayerPosition.UNIVERSAL,
+    val position: PlayerPosition = PlayerPosition.UNIVERSAL,
+    val type: PlayerType = PlayerType.MEMBER,
     val active: Boolean = true
 )

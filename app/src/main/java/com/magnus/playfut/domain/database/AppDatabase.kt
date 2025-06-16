@@ -6,6 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.magnus.playfut.domain.database.converters.DateConverter
+import com.magnus.playfut.domain.database.converters.PlayerPositionConverter
 import com.magnus.playfut.domain.database.converters.PlayerTypeConverter
 import com.magnus.playfut.domain.database.converters.SchemaPlayerRoleConverter
 import com.magnus.playfut.domain.database.daos.GroupDao
@@ -40,7 +41,12 @@ import com.magnus.playfut.domain.database.entities.structure.TeamEntity
         CrossRefTeamRound::class
     ], version = 1
 )
-@TypeConverters(DateConverter::class, PlayerTypeConverter::class, SchemaPlayerRoleConverter::class)
+@TypeConverters(
+    DateConverter::class,
+    PlayerPositionConverter::class,
+    SchemaPlayerRoleConverter::class,
+    PlayerTypeConverter::class
+)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun groupDao(): GroupDao

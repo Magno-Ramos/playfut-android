@@ -20,7 +20,7 @@ class LocalPlayerRepository(
             PlayerEntity(
                 groupOwnerId = groupId.toLong(),
                 name = name,
-                type = type,
+                position = type,
                 skillLevel = quality
             )
         )
@@ -37,7 +37,7 @@ class LocalPlayerRepository(
             PlayerEntity(
                 playerId = id.toLong(),
                 name = name,
-                type = type,
+                position = type,
                 groupOwnerId = groupId.toLong(),
                 skillLevel = quality
             )
