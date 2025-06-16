@@ -24,7 +24,7 @@ fun GroupHeader(
     playersCount: Int,
     roundsCount: Int
 ) {
-    val playersText = if (playersCount == 1) "Jogador" else "Jogadores"
+    val playersText = if (playersCount == 1) "Membro" else "Membros"
     val roundsText = if (roundsCount == 1) "Rodada" else "Rodadas"
     val description = "$playersCount $playersText • $roundsCount $roundsText"
 

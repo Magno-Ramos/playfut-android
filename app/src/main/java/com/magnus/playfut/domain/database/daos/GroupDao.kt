@@ -28,7 +28,7 @@ interface GroupDao {
     @Query(
         """
         SELECT g.*, r.*,
-            (SELECT COUNT(playerId) FROM players WHERE groupOwnerId = g.groupId AND active = 1) as playerCount,
+            (SELECT COUNT(playerId) FROM players WHERE groupOwnerId = g.groupId AND active = 1 AND type = 'MEMBER') as playerCount,
             (SELECT COUNT(roundId) FROM rounds WHERE groupOwnerId = g.groupId) as roundCount
         FROM `groups` g LEFT JOIN rounds r ON g.groupId = r.groupOwnerId AND r.opened = 1 WHERE g.groupId = :groupId LIMIT 1
     """
@@ -40,7 +40,7 @@ interface GroupDao {
         """
         SELECT 
             g.*,
-            (SELECT COUNT(playerId) FROM players WHERE groupOwnerId = g.groupId AND active = 1) as playerCount,
+            (SELECT COUNT(playerId) FROM players WHERE groupOwnerId = g.groupId AND active = 1 AND type = 'MEMBER') as playerCount,
             (SELECT COUNT(roundId) FROM rounds WHERE groupOwnerId = g.groupId) as roundCount
         FROM `groups` as g
     """

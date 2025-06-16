@@ -6,7 +6,7 @@
     </plurals>
 
     <plurals name="players_count">
-        <item quantity="one">1 Jogador</item>
-        <item quantity="other">%d Jogadores</item>
+        <item quantity="one">1 Membro</item>
+        <item quantity="other">%d Membros</item>
     </plurals>
 </resources>
