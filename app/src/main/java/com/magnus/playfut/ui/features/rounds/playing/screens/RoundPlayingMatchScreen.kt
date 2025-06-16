@@ -16,7 +16,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -25,6 +24,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.magnus.playfut.R
 import com.magnus.playfut.domain.model.form.MatchForm
@@ -59,8 +59,8 @@ fun RoundPlayingMatchScreen(
     var playGoalAnimation by remember { mutableStateOf(false) }
 
     val scrollState = rememberScrollState()
-    val roundState by viewModel.roundState.collectAsState()
-    val closeMatchState by viewModel.closeMatchState.collectAsState()
+    val roundState by viewModel.roundState.collectAsStateWithLifecycle()
+    val closeMatchState by viewModel.closeMatchState.collectAsStateWithLifecycle()
     val allPlayers = roundState.asSuccess()?.data?.players.orEmpty()
 
     val closeMatchSheetState = rememberModalBottomSheetState()

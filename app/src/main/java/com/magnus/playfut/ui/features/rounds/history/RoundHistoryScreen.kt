@@ -16,7 +16,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -24,6 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.magnus.playfut.domain.model.relations.RoundResult
 import com.magnus.playfut.domain.state.UiState
 import com.magnus.playfut.extensions.activity
@@ -41,7 +41,7 @@ fun RoundHistoryScreen(
     groupId: String
 ) {
     val context = LocalContext.current
-    val state by viewModel.historyState.collectAsState()
+    val state by viewModel.historyState.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
         viewModel.fetchHistory(groupId)

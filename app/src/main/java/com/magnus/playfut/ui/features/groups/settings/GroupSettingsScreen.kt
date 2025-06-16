@@ -10,7 +10,6 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -18,6 +17,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.magnus.playfut.domain.state.ActionResultState
 import com.magnus.playfut.ui.features.common.AppToolbar
 import com.magnus.playfut.ui.features.groups.settings.components.DeleteBottomSheet
@@ -33,7 +33,7 @@ internal fun GroupSettingsScreen(
     groupId: String,
     onClickBack: () -> Unit = {}
 ) {
-    val deleteGroupResultState = viewModel.deleteGroupResult.collectAsState()
+    val deleteGroupResultState = viewModel.deleteGroupResult.collectAsStateWithLifecycle()
     val snackBarHostState = remember { SnackbarHostState() }
 
     val sheetState = rememberModalBottomSheetState()

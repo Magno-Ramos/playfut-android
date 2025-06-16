@@ -14,13 +14,13 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.magnus.playfut.domain.helper.PlayerDistributorV2
 import com.magnus.playfut.domain.state.isError
@@ -47,11 +47,11 @@ fun RoundSortFormScreen(
     val snackBarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
 
-    val playersState by viewModel.playersState.collectAsState()
-    val selectablePlayers by viewModel.selectablePlayers.collectAsState()
-    val teamsCount by viewModel.teamsCount.collectAsState()
-    val playersCount by viewModel.playersCount.collectAsState()
-    val playerDistributionType by viewModel.distributionType.collectAsState()
+    val playersState by viewModel.playersState.collectAsStateWithLifecycle()
+    val selectablePlayers by viewModel.selectablePlayers.collectAsStateWithLifecycle()
+    val teamsCount by viewModel.teamsCount.collectAsStateWithLifecycle()
+    val playersCount by viewModel.playersCount.collectAsStateWithLifecycle()
+    val playerDistributionType by viewModel.distributionType.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
         viewModel.fetchPlayers(groupId)

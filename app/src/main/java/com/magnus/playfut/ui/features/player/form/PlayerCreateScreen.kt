@@ -12,7 +12,6 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -20,6 +19,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.magnus.playfut.domain.model.structure.PlayerType
 import com.magnus.playfut.domain.state.ActionResultState
 import com.magnus.playfut.extensions.activity
@@ -35,7 +35,7 @@ fun PlayerCreateScreen(
     groupId: String
 ) {
     val context = LocalContext.current
-    val createState = viewModel.createPlayerResult.collectAsState()
+    val createState = viewModel.createPlayerResult.collectAsStateWithLifecycle()
     val snackBarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
 

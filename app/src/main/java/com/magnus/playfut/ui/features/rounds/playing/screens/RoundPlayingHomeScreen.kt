@@ -18,7 +18,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,6 +28,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.magnus.playfut.domain.state.UiState
 import com.magnus.playfut.domain.state.asSuccess
@@ -56,8 +56,8 @@ fun RoundPlayingHomeScreen(
     var title by remember { mutableStateOf("") }
 
     val context = LocalContext.current
-    val roundState by viewModel.roundState.collectAsState()
-    val closeRoundState by viewModel.closeRoundState.collectAsState()
+    val roundState by viewModel.roundState.collectAsStateWithLifecycle()
+    val closeRoundState by viewModel.closeRoundState.collectAsStateWithLifecycle()
 
     if (roundState.isSuccess()) {
         title = roundState.asSuccess()?.data?.roundName ?: ""

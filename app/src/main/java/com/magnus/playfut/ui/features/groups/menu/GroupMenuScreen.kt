@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -15,6 +14,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.magnus.playfut.domain.model.relations.GroupWithOpenedRound
 import com.magnus.playfut.domain.state.StateHandler
 import com.magnus.playfut.domain.state.UiState
@@ -37,7 +37,7 @@ fun GroupMenuScreen(
     onClickBack: () -> Unit = {}
 ) {
     val context = LocalContext.current
-    val groupState by viewModel.uiState.collectAsState()
+    val groupState by viewModel.uiState.collectAsStateWithLifecycle()
     var groupName by remember { mutableStateOf("") }
     val lifecycleOwner = LocalLifecycleOwner.current
 

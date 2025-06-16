@@ -88,4 +88,5 @@ dependencies {
 
     implementation("com.airbnb.android:lottie-compose:6.6.6")
     implementation("nl.dionsegijn:konfetti-compose:2.0.5")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.9.1")
 }

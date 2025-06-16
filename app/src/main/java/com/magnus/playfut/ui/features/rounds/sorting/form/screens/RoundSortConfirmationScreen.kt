@@ -18,7 +18,6 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -26,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.magnus.playfut.domain.helper.DistributorTeamSchema
 import com.magnus.playfut.domain.state.ActionResultState
@@ -45,7 +45,7 @@ fun RoundSortConfirmationScreen(
 ) {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
-    val createRoundState by viewModel.createRoundState.collectAsState()
+    val createRoundState by viewModel.createRoundState.collectAsStateWithLifecycle()
     val snackBarHostState = remember { SnackbarHostState() }
 
     fun showError() {
