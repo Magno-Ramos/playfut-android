@@ -19,7 +19,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.magnus.playfut.ui.theme.AppColor
 import com.magnus.playfut.ui.theme.AppTheme
 import com.magnus.playfut.ui.theme.spacing
 
@@ -56,7 +55,7 @@ fun RoundPlayersInput(
                 text = "Alterar",
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(start = 8.dp),
-                color = AppColor.blue,
+                color = MaterialTheme.colorScheme.primary,
                 fontSize = 14.sp
             )
         }
