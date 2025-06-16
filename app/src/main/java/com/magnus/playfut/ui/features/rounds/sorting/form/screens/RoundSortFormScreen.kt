@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -51,6 +52,7 @@ fun RoundSortFormScreen(
     val selectablePlayers by viewModel.selectablePlayers.collectAsState()
     val teamsCount by viewModel.teamsCount.collectAsState()
     val playersCount by viewModel.playersCount.collectAsState()
+    val playerDistributionType by remember { mutableStateOf(viewModel.distributionType) }
 
     LaunchedEffect(Unit) {
         viewModel.fetchPlayers(groupId)
@@ -69,7 +71,8 @@ fun RoundSortFormScreen(
             viewModel.distributorTeamSchema = PlayerDistributorV2.distribute(
                 players = selectablePlayers.filter { it.selected }.map { it.toPlayer() },
                 teamCount = teamsCount ?: 0,
-                startersPerTeam = playersCount ?: 0
+                startersPerTeam = playersCount ?: 0,
+                distributionType = playerDistributionType
             )
         }.onSuccess {
             navController.navigate(RoundSortRoutes.FormConfirmation.route)
@@ -117,6 +120,8 @@ fun RoundSortFormScreen(
                     totalPlayers = selectablePlayers.filter { it.selected }.size.toString(),
                     teamsCount = teamsCount?.toString() ?: "",
                     playersCount = playersCount?.toString() ?: "",
+                    distributionType = playerDistributionType,
+                    onChangeDistributionType = { viewModel.distributionType = it },
                     onChangeTeamsCount = { viewModel.updateTeamsCount(it.toIntOrNull()) },
                     onChangePlayersCount = { viewModel.updatePlayersCount(it.toIntOrNull()) },
                     onClickChangePlayers = { openSelectionScreen() }

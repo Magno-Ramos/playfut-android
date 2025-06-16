@@ -14,7 +14,8 @@ object PlayerDistributorV2 {
     fun distribute(
         players: List<Player>,
         teamCount: Int,
-        startersPerTeam: Int
+        startersPerTeam: Int,
+        distributionType: DistributionType
     ): List<DistributorTeamSchema> {
         val finalTeams = mutableListOf<DistributorTeamSchema>()
         require(players.size >= teamCount) { "Not enough players to distribute." }
@@ -23,34 +24,32 @@ object PlayerDistributorV2 {
             .shuffled()
             .toMutableList()
 
-        val fieldPlayers = players.filter { it.type != PlayerType.GOALKEEPER }
-            .shuffled()
-            .toMutableList()
+        val fieldPlayers = when (distributionType) {
+            DistributionType.RANDOM -> {
+                players.filter { it.type != PlayerType.GOALKEEPER }
+                    .shuffled()
+                    .toMutableList()
+            }
+            DistributionType.BALANCED_BY_RATING -> {
+                players.filter { it.type != PlayerType.GOALKEEPER }
+                    .sortedByDescending { it.skillLevel }
+                    .toMutableList()
+            }
+        }
 
         repeat(teamCount) { teamIndex ->
             val teamGoalKeepers = mutableListOf<Player>()
-            val teamFieldPlayers = mutableListOf<Player>()
             val teamStartPlaying = mutableListOf<Player>()
             val teamSubstitutes = mutableListOf<Player>()
 
-            // assign goalkeepers
             if (goalkeepers.isNotEmpty()) {
                 val gk = goalkeepers.removeAt(0)
                 teamGoalKeepers.add(gk)
             }
 
-            // collect players from all to distribute
-            repeat(startersPerTeam) {
+            repeat(startersPerTeam - (if (teamGoalKeepers.isNotEmpty()) 1 else 0) ) {
                 if (fieldPlayers.isNotEmpty()) {
                     val player = fieldPlayers.removeAt(0)
-                    teamFieldPlayers.add(player)
-                }
-            }
-
-            // assign starters
-            repeat(startersPerTeam) {
-                if (teamFieldPlayers.isNotEmpty()) {
-                    val player = teamFieldPlayers.removeAt(0)
                     teamStartPlaying.add(player)
                 }
             }
@@ -65,11 +64,11 @@ object PlayerDistributorV2 {
             )
         }
 
+        var currentTeamIndex = 0
         while (fieldPlayers.isNotEmpty()) {
-            for (team in finalTeams) {
-                val player = fieldPlayers.removeFirstOrNull() ?: break
-                team.substitutes.add(player)
-            }
+            val player = fieldPlayers.removeFirstOrNull() ?: break
+            finalTeams[currentTeamIndex % teamCount].substitutes.add(player)
+            currentTeamIndex++
         }
 
         return finalTeams
