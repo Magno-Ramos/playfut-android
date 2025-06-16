@@ -3,7 +3,7 @@ package com.magnus.playfut.domain.database.converters
 import androidx.room.TypeConverter
 import com.magnus.playfut.domain.model.structure.PlayerPosition
 
-class PlayerTypeConverter {
+class PlayerPositionConverter {
     @TypeConverter
     fun fromPlayerType(value: PlayerPosition): String {
         return value.name
