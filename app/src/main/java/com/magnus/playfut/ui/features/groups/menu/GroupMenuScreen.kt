@@ -1,5 +1,6 @@
 package com.magnus.playfut.ui.features.groups.menu
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -15,9 +16,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.magnus.playfut.domain.model.relations.GroupWithOpenedRound
+import com.magnus.playfut.domain.state.StateHandler
 import com.magnus.playfut.domain.state.UiState
-import com.magnus.playfut.extensions.activity
 import com.magnus.playfut.ui.features.common.AppToolbar
+import com.magnus.playfut.ui.features.common.ErrorView
+import com.magnus.playfut.ui.features.common.LoadingView
 import com.magnus.playfut.ui.features.groups.form.GroupsFormActivity
 import com.magnus.playfut.ui.features.groups.menu.components.GroupMenu
 import com.magnus.playfut.ui.features.groups.settings.GroupSettingsActivity
@@ -47,10 +50,6 @@ fun GroupMenuScreen(
 
         lifecycleOwner.lifecycle.addObserver(observer)
         onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
-    }
-
-    fun closeScreen() {
-        context.activity?.onBackPressedDispatcher?.onBackPressed()
     }
 
     fun openNewRound() {
@@ -89,20 +88,20 @@ fun GroupMenuScreen(
     Scaffold(
         topBar = { AppToolbar(title = groupName, onClickBack = onClickBack) }
     ) { paddings ->
-        when (val state = groupState) {
-            UiState.Loading -> Unit
-            is UiState.Error -> closeScreen()
-            is UiState.Success -> {
-                groupName = state.data.name
-                GroupMenu(
-                    modifier = Modifier.padding(paddings),
-                    group = state.data,
-                    openNewRound = ::openNewRound,
-                    openRoundsHistory = ::openRoundsHistory,
-                    openPlayers = ::openPlayers,
-                    openSettings = ::openSettings,
-                    openEditGroup = ::openEditGroup
-                )
+        Box(modifier = Modifier.padding(paddings)) {
+            StateHandler(groupState) {
+                loading { LoadingView() }
+                error { ErrorView("Desculpe, ocorreu um erro") }
+                content { group ->
+                    GroupMenu(
+                        group = group,
+                        openNewRound = ::openNewRound,
+                        openRoundsHistory = ::openRoundsHistory,
+                        openPlayers = ::openPlayers,
+                        openSettings = ::openSettings,
+                        openEditGroup = ::openEditGroup
+                    )
+                }
             }
         }
     }

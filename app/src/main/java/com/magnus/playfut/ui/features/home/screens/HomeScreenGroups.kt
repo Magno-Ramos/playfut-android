@@ -17,7 +17,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.magnus.playfut.domain.model.relations.GroupWithPlayersAndRoundsCount
-import com.magnus.playfut.domain.state.UiState
+import com.magnus.playfut.domain.state.StateHandler
 import com.magnus.playfut.ui.features.common.ErrorView
 import com.magnus.playfut.ui.features.common.LoadingView
 import com.magnus.playfut.ui.features.groups.form.GroupsFormActivity
@@ -53,23 +53,19 @@ fun HomeScreenGroups(viewModel: HomeViewModel = koinViewModel()) {
         context.startActivity(intent)
     }
 
-    when (uiState) {
-        is UiState.Loading -> LoadingView()
-        is UiState.Error -> ErrorView(message = "Desculpe, ocorreu um erro")
-        is UiState.Success -> SuccessState(
-            state = uiState as UiState.Success<List<GroupWithPlayersAndRoundsCount>>,
-            onClickGroup = ::onClickGroup
-        )
+    StateHandler(uiState) {
+        loading { LoadingView() }
+        error { ErrorView(message = "Desculpe, ocorreu um erro") }
+        content { groups -> SuccessState(groups = groups, onClickGroup = ::onClickGroup) }
     }
 }
 
 @Composable
 private fun SuccessState(
-    state: UiState.Success<List<GroupWithPlayersAndRoundsCount>>,
+    groups: List<GroupWithPlayersAndRoundsCount>,
     onClickGroup: (String) -> Unit = {}
 ) {
     val context = LocalContext.current
-    val groups = state.data
 
     fun onClickCreateGroup() {
         context.startActivity(GroupsFormActivity.createIntent(context))
