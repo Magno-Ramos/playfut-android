@@ -1,14 +1,14 @@
 package com.magnus.playfut.domain.repository.remote
 
 import com.magnus.playfut.domain.model.structure.Player
-import com.magnus.playfut.domain.model.structure.PlayerType
+import com.magnus.playfut.domain.model.structure.PlayerPosition
 import com.magnus.playfut.domain.repository.datasource.PlayerDataSource
 
 class RemotePlayerRepository : PlayerDataSource {
     override suspend fun createPlayer(
         groupId: String,
         name: String,
-        type: PlayerType,
+        type: PlayerPosition,
         quality: Int
     ): Result<Unit> {
         TODO("Not yet implemented")
@@ -18,7 +18,7 @@ class RemotePlayerRepository : PlayerDataSource {
         id: String,
         groupId: String,
         name: String,
-        type: PlayerType,
+        type: PlayerPosition,
         quality: Int
     ): Result<Unit> {
         TODO("Not yet implemented")

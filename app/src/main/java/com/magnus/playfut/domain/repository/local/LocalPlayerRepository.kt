@@ -3,7 +3,7 @@ package com.magnus.playfut.domain.repository.local
 import com.magnus.playfut.domain.database.daos.PlayerDao
 import com.magnus.playfut.domain.database.entities.structure.PlayerEntity
 import com.magnus.playfut.domain.model.structure.Player
-import com.magnus.playfut.domain.model.structure.PlayerType
+import com.magnus.playfut.domain.model.structure.PlayerPosition
 import com.magnus.playfut.domain.model.structure.toPlayer
 import com.magnus.playfut.domain.repository.datasource.PlayerDataSource
 
@@ -13,7 +13,7 @@ class LocalPlayerRepository(
     override suspend fun createPlayer(
         groupId: String,
         name: String,
-        type: PlayerType,
+        type: PlayerPosition,
         quality: Int
     ) = runCatching {
         dao.insertPlayer(
@@ -30,7 +30,7 @@ class LocalPlayerRepository(
         id: String,
         groupId: String,
         name: String,
-        type: PlayerType,
+        type: PlayerPosition,
         quality: Int
     ) = runCatching {
         dao.updatePlayer(

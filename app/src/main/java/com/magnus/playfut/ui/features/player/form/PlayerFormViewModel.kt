@@ -2,7 +2,7 @@ package com.magnus.playfut.ui.features.player.form
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.magnus.playfut.domain.model.structure.PlayerType
+import com.magnus.playfut.domain.model.structure.PlayerPosition
 import com.magnus.playfut.domain.repository.PlayerRepository
 import com.magnus.playfut.domain.state.ActionResultState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,7 +22,7 @@ class PlayerFormViewModel(
     private val _deletePlayerResult = MutableStateFlow<ActionResultState<Unit>>(ActionResultState.Idle)
     val deletePlayerResult: StateFlow<ActionResultState<Unit>> = _deletePlayerResult
 
-    fun createPlayer(groupId: String, name: String, type: PlayerType, quality: Int) {
+    fun createPlayer(groupId: String, name: String, type: PlayerPosition, quality: Int) {
         viewModelScope.launch {
             _createPlayerResult.value = ActionResultState.Loading
             repository.createPlayer(groupId, name, type, quality)
@@ -31,7 +31,7 @@ class PlayerFormViewModel(
         }
     }
 
-    fun editPlayer(id: String, groupId: String, name: String, type: PlayerType, quality: Int) {
+    fun editPlayer(id: String, groupId: String, name: String, type: PlayerPosition, quality: Int) {
         viewModelScope.launch {
             _editPlayerResult.value = ActionResultState.Loading
             repository.editPlayer(id, groupId, name, type, quality)

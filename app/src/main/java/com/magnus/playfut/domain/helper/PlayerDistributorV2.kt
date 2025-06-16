@@ -1,7 +1,7 @@
 package com.magnus.playfut.domain.helper
 
 import com.magnus.playfut.domain.model.structure.Player
-import com.magnus.playfut.domain.model.structure.PlayerType
+import com.magnus.playfut.domain.model.structure.PlayerPosition
 
 data class DistributorTeamSchema(
     val teamName: String,
@@ -20,18 +20,18 @@ object PlayerDistributorV2 {
         val finalTeams = mutableListOf<DistributorTeamSchema>()
         require(players.size >= teamCount) { "Not enough players to distribute." }
 
-        val goalkeepers = players.filter { it.type == PlayerType.GOALKEEPER }
+        val goalkeepers = players.filter { it.position == PlayerPosition.GOALKEEPER }
             .shuffled()
             .toMutableList()
 
         val fieldPlayers = when (distributionType) {
             DistributionType.RANDOM -> {
-                players.filter { it.type != PlayerType.GOALKEEPER }
+                players.filter { it.position != PlayerPosition.GOALKEEPER }
                     .shuffled()
                     .toMutableList()
             }
             DistributionType.BALANCED_BY_RATING -> {
-                players.filter { it.type != PlayerType.GOALKEEPER }
+                players.filter { it.position != PlayerPosition.GOALKEEPER }
                     .sortedByDescending { it.skillLevel }
                     .toMutableList()
             }

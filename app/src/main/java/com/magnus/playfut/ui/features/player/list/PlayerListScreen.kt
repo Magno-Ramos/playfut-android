@@ -28,7 +28,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.magnus.playfut.domain.model.structure.Player
-import com.magnus.playfut.domain.model.structure.PlayerType
+import com.magnus.playfut.domain.model.structure.PlayerPosition
 import com.magnus.playfut.domain.state.UiState
 import com.magnus.playfut.extensions.activity
 import com.magnus.playfut.ui.features.common.AppToolbar
@@ -139,9 +139,9 @@ private fun PlayerListContent(
     onClickPlayer: (Player) -> Unit = {}
 ) {
     val groups = players
-        .groupBy { it.type }
+        .groupBy { it.position }
         .toList()
-        .sortedBy { if (it.first == PlayerType.GOALKEEPER) 0 else 1 }
+        .sortedBy { if (it.first == PlayerPosition.GOALKEEPER) 0 else 1 }
 
     LazyColumn(
         modifier = modifier.padding(16.dp),

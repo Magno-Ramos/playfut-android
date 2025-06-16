@@ -21,15 +21,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.magnus.playfut.domain.model.structure.PlayerType
+import com.magnus.playfut.domain.model.structure.PlayerPosition
 import com.magnus.playfut.ui.theme.AppTheme
 
 @Composable
 fun PlayerTypeInput(
-    type: PlayerType = PlayerType.UNIVERSAL,
-    onTypeChange: (PlayerType) -> Unit = {}
+    type: PlayerPosition = PlayerPosition.UNIVERSAL,
+    onTypeChange: (PlayerPosition) -> Unit = {}
 ) {
-    val typeOptions = PlayerType.entries.map { it.type }
+    val typeOptions = PlayerPosition.entries.map { it.position }
     Column {
         Text(
             text = "Tipo",
@@ -51,13 +51,13 @@ fun PlayerTypeInput(
                         .fillMaxWidth()
                         .height(48.dp)
                         .selectable(
-                            selected = (text == type.type),
-                            onClick = { onTypeChange(PlayerType.fromType(text)) },
+                            selected = (text == type.position),
+                            onClick = { onTypeChange(PlayerPosition.fromType(text)) },
                             role = Role.RadioButton
                         )
                 ) {
                     RadioButton(
-                        selected = (text == type.type),
+                        selected = (text == type.position),
                         onClick = null
                     )
                     Text(
@@ -82,7 +82,7 @@ private fun PlayerTypeInputPreview() {
                 .padding(16.dp)
         ) {
             PlayerTypeInput(
-                type = PlayerType.UNIVERSAL,
+                type = PlayerPosition.UNIVERSAL,
                 onTypeChange = {}
             )
         }

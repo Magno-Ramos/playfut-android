@@ -49,7 +49,7 @@ fun PLayerEditScreen(
     val coroutineScope = rememberCoroutineScope()
 
     var playerName = remember { mutableStateOf(player.name) }
-    var playerType = remember { mutableStateOf(player.type) }
+    var playerType = remember { mutableStateOf(player.position) }
     var playerQuality = remember { mutableIntStateOf(player.skillLevel) }
 
     fun closeScreen() {

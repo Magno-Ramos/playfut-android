@@ -9,20 +9,20 @@ data class Player(
     val id: String = "",
     val name: String = "",
     val skillLevel: Int = 0,
-    val type: PlayerType = PlayerType.UNIVERSAL,
+    val position: PlayerPosition = PlayerPosition.UNIVERSAL,
     val groupId: String = "",
 ) : Parcelable
 
-enum class PlayerType(val type: String) {
+enum class PlayerPosition(val position: String) {
     GOALKEEPER("Goleiro"),
     DEFENDER("Zagueiro"),
     WINGER("Ala ou Lateral"),
     MIDFIELDER("Meia"),
-    FORWARD("Atacante, Pivô ou Centroavante"),
+    FORWARD("Atacante, Centroavante ou Pivô"),
     UNIVERSAL("Jogador que faz várias funções");
 
     companion object {
-        fun fromType(type: String) = entries.first { it.type == type }
+        fun fromType(type: String) = entries.first { it.position == type }
     }
 }
 
@@ -31,5 +31,5 @@ fun PlayerEntity.toPlayer() = Player(
     groupId = groupOwnerId.toString(),
     name = name,
     skillLevel = skillLevel,
-    type = type
+    position = type
 )

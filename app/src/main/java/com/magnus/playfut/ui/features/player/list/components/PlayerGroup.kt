@@ -13,19 +13,19 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.magnus.playfut.domain.model.structure.Player
-import com.magnus.playfut.domain.model.structure.PlayerType
+import com.magnus.playfut.domain.model.structure.PlayerPosition
 import com.magnus.playfut.ui.theme.AppTheme
 
 @Composable
 fun PlayerGroup(
-    type: PlayerType,
+    type: PlayerPosition,
     group: List<Player>,
     onClickPlayer: (Player) -> Unit = {}
 ) {
     Column {
         Text(
             modifier = Modifier.padding(start = 8.dp),
-            text = type.type,
+            text = type.position,
             fontSize = 14.sp,
             color = MaterialTheme.colorScheme.onBackground
         )
@@ -47,7 +47,7 @@ private fun PlayerGroupPreview() {
                 .padding(16.dp)
         ) {
             PlayerGroup(
-                type = PlayerType.MIDFIELDER,
+                type = PlayerPosition.MIDFIELDER,
                 group = listOf(
                     Player(
                         name = "Magno",

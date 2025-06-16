@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.magnus.playfut.R
 import com.magnus.playfut.domain.model.structure.Player
-import com.magnus.playfut.domain.model.structure.PlayerType
+import com.magnus.playfut.domain.model.structure.PlayerPosition
 import com.magnus.playfut.ui.theme.AppColor
 import com.magnus.playfut.ui.theme.AppTheme
 
@@ -37,8 +37,8 @@ fun PlayerItem(
     player: Player,
     onClick: () -> Unit = {}
 ) {
-    val typeIcon = when (player.type) {
-        PlayerType.GOALKEEPER -> rememberVectorPainter(Icons.Default.SportsMma)
+    val typeIcon = when (player.position) {
+        PlayerPosition.GOALKEEPER -> rememberVectorPainter(Icons.Default.SportsMma)
         else -> painterResource(R.drawable.ball_soccer)
     }
 
@@ -100,7 +100,7 @@ private fun PlayerItemPreview() {
                 player = Player(
                     name = "Magno",
                     skillLevel = 4,
-                    type = PlayerType.FORWARD
+                    position = PlayerPosition.FORWARD
                 )
             )
         }

@@ -20,7 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.magnus.playfut.domain.model.structure.PlayerType
+import com.magnus.playfut.domain.model.structure.PlayerPosition
 import com.magnus.playfut.domain.state.ActionResultState
 import com.magnus.playfut.extensions.activity
 import com.magnus.playfut.ui.features.common.AppToolbar
@@ -40,7 +40,7 @@ fun PlayerCreateScreen(
     val coroutineScope = rememberCoroutineScope()
 
     var playerName = remember { mutableStateOf("") }
-    var playerType = remember { mutableStateOf(PlayerType.UNIVERSAL) }
+    var playerPosition = remember { mutableStateOf(PlayerPosition.UNIVERSAL) }
     var playerQuality = remember { mutableIntStateOf(3) }
 
     fun closeScreen() {
@@ -55,7 +55,7 @@ fun PlayerCreateScreen(
         viewModel.createPlayer(
             groupId = groupId,
             name = playerName.value,
-            type = playerType.value,
+            type = playerPosition.value,
             quality = playerQuality.intValue
         )
     }
@@ -100,10 +100,10 @@ fun PlayerCreateScreen(
                 .padding(paddings)
                 .padding(horizontal = 16.dp),
             name = playerName.value,
-            type = playerType.value,
+            type = playerPosition.value,
             quality = playerQuality.intValue,
             onNameChange = { playerName.value = it },
-            onTypeChange = { playerType.value = it },
+            onTypeChange = { playerPosition.value = it },
             onQualityChange = { playerQuality.intValue = it },
             requestNameFocus = true
         )

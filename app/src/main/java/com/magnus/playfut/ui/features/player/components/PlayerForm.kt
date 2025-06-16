@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import com.magnus.playfut.domain.model.structure.PlayerType
+import com.magnus.playfut.domain.model.structure.PlayerPosition
 import com.magnus.playfut.ui.features.common.TextInput
 import com.magnus.playfut.ui.theme.AppTheme
 
@@ -20,9 +20,9 @@ fun PlayerForm(
     modifier: Modifier = Modifier,
     name: String = "",
     quality: Int = 3,
-    type: PlayerType = PlayerType.UNIVERSAL,
+    type: PlayerPosition = PlayerPosition.UNIVERSAL,
     onNameChange: (String) -> Unit = {},
-    onTypeChange: (PlayerType) -> Unit = {},
+    onTypeChange: (PlayerPosition) -> Unit = {},
     onQualityChange: (Int) -> Unit = {},
     requestNameFocus: Boolean = false
 ) {
