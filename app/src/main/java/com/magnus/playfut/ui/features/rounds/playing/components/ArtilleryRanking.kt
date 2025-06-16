@@ -5,25 +5,21 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.magnus.playfut.R
 import com.magnus.playfut.ui.features.rounds.playing.states.RoundArtilleryItem
 import com.magnus.playfut.ui.theme.AppTheme
 import com.magnus.playfut.ui.theme.spacing
@@ -59,10 +55,13 @@ fun ArtilleryRanking(artillery: List<RoundArtilleryItem>) {
                         color = MaterialTheme.colorScheme.onSurface
                     )
                 }
+            } else {
+                ArtilleryHeader()
+                HorizontalDivider()
             }
 
             artillery.sortedByDescending { it.goals }.forEachIndexed { index, it ->
-                ArtilleryItem(item = it)
+                ArtilleryItem(position = index + 1, item = it)
                 if (index < artillery.size - 1) {
                     HorizontalDivider()
                 }
@@ -72,13 +71,57 @@ fun ArtilleryRanking(artillery: List<RoundArtilleryItem>) {
 }
 
 @Composable
-private fun ArtilleryItem(item: RoundArtilleryItem) {
+private fun ArtilleryHeader() {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(MaterialTheme.spacing.medium, MaterialTheme.spacing.extraSmall)
+            .padding(
+                horizontal = MaterialTheme.spacing.tiny,
+                vertical = MaterialTheme.spacing.small
+            )
     ) {
+        Text(
+            modifier = Modifier.width(40.dp),
+            text = "#",
+            textAlign = TextAlign.Center,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            fontSize = 14.sp
+        )
+        Text(
+            modifier = Modifier.weight(1f),
+            text = "Jogador",
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            fontSize = 14.sp
+        )
+        Text(
+            modifier = Modifier.width(50.dp),
+            text = "Gols",
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            fontSize = 14.sp,
+            textAlign = TextAlign.Center,
+        )
+    }
+}
+
+@Composable
+private fun ArtilleryItem(position: Int, item: RoundArtilleryItem) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(
+                horizontal = MaterialTheme.spacing.tiny,
+                vertical = MaterialTheme.spacing.small
+            )
+    ) {
+        Text(
+            modifier = Modifier.width(40.dp),
+            text = position.toString(),
+            textAlign = TextAlign.Center,
+            color = MaterialTheme.colorScheme.onSurface,
+            fontSize = 14.sp
+        )
         Text(
             modifier = Modifier.weight(1f),
             text = item.name ?: "Desconhecido",
@@ -86,16 +129,12 @@ private fun ArtilleryItem(item: RoundArtilleryItem) {
             fontSize = 14.sp
         )
         Text(
+            modifier = Modifier.width(50.dp),
             text = item.goals.toString(),
             color = MaterialTheme.colorScheme.onSurface,
             fontSize = 14.sp,
+            textAlign = TextAlign.Center,
             fontWeight = FontWeight.Bold
-        )
-        Spacer(Modifier.width(MaterialTheme.spacing.small))
-        Icon(
-            painter = painterResource(R.drawable.soccer_ball_net),
-            contentDescription = null,
-            tint = MaterialTheme.colorScheme.onSurface
         )
     }
 }
