@@ -86,7 +86,7 @@ dependencies {
     implementation(libs.androidx.navigation.dynamic.features.fragment)
     implementation(libs.kotlinx.serialization.json)
 
-    implementation("com.airbnb.android:lottie-compose:6.6.6")
-    implementation("nl.dionsegijn:konfetti-compose:2.0.5")
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.9.1")
+    implementation(libs.lottie.compose)
+    implementation(libs.konfetti.compose)
+    implementation(libs.androidx.lifecycle.runtime.compose)
 }
