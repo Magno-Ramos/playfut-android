@@ -19,13 +19,13 @@ enum class PlayerType {
     GUEST
 }
 
-enum class PlayerPosition(val position: String) {
-    GOALKEEPER("Goleiro"),
-    DEFENDER("Zagueiro"),
-    WINGER("Ala ou Lateral"),
-    MIDFIELDER("Meia"),
-    FORWARD("Atacante, Centroavante ou Pivô"),
-    UNIVERSAL("Jogador que faz várias funções");
+enum class PlayerPosition(val position: String, val acronym: String) {
+    GOALKEEPER("Goleiro", "GOL"),
+    DEFENDER("Zagueiro", "ZAG"),
+    WINGER("Ala ou Lateral", "ALA"),
+    MIDFIELDER("Meia", "MEI"),
+    FORWARD("Atacante, Centroavante ou Pivô", "ATA"),
+    UNIVERSAL("Jogador que faz várias funções", "UNI");
 
     fun isGoalkeeper() = this == GOALKEEPER
 
