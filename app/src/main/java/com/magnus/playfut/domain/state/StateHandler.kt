@@ -19,7 +19,7 @@ fun <T> StateHandler(state: UiState<T>, builder: UiHandlerScope<T>.() -> Unit) {
     when (state) {
         is UiState.Loading -> scope.loadingContent()
         is UiState.Success -> scope.successContent(state.data)
-        is UiState.Error -> scope.errorContent(state.message)
+        is UiState.Error -> scope.errorContent(state.exception)
     }
 }
 
@@ -49,7 +49,7 @@ class ActionResultScope<T> {
 class UiHandlerScope<T> {
     var loadingContent: @Composable () -> Unit = {}
     var successContent: @Composable (T) -> Unit = {}
-    var errorContent: @Composable (String?) -> Unit = {}
+    var errorContent: @Composable (Exception?) -> Unit = {}
 
     fun loading(content: @Composable () -> Unit) {
         loadingContent = content
@@ -59,7 +59,7 @@ class UiHandlerScope<T> {
         successContent = content
     }
 
-    fun error(content: @Composable (String?) -> Unit) {
+    fun error(content: @Composable (Exception?) -> Unit) {
         errorContent = content
     }
 }

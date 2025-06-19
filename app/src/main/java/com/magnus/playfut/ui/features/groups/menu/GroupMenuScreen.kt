@@ -13,6 +13,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.magnus.playfut.domain.model.relations.GroupWithOpenedRound
+import com.magnus.playfut.domain.repository.exceptions.GroupNotFoundException
 import com.magnus.playfut.domain.state.StateHandler
 import com.magnus.playfut.domain.state.UiState
 import com.magnus.playfut.domain.state.asSuccess
@@ -83,13 +84,21 @@ fun GroupMenuScreen(
         context.startActivity(intent)
     }
 
+    @Composable
+    fun handleError(error: Exception? = null) {
+        when {
+            error is GroupNotFoundException -> onClickBack()
+            else -> ErrorView("Desculpe, ocorreu um erro!")
+        }
+    }
+
     Scaffold(
         topBar = { AppToolbar(title = groupName, onClickBack = onClickBack) }
     ) { paddings ->
         Box(modifier = Modifier.padding(paddings)) {
             StateHandler(groupState) {
                 loading { LoadingView() }
-                error { ErrorView("Desculpe, ocorreu um erro") }
+                error { handleError(it) }
                 success { group ->
                     GroupMenu(
                         group = group,

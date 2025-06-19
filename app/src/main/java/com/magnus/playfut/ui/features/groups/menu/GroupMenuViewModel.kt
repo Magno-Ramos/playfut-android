@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.magnus.playfut.domain.model.relations.GroupWithOpenedRound
 import com.magnus.playfut.domain.repository.GroupRepository
+import com.magnus.playfut.domain.repository.exceptions.GroupNotFoundException
 import com.magnus.playfut.domain.state.UiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -24,7 +25,7 @@ class GroupMenuViewModel(
                     if (group != null) {
                         _uiState.value = UiState.Success(group)
                     } else {
-                        _uiState.value = UiState.Error("Group not found")
+                        _uiState.value = UiState.Error(exception = GroupNotFoundException())
                     }
                 }
         }
