@@ -9,6 +9,7 @@ import com.magnus.playfut.domain.model.relations.toGroupWithOpenedRound
 import com.magnus.playfut.domain.model.structure.Group
 import com.magnus.playfut.domain.model.structure.toGroup
 import com.magnus.playfut.domain.repository.datasource.GroupDataSource
+import com.magnus.playfut.domain.repository.exceptions.GroupNotFoundException
 
 class LocalGroupRepository (
     private val dao: GroupDao
@@ -17,8 +18,9 @@ class LocalGroupRepository (
         return runCatching { dao.getGroupById(groupId.toLong()).toGroup() }
     }
 
-    override suspend fun getGroupWithOpenedRound(groupId: String): Result<GroupWithOpenedRound?> = runCatching {
-        dao.getGroupWithOpenedRound(groupId.toLong())?.toGroupWithOpenedRound()
+    override suspend fun getGroupWithOpenedRound(groupId: String): Result<GroupWithOpenedRound> = runCatching {
+        val groupEntity = dao.getGroupWithOpenedRound(groupId.toLong()) ?: throw GroupNotFoundException()
+        groupEntity.toGroupWithOpenedRound()
     }
 
     override suspend fun getAllGroups(): Result<List<GroupWithPlayersAndRoundsCount>> = runCatching {

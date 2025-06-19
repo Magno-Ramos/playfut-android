@@ -7,7 +7,7 @@ import com.magnus.playfut.domain.model.structure.Group
 interface GroupDataSource {
     suspend fun getGroupById(groupId: String): Result<Group>
 
-    suspend fun getGroupWithOpenedRound(groupId: String): Result<GroupWithOpenedRound?>
+    suspend fun getGroupWithOpenedRound(groupId: String): Result<GroupWithOpenedRound>
 
     suspend fun getAllGroups(): Result<List<GroupWithPlayersAndRoundsCount>>
 

@@ -13,7 +13,7 @@ class RemoteGroupRepository (
         TODO("Not yet implemented")
     }
 
-    override suspend fun getGroupWithOpenedRound(groupId: String): Result<GroupWithOpenedRound?> {
+    override suspend fun getGroupWithOpenedRound(groupId: String): Result<GroupWithOpenedRound> {
         TODO("Not yet implemented")
     }
 

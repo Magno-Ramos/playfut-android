@@ -49,7 +49,7 @@ class ActionResultScope<T> {
 class UiHandlerScope<T> {
     var loadingContent: @Composable () -> Unit = {}
     var successContent: @Composable (T) -> Unit = {}
-    var errorContent: @Composable (Exception?) -> Unit = {}
+    var errorContent: @Composable (Throwable?) -> Unit = {}
 
     fun loading(content: @Composable () -> Unit) {
         loadingContent = content
@@ -59,7 +59,7 @@ class UiHandlerScope<T> {
         successContent = content
     }
 
-    fun error(content: @Composable (Exception?) -> Unit) {
+    fun error(content: @Composable (Throwable?) -> Unit) {
         errorContent = content
     }
 }

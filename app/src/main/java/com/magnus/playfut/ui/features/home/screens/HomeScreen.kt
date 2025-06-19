@@ -3,6 +3,10 @@ package com.magnus.playfut.ui.features.home.screens
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -32,22 +36,20 @@ fun HomeScreen() {
     }
 
     Scaffold(
+        floatingActionButton = {
+            FloatingActionButton(onClick = { openCreateGroup() }) {
+                Icon(Icons.Filled.Add, "Criar Grupo")
+            }
+        },
         topBar = {
             HomeTopAppBarContent(
                 title = when (currentScreen) {
                     HomeMenu.Groups -> "Grupos"
                     HomeMenu.Account -> "Conta"
                 },
-                onClickNotification = { openNotifications() },
-                onClickCreate = { openCreateGroup() }
+                onClickNotification = { openNotifications() }
             )
         },
-//        bottomBar = {
-//            BottomNavigationBarContent(
-//                currentScreen = currentScreen,
-//                onClickMenu = { currentScreen = it }
-//            )
-//        }
     ) { innerPaddings ->
         Box(
             modifier = Modifier

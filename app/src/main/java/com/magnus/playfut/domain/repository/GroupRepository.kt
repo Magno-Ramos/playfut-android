@@ -21,7 +21,7 @@ class GroupRepository(
         return source.getGroupById(groupId)
     }
 
-    override suspend fun getGroupWithOpenedRound(groupId: String): Result<GroupWithOpenedRound?> {
+    override suspend fun getGroupWithOpenedRound(groupId: String): Result<GroupWithOpenedRound> {
         return source.getGroupWithOpenedRound(groupId)
     }
 

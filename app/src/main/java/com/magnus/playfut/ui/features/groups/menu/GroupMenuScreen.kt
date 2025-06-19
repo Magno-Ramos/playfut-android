@@ -85,7 +85,7 @@ fun GroupMenuScreen(
     }
 
     @Composable
-    fun handleError(error: Exception? = null) {
+    fun handleError(error: Throwable? = null) {
         when {
             error is GroupNotFoundException -> onClickBack()
             else -> ErrorView("Desculpe, ocorreu um erro!")
