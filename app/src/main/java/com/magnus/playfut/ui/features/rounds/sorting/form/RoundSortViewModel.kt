@@ -3,8 +3,8 @@ package com.magnus.playfut.ui.features.rounds.sorting.form
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.magnus.playfut.domain.helper.DistributionType
-import com.magnus.playfut.domain.helper.DistributorTeamSchema
 import com.magnus.playfut.domain.model.structure.Player
+import com.magnus.playfut.domain.model.ui.TeamSchema
 import com.magnus.playfut.domain.repository.PlayerRepository
 import com.magnus.playfut.domain.repository.PreferencesRepository
 import com.magnus.playfut.domain.repository.RoundRepository
@@ -37,8 +37,8 @@ class RoundSortViewModel(
     val distributionType = prefsRepository.getDistributionType()
 
     var groupId: String = ""
-    var editableTeam: DistributorTeamSchema? = null
-    var distributorTeamSchema: List<DistributorTeamSchema>? = null
+    var editableTeam: TeamSchema? = null
+    var teamSchema: List<TeamSchema>? = null
 
     fun updateTeamsCount(count: Int?) {
         viewModelScope.launch {
@@ -88,7 +88,7 @@ class RoundSortViewModel(
     fun createRound() {
         viewModelScope.launch {
             _createRoundState.value = ActionResultState.Loading
-            val mTeams = distributorTeamSchema
+            val mTeams = teamSchema
 
             if (mTeams.isNullOrEmpty()) {
                 _createRoundState.value = ActionResultState.Error("No teams selected")

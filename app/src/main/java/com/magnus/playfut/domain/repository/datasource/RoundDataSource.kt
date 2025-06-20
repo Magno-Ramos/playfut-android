@@ -1,14 +1,14 @@
 package com.magnus.playfut.domain.repository.datasource
 
-import com.magnus.playfut.domain.helper.DistributorTeamSchema
 import com.magnus.playfut.domain.model.relations.RoundResult
 import com.magnus.playfut.domain.model.relations.RoundWithDetails
 import com.magnus.playfut.domain.model.structure.Round
+import com.magnus.playfut.domain.model.ui.TeamSchema
 
 interface RoundDataSource {
     suspend fun createRound(
         groupId: String,
-        schema: List<DistributorTeamSchema>
+        schema: List<TeamSchema>
     ): Result<Long>
 
     suspend fun closeRound(roundId: String, winnerTeamId: String?): Result<Unit>

@@ -69,7 +69,7 @@ fun RoundSortFormScreen(
     fun sortPlayersInTeams() {
         runCatching {
             val selectedPlayers = selectablePlayers.filter { it.selected }.map { it.toPlayer() }
-            viewModel.distributorTeamSchema = PlayerDistributorV3.distribute(
+            viewModel.teamSchema = PlayerDistributorV3.distribute(
                 players = selectedPlayers,
                 teamCount = teamsCount ?: 0,
                 startersPerTeam = playersCount ?: 0,

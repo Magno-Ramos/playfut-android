@@ -30,16 +30,16 @@ fun RoundEditTeamScreen(
 
     fun onClickSave() {
         val editableTeam = viewModel.editableTeam ?: return
-        val editableTeamIndex = viewModel.distributorTeamSchema?.indexOf(editableTeam)
+        val editableTeamIndex = viewModel.teamSchema?.indexOf(editableTeam)
 
         if (editableTeamIndex == null || editableTeamIndex == -1) {
             return
         }
 
-        val teams = viewModel.distributorTeamSchema?.toMutableList()
+        val teams = viewModel.teamSchema?.toMutableList()
         teams?.removeAt(editableTeamIndex)
         teams?.add(editableTeamIndex, editableTeam.copy(teamName = teamName))
-        viewModel.distributorTeamSchema = teams
+        viewModel.teamSchema = teams
         navController.popBackStack()
     }
 

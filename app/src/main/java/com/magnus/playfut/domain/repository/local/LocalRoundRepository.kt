@@ -1,20 +1,20 @@
 package com.magnus.playfut.domain.repository.local
 
 import com.magnus.playfut.domain.database.daos.RoundDao
-import com.magnus.playfut.domain.helper.DistributorTeamSchema
 import com.magnus.playfut.domain.model.relations.RoundResult
 import com.magnus.playfut.domain.model.relations.RoundWithDetails
 import com.magnus.playfut.domain.model.relations.toRoundResult
 import com.magnus.playfut.domain.model.relations.toRoundWithDetails
 import com.magnus.playfut.domain.model.structure.Round
 import com.magnus.playfut.domain.model.structure.toRound
+import com.magnus.playfut.domain.model.ui.TeamSchema
 import com.magnus.playfut.domain.repository.datasource.RoundDataSource
 
 class LocalRoundRepository(
     private val dao: RoundDao,
 ) : RoundDataSource {
 
-    override suspend fun createRound(groupId: String, schema: List<DistributorTeamSchema>): Result<Long> {
+    override suspend fun createRound(groupId: String, schema: List<TeamSchema>): Result<Long> {
         return runCatching { dao.insertTeamsWithSchema(groupId.toLong(), schema) }
     }
 

@@ -1,10 +1,10 @@
 package com.magnus.playfut.domain.repository
 
 import com.google.firebase.auth.FirebaseAuth
-import com.magnus.playfut.domain.helper.DistributorTeamSchema
 import com.magnus.playfut.domain.model.relations.RoundResult
 import com.magnus.playfut.domain.model.relations.RoundWithDetails
 import com.magnus.playfut.domain.model.structure.Round
+import com.magnus.playfut.domain.model.ui.TeamSchema
 import com.magnus.playfut.domain.repository.datasource.RoundDataSource
 import com.magnus.playfut.domain.repository.local.LocalRoundRepository
 import com.magnus.playfut.domain.repository.remote.RemoteRoundRepository
@@ -20,7 +20,7 @@ class RoundRepository(
 
     override suspend fun createRound(
         groupId: String,
-        schema: List<DistributorTeamSchema>
+        schema: List<TeamSchema>
     ): Result<Long> = source.createRound(groupId, schema)
 
     override suspend fun closeRound(roundId: String, winnerTeamId: String?): Result<Unit> {

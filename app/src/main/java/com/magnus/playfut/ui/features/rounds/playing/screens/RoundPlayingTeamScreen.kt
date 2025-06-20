@@ -8,7 +8,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -26,6 +28,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.magnus.playfut.R
+import com.magnus.playfut.domain.helper.RotationGenerator
 import com.magnus.playfut.domain.model.relations.TeamWithSchema
 import com.magnus.playfut.domain.model.structure.Player
 import com.magnus.playfut.domain.state.UiState
@@ -33,6 +36,7 @@ import com.magnus.playfut.ui.features.common.AppToolbar
 import com.magnus.playfut.ui.features.common.ErrorView
 import com.magnus.playfut.ui.features.common.Expandable
 import com.magnus.playfut.ui.features.common.LoadingView
+import com.magnus.playfut.ui.features.common.SubstitutionPlan
 import com.magnus.playfut.ui.theme.spacing
 import org.koin.androidx.compose.koinViewModel
 
@@ -64,16 +68,25 @@ fun RoundPlayingTeamScreen(
 
 @Composable
 private fun Content(team: TeamWithSchema) {
+    val scrollState = rememberScrollState()
+    val substitutions = RotationGenerator.generate(team.startPlaying, team.substitutes)
+    val substitutionsGrouped = RotationGenerator.groupSubstitutionsByRounds(substitutions, team.substitutes.size)
+
     Column(
         verticalArrangement = Arrangement.spacedBy(1.dp),
         modifier = Modifier
             .padding(MaterialTheme.spacing.medium)
             .clip(RoundedCornerShape(8.dp))
+            .verticalScroll(scrollState)
     ) {
         TeamHeader(teamName = team.teamName)
         PlayerList(title = "Goleiros", team.goalKeepers)
         PlayerList(title = "Titulares", team.startPlaying)
         PlayerList(title = "Reservas", team.substitutes)
+
+        Expandable(title = "Plano de substituições (${substitutionsGrouped.size})", initExpanded = substitutionsGrouped.isNotEmpty()) {
+            SubstitutionPlan(substitutionsGrouped)
+        }
     }
 }
 
@@ -105,7 +118,7 @@ private fun TeamHeader(teamName: String) {
 
 @Composable
 private fun PlayerList(title: String, list: List<Player>) {
-    Expandable(title = "$title (${list.size})", initExpanded = true) {
+    Expandable(title = "$title (${list.size})", initExpanded = list.isNotEmpty()) {
         Column {
             list.forEach { player ->
                 Text(

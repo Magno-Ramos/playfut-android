@@ -2,6 +2,7 @@ package com.magnus.playfut.domain.helper
 
 import com.magnus.playfut.domain.model.structure.Player
 import com.magnus.playfut.domain.model.structure.PlayerPosition
+import com.magnus.playfut.domain.model.ui.TeamSchema
 
 object PlayerDistributorV3 {
     fun distribute(
@@ -9,7 +10,7 @@ object PlayerDistributorV3 {
         startersPerTeam: Int,
         players: List<Player>,
         distributionType: DistributionType
-    ): List<DistributorTeamSchema> {
+    ): List<TeamSchema> {
         return when (distributionType) {
             DistributionType.RANDOM -> distributeRandom(teamCount, startersPerTeam, players)
             DistributionType.BALANCED_BY_RATING -> distributeByRating(teamCount, startersPerTeam, players)
@@ -20,7 +21,7 @@ object PlayerDistributorV3 {
         teamCount: Int,
         startersPerTeam: Int,
         players: List<Player>
-    ): List<DistributorTeamSchema> {
+    ): List<TeamSchema> {
         val allGoalKeepers = players.filter { it.position.isGoalkeeper() }
             .shuffled()
             .toMutableList()
@@ -56,11 +57,15 @@ object PlayerDistributorV3 {
                 }
             }
 
-            DistributorTeamSchema(
+            val substitutions = RotationGenerator.generate(startPlaying, teamFieldPlayers)
+            val substitutionsGroups = RotationGenerator.groupSubstitutionsByRounds(substitutions, teamFieldPlayers.size)
+
+            TeamSchema(
                 teamName = "Time ${index + 1}",
                 goalKeepers = teamGoalKeepers,
                 startPlaying = startPlaying,
-                substitutes = teamFieldPlayers
+                substitutes = teamFieldPlayers,
+                substitutions = substitutionsGroups
             )
         }
     }
@@ -69,7 +74,7 @@ object PlayerDistributorV3 {
         teamCount: Int,
         startersPerTeam: Int,
         players: List<Player>
-    ): List<DistributorTeamSchema> {
+    ): List<TeamSchema> {
         val goalkeepers = players.filter { it.position == PlayerPosition.GOALKEEPER }
             .shuffled()
             .toMutableList()
@@ -105,7 +110,7 @@ object PlayerDistributorV3 {
                 }
             }
 
-            DistributorTeamSchema(
+            TeamSchema(
                 teamName = "Time ${index + 1}",
                 goalKeepers = teamGoalKeepers,
                 startPlaying = startPlaying,

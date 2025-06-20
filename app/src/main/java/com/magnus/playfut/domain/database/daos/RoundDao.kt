@@ -14,7 +14,7 @@ import com.magnus.playfut.domain.database.entities.structure.RoundEntity
 import com.magnus.playfut.domain.database.entities.structure.RoundResultEntity
 import com.magnus.playfut.domain.database.entities.structure.SchemaEntity
 import com.magnus.playfut.domain.database.entities.structure.TeamEntity
-import com.magnus.playfut.domain.helper.DistributorTeamSchema
+import com.magnus.playfut.domain.model.ui.TeamSchema
 
 @Dao
 interface RoundDao {
@@ -66,7 +66,7 @@ interface RoundDao {
     }
 
     @Transaction
-    suspend fun insertTeamsWithSchema(groupId: Long, schemas: List<DistributorTeamSchema>): Long {
+    suspend fun insertTeamsWithSchema(groupId: Long, schemas: List<TeamSchema>): Long {
         closeOpenRoundsByGroup(groupId)
         val roundId = insertRound(RoundEntity(groupOwnerId = groupId, opened = true))
 

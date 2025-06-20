@@ -27,7 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.magnus.playfut.domain.helper.DistributorTeamSchema
+import com.magnus.playfut.domain.model.ui.TeamSchema
 import com.magnus.playfut.domain.state.ActionResultState
 import com.magnus.playfut.extensions.activity
 import com.magnus.playfut.ui.features.common.AppToolbar
@@ -67,7 +67,7 @@ fun RoundSortConfirmationScreen(
         }
     }
 
-    fun onClickEditTeam(team: DistributorTeamSchema) {
+    fun onClickEditTeam(team: TeamSchema) {
         viewModel.editableTeam = team
         navController.navigate(RoundSortRoutes.EditTeam.route)
     }
@@ -100,7 +100,7 @@ fun RoundSortConfirmationScreen(
         snackbarHost = { SnackbarHost(snackBarHostState) },
     ) { paddings ->
         Box(modifier = Modifier.padding(paddings)) {
-            viewModel.distributorTeamSchema?.takeIf { it.isNotEmpty() }?.let { mTeams ->
+            viewModel.teamSchema?.takeIf { it.isNotEmpty() }?.let { mTeams ->
                 RoundSortConfirmationContent(
                     teams = mTeams,
                     onClickEditTeam = ::onClickEditTeam
@@ -113,8 +113,8 @@ fun RoundSortConfirmationScreen(
 @Composable
 private fun RoundSortConfirmationContent(
     modifier: Modifier = Modifier,
-    teams: List<DistributorTeamSchema> = emptyList(),
-    onClickEditTeam: (DistributorTeamSchema) -> Unit = {},
+    teams: List<TeamSchema> = emptyList(),
+    onClickEditTeam: (TeamSchema) -> Unit = {},
 ) {
     val scrollState = rememberScrollState()
     Column(
@@ -141,7 +141,7 @@ private fun RoundSortConfirmationContentPreview() {
         Column(Modifier.background(MaterialTheme.colorScheme.background)) {
             RoundSortConfirmationContent(
                 teams = listOf(
-                    DistributorTeamSchema(
+                    TeamSchema(
                         teamName = "Time 1",
                         goalKeepers = listOf(),
                         startPlaying = listOf()
