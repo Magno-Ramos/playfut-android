@@ -12,6 +12,7 @@ import androidx.compose.material.icons.filled.Flag
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.PeopleAlt
+import androidx.compose.material.icons.outlined.QueryStats
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -34,7 +35,8 @@ fun GroupMenu(
     openPlayers: () -> Unit = {},
     openSettings: () -> Unit = {},
     openEditGroup: () -> Unit = {},
-    openRoundsHistory: () -> Unit = {}
+    openRoundsHistory: () -> Unit = {},
+    openStatistics: () -> Unit = {}
 ) {
     Column(
         modifier = modifier.padding(16.dp),
@@ -50,11 +52,16 @@ fun GroupMenu(
             icon = if (group.hasOpenedRound()) {
                 rememberVectorPainter(Icons.Default.Flag)
             } else {
-                painterResource(R.drawable.apparel_outlined)
+                painterResource(R.drawable.ball_soccer)
             },
-            title = if (group.hasOpenedRound()) "Continuar Rodada" else "Sortear Times",
+            title = if (group.hasOpenedRound()) "Continuar Rodada" else "Nova Rodada",
             isPrimary = group.hasOpenedRound(),
             onClick = { openNewRound() }
+        )
+        MenuItem(
+            icon = rememberVectorPainter(Icons.Outlined.QueryStats),
+            title = "Estatísticas",
+            onClick = { openStatistics() }
         )
         MenuItem(
             icon = rememberVectorPainter(Icons.Outlined.PeopleAlt),

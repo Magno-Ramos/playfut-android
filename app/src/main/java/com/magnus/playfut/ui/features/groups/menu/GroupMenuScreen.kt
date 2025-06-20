@@ -27,6 +27,7 @@ import com.magnus.playfut.ui.features.player.list.PlayerListActivity
 import com.magnus.playfut.ui.features.rounds.history.RoundHistoryActivity
 import com.magnus.playfut.ui.features.rounds.playing.RoundPlayingActivity
 import com.magnus.playfut.ui.features.rounds.sorting.form.RoundSortActivity
+import com.magnus.playfut.ui.features.statistic.StatisticHomeActivity
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -84,6 +85,11 @@ fun GroupMenuScreen(
         context.startActivity(intent)
     }
 
+    fun openStatistics() {
+        val intent = StatisticHomeActivity.createIntent(context)
+        context.startActivity(intent)
+    }
+
     @Composable
     fun handleError(error: Throwable? = null) {
         when {
@@ -106,7 +112,8 @@ fun GroupMenuScreen(
                         openRoundsHistory = ::openRoundsHistory,
                         openPlayers = ::openPlayers,
                         openSettings = ::openSettings,
-                        openEditGroup = ::openEditGroup
+                        openEditGroup = ::openEditGroup,
+                        openStatistics = ::openStatistics
                     )
                 }
             }
