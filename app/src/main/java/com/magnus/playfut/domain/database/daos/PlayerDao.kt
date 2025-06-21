@@ -7,6 +7,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
 import com.magnus.playfut.domain.database.entities.structure.PlayerEntity
+import com.magnus.playfut.domain.model.structure.Artillery
 
 @Dao
 interface PlayerDao {
@@ -35,4 +36,21 @@ interface PlayerDao {
         WHERE T.teamId = :targetTeamId AND S.teamId = :targetTeamId AND S.roundId = :targetRoundId AND P.active = 1
     """)
     suspend fun getPlayersByTeamInRound(targetTeamId: String, targetRoundId: String): List<PlayerEntity>
+
+    @Query("""
+        SELECT
+            p.name AS playerName, 
+            COUNT(s.scoreId) AS totalGoals
+        FROM
+            players p
+        LEFT JOIN
+            scores s ON p.playerId = s.playerId
+        WHERE
+            p.groupOwnerId = :groupId
+        GROUP BY
+            p.name
+        ORDER BY
+            totalGoals DESC;
+    """)
+    suspend fun getPlayersScoreRanking(groupId: String): List<Artillery>
 }

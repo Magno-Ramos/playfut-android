@@ -2,6 +2,7 @@ package com.magnus.playfut.domain.repository.local
 
 import com.magnus.playfut.domain.database.daos.PlayerDao
 import com.magnus.playfut.domain.database.entities.structure.PlayerEntity
+import com.magnus.playfut.domain.model.structure.Artillery
 import com.magnus.playfut.domain.model.structure.Player
 import com.magnus.playfut.domain.model.structure.PlayerPosition
 import com.magnus.playfut.domain.model.structure.PlayerType
@@ -61,5 +62,9 @@ class LocalPlayerRepository(
         roundId: String
     ): Result<List<Player>> {
         return runCatching { dao.getPlayersByTeamInRound(teamId, roundId).map { it.toPlayer() } }
+    }
+
+    override suspend fun fetchPlayerScoreRanking(groupId: String): Result<List<Artillery>> {
+        return kotlin.runCatching { dao.getPlayersScoreRanking(groupId) }
     }
 }

@@ -1,5 +1,6 @@
 package com.magnus.playfut.domain.repository.datasource
 
+import com.magnus.playfut.domain.model.structure.Artillery
 import com.magnus.playfut.domain.model.structure.Player
 import com.magnus.playfut.domain.model.structure.PlayerPosition
 import com.magnus.playfut.domain.model.structure.PlayerType
@@ -26,4 +27,6 @@ interface PlayerDataSource {
     suspend fun fetchPlayers(groupId: String): Result<List<Player>>
 
     suspend fun fetchPlayersByTeam(teamId: String, roundId: String): Result<List<Player>>
+
+    suspend fun fetchPlayerScoreRanking(groupId: String): Result<List<Artillery>>
 }

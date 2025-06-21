@@ -1,6 +1,7 @@
 package com.magnus.playfut.domain.repository
 
 import com.google.firebase.auth.FirebaseAuth
+import com.magnus.playfut.domain.model.structure.Artillery
 import com.magnus.playfut.domain.model.structure.Player
 import com.magnus.playfut.domain.model.structure.PlayerPosition
 import com.magnus.playfut.domain.model.structure.PlayerType
@@ -46,5 +47,9 @@ class PlayerRepository(
         roundId: String
     ): Result<List<Player>> {
         return source.fetchPlayersByTeam(teamId, roundId)
+    }
+
+    override suspend fun fetchPlayerScoreRanking(groupId: String): Result<List<Artillery>> {
+        return source.fetchPlayerScoreRanking(groupId)
     }
 }

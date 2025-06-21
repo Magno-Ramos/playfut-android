@@ -1,5 +1,6 @@
 package com.magnus.playfut.domain.repository.remote
 
+import com.magnus.playfut.domain.model.structure.Artillery
 import com.magnus.playfut.domain.model.structure.Player
 import com.magnus.playfut.domain.model.structure.PlayerPosition
 import com.magnus.playfut.domain.model.structure.PlayerType
@@ -38,6 +39,10 @@ class RemotePlayerRepository : PlayerDataSource {
         teamId: String,
         roundId: String
     ): Result<List<Player>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun fetchPlayerScoreRanking(groupId: String): Result<List<Artillery>> {
         TODO("Not yet implemented")
     }
 }
