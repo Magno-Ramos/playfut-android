@@ -8,7 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-fun ErrorView(message: String) {
+fun ErrorView(message: String = "Desculpe, ocorreu um erro!") {
     Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Text(text = message)
     }

@@ -24,6 +24,21 @@ interface GroupDao {
     @Query("SELECT* FROM `groups` WHERE groupId = :groupId")
     suspend fun getGroupById(groupId: Long): GroupEntity
 
+    @Query(
+        "SELECT COUNT(m.matchId) FROM matches m " +
+                "INNER JOIN rounds rd ON m.roundId = rd.roundId " +
+                "WHERE rd.groupOwnerId = :groupId"
+    )
+    suspend fun getMatchesCount(groupId: Long): Int
+
+    @Query("""
+        SELECT COUNT(s.scoreId) FROM scores s 
+            INNER JOIN matches m ON s.matchId = m.matchId 
+            INNER JOIN rounds rd ON m.roundId = rd.roundId 
+        WHERE rd.groupOwnerId = :groupId
+    """)
+    suspend fun getTotalGoals(groupId: Long): Int
+
     @Transaction
     @Query(
         """

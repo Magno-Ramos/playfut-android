@@ -50,7 +50,7 @@
             android:name=".ui.features.rounds.history.RoundHistoryActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.features.statistic.StatisticHomeActivity"
+            android:name=".ui.features.statistic.StatisticActivity"
             android:exported="false" />
     </application>
 </manifest>
