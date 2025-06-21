@@ -1,4 +1,4 @@
-package com.magnus.playfut.ui.features.home.screens
+package com.magnus.playfut.ui.features.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,16 +20,13 @@ import com.magnus.playfut.domain.model.relations.GroupWithPlayersAndRoundsCount
 import com.magnus.playfut.domain.state.StateHandler
 import com.magnus.playfut.ui.features.common.ErrorView
 import com.magnus.playfut.ui.features.common.LoadingView
-import com.magnus.playfut.ui.features.groups.form.GroupsFormActivity
 import com.magnus.playfut.ui.features.groups.menu.GroupMenuActivity
-import com.magnus.playfut.ui.features.home.HomeViewModel
-import com.magnus.playfut.ui.features.home.components.CreateGroupButton
 import com.magnus.playfut.ui.features.home.components.EmptyContent
 import com.magnus.playfut.ui.features.home.components.GroupItem
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun HomeScreenGroups(viewModel: HomeViewModel = koinViewModel()) {
+fun HomeGroupScreen(viewModel: HomeViewModel = koinViewModel()) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
@@ -55,7 +52,7 @@ fun HomeScreenGroups(viewModel: HomeViewModel = koinViewModel()) {
 
     StateHandler(uiState) {
         loading { LoadingView() }
-        error { ErrorView(message = "Desculpe, ocorreu um erro") }
+        error { ErrorView() }
         success { groups -> SuccessState(groups = groups, onClickGroup = ::onClickGroup) }
     }
 }
@@ -65,14 +62,8 @@ private fun SuccessState(
     groups: List<GroupWithPlayersAndRoundsCount>,
     onClickGroup: (String) -> Unit = {}
 ) {
-    val context = LocalContext.current
-
-    fun onClickCreateGroup() {
-        context.startActivity(GroupsFormActivity.createIntent(context))
-    }
-
     if (groups.isEmpty()) {
-        GroupsStateEmpty(onClickCreateGroup = ::onClickCreateGroup)
+        GroupsStateEmpty()
     } else {
         GroupsStateList(
             groups = groups,
@@ -82,10 +73,7 @@ private fun SuccessState(
 }
 
 @Composable
-fun GroupsStateEmpty(
-    modifier: Modifier = Modifier,
-    onClickCreateGroup: () -> Unit
-) {
+fun GroupsStateEmpty(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -93,7 +81,6 @@ fun GroupsStateEmpty(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         EmptyContent(Modifier.weight(1f))
-        CreateGroupButton(onClick = { onClickCreateGroup() })
     }
 }
 

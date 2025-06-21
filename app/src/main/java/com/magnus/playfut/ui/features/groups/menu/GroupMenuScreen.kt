@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -16,6 +17,7 @@ import com.magnus.playfut.domain.model.relations.GroupWithOpenedRound
 import com.magnus.playfut.domain.repository.exceptions.GroupNotFoundException
 import com.magnus.playfut.domain.state.StateHandler
 import com.magnus.playfut.domain.state.UiState
+import com.magnus.playfut.domain.state.asError
 import com.magnus.playfut.domain.state.asSuccess
 import com.magnus.playfut.ui.features.common.AppToolbar
 import com.magnus.playfut.ui.features.common.ErrorView
@@ -38,7 +40,7 @@ fun GroupMenuScreen(
 ) {
     val context = LocalContext.current
     val groupState by viewModel.uiState.collectAsStateWithLifecycle()
-    var groupName = groupState.asSuccess()?.data?.name.orEmpty()
+    val groupName = groupState.asSuccess()?.data?.name.orEmpty()
     val lifecycleOwner = LocalLifecycleOwner.current
 
     DisposableEffect(lifecycleOwner) {
@@ -50,6 +52,12 @@ fun GroupMenuScreen(
 
         lifecycleOwner.lifecycle.addObserver(observer)
         onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
+    }
+
+    LaunchedEffect(groupState) {
+        if (groupState.asError()?.exception is GroupNotFoundException) {
+            onClickBack()
+        }
     }
 
     fun openNewRound() {
@@ -90,21 +98,13 @@ fun GroupMenuScreen(
         context.startActivity(intent)
     }
 
-    @Composable
-    fun handleError(error: Throwable? = null) {
-        when {
-            error is GroupNotFoundException -> onClickBack()
-            else -> ErrorView("Desculpe, ocorreu um erro!")
-        }
-    }
-
     Scaffold(
         topBar = { AppToolbar(title = groupName, onClickBack = onClickBack) }
     ) { paddings ->
         Box(modifier = Modifier.padding(paddings)) {
             StateHandler(groupState) {
                 loading { LoadingView() }
-                error { handleError(it) }
+                error { ErrorView() }
                 success { group ->
                     GroupMenu(
                         group = group,

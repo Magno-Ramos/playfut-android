@@ -19,7 +19,7 @@ class PlayerListViewModel(
     fun fetchPlayers(groupId: String) {
         viewModelScope.launch {
             repository.fetchPlayers(groupId)
-                .onFailure { _uiState.value = UiState.Error(it.message) }
+                .onFailure { _uiState.value = UiState.Error() }
                 .onSuccess { _uiState.value = UiState.Success(it) }
         }
     }

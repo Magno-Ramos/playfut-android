@@ -31,7 +31,7 @@ import com.magnus.playfut.R
 import com.magnus.playfut.domain.helper.RotationGenerator
 import com.magnus.playfut.domain.model.relations.TeamWithSchema
 import com.magnus.playfut.domain.model.structure.Player
-import com.magnus.playfut.domain.state.UiState
+import com.magnus.playfut.domain.state.StateHandler
 import com.magnus.playfut.ui.features.common.AppToolbar
 import com.magnus.playfut.ui.features.common.ErrorView
 import com.magnus.playfut.ui.features.common.Expandable
@@ -57,10 +57,10 @@ fun RoundPlayingTeamScreen(
         topBar = { AppToolbar(title = "Detalhes do Time", onClickBack = { navController.popBackStack() }) }
     ) { paddings ->
         Box(Modifier.padding(paddings)) {
-            when (val state = teamState) {
-                UiState.Loading -> LoadingView()
-                is UiState.Error -> ErrorView(message = "Desculpe, ocorreu um erro")
-                is UiState.Success<TeamWithSchema> -> Content(state.data)
+            StateHandler(teamState) {
+                loading { LoadingView() }
+                error { ErrorView() }
+                success { Content(it) }
             }
         }
     }

@@ -115,7 +115,7 @@ fun PlayerListScreen(
         ) {
             StateHandler(playerListState) {
                 loading { LoadingView() }
-                error { ErrorView(message = "Erro ao carregar os jogadores.") }
+                error { ErrorView() }
                 success { players ->
                     Column {
                         PrimaryTabRow(selectedTabIndex = PlayerType.entries.indexOf(filterPlayerType)) {

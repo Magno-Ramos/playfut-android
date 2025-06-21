@@ -64,7 +64,7 @@ class RoundPlayingViewModel(
                     )
                 )
             }.onFailure {
-                _roundState.value = UiState.Error(null)
+                _roundState.value = UiState.Error()
             }
         }
     }

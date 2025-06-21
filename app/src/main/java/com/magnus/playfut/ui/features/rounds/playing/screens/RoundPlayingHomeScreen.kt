@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.magnus.playfut.domain.state.UiState
+import com.magnus.playfut.domain.state.StateHandler
 import com.magnus.playfut.domain.state.asSuccess
 import com.magnus.playfut.domain.state.isSuccess
 import com.magnus.playfut.extensions.activity
@@ -87,9 +87,11 @@ fun RoundPlayingHomeScreen(
     Scaffold(
         topBar = { AppToolbar(title = title, onClickBack = { context.activity?.finish() }) },
         bottomBar = {
-            BottomAppBar (contentPadding = PaddingValues(horizontal = MaterialTheme.spacing.medium)) {
+            BottomAppBar(contentPadding = PaddingValues(horizontal = MaterialTheme.spacing.medium)) {
                 Button(
-                    modifier = Modifier.fillMaxWidth().height(48.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(48.dp),
                     onClick = { navController.navigate(RoundPlayingRoutes.MatchSelection.route) }
                 ) {
                     Text(text = "Nova Partida")
@@ -98,14 +100,16 @@ fun RoundPlayingHomeScreen(
         }
     ) { paddings ->
         Box(modifier = Modifier.padding(paddings)) {
-            when (val state = roundState) {
-                UiState.Loading -> LoadingView()
-                is UiState.Error -> ErrorView("Desculpe, ocorreu um erro!")
-                is UiState.Success<RoundPlayingHomeViewState> -> RoundPlayingHomeContent(
-                    state = state.data,
-                    onClickConfirmCloseRound = ::onClickConfirmCloseRound,
-                    onClickTeam = ::onClickTeam
-                )
+            StateHandler(roundState) {
+                loading { LoadingView() }
+                error { ErrorView() }
+                success {
+                    RoundPlayingHomeContent(
+                        state = it,
+                        onClickConfirmCloseRound = ::onClickConfirmCloseRound,
+                        onClickTeam = ::onClickTeam
+                    )
+                }
             }
         }
     }

@@ -19,7 +19,7 @@ class HomeViewModel(
     fun fetchGroups() {
         viewModelScope.launch {
             repository.getAllGroups()
-                .onFailure { _uiState.value = UiState.Error(it.message ?: "Unknown error") }
+                .onFailure { _uiState.value = UiState.Error() }
                 .onSuccess { groups -> _uiState.value = UiState.Success(groups) }
         }
     }

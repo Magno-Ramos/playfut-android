@@ -21,7 +21,7 @@ class RoundPlayingTeamViewModel(
         _teamState.value = UiState.Loading
         viewModelScope.launch {
             repository.getTeamByIdWithSchema(teamId, roundId)
-                .onFailure { _teamState.value = UiState.Error(it.message) }
+                .onFailure { _teamState.value = UiState.Error() }
                 .onSuccess { _teamState.value = UiState.Success(it) }
         }
     }

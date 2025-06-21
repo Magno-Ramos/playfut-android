@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.magnus.playfut.domain.model.relations.RoundResult
-import com.magnus.playfut.domain.state.UiState
+import com.magnus.playfut.domain.state.StateHandler
 import com.magnus.playfut.extensions.activity
 import com.magnus.playfut.ui.features.common.AppToolbar
 import com.magnus.playfut.ui.features.common.ErrorView
@@ -59,10 +59,10 @@ fun RoundHistoryScreen(
                 .fillMaxSize()
                 .padding(paddings)
         ) {
-            when (val value = state) {
-                UiState.Loading -> LoadingView()
-                is UiState.Error -> ErrorView("Desculpe, ocorreu um erro")
-                is UiState.Success<List<RoundResult>> -> Content(value.data)
+            StateHandler(state) {
+                loading { LoadingView() }
+                error { ErrorView() }
+                success { Content(it) }
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.magnus.playfut.ui.features.home.screens
+package com.magnus.playfut.ui.features.home
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,20 +9,14 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import com.magnus.playfut.ui.features.groups.form.GroupsFormActivity
-import com.magnus.playfut.ui.features.home.HomeMenu
 import com.magnus.playfut.ui.features.home.components.HomeTopAppBarContent
 import com.magnus.playfut.ui.features.notifications.NotificationsActivity
 
 @Composable
 fun HomeScreen() {
-    var currentScreen by remember { mutableStateOf(HomeMenu.Groups) }
     val context = LocalContext.current
 
     fun openNotifications() {
@@ -43,10 +37,7 @@ fun HomeScreen() {
         },
         topBar = {
             HomeTopAppBarContent(
-                title = when (currentScreen) {
-                    HomeMenu.Groups -> "Grupos"
-                    HomeMenu.Account -> "Conta"
-                },
+                title = "Grupos",
                 onClickNotification = { openNotifications() }
             )
         },
@@ -55,12 +46,7 @@ fun HomeScreen() {
             modifier = Modifier
                 .padding(paddingValues = innerPaddings)
                 .fillMaxSize()
-        ) {
-            when (currentScreen) {
-                HomeMenu.Groups -> HomeScreenGroups()
-                HomeMenu.Account -> HomeScreenAccount()
-            }
-        }
+        ) { HomeGroupScreen() }
     }
 }
 

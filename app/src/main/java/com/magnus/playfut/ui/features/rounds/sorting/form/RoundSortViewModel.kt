@@ -76,7 +76,7 @@ class RoundSortViewModel(
         viewModelScope.launch {
             _playersState.value = UiState.Loading
             playerRepository.fetchPlayers(groupId)
-                .onFailure { _playersState.value = UiState.Error(it.message) }
+                .onFailure { _playersState.value = UiState.Error() }
                 .onSuccess { players ->
                     _playersState.value = UiState.Success(players)
                     _selectablePlayers.value = players.map { it.toSelectablePlayer() }
