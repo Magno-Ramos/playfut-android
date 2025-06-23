@@ -75,7 +75,7 @@ val appModules = module {
     single { RemoteMatchRepository() }
     single { MatchRepository(get(), get(), get()) }
 
-    single { StatisticsRepository(get()) }
+    single { StatisticsRepository(get(), get()) }
 
     viewModel { HomeViewModel(get()) }
     viewModel { GroupsFormViewModel(get()) }

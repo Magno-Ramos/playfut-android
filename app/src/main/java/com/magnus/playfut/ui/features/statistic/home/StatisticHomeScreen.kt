@@ -18,6 +18,7 @@ import com.magnus.playfut.extensions.activity
 import com.magnus.playfut.ui.features.common.AppToolbar
 import com.magnus.playfut.ui.features.common.ErrorView
 import com.magnus.playfut.ui.features.common.LoadingView
+import com.magnus.playfut.ui.features.statistic.components.HomeArtilleryRanking
 import com.magnus.playfut.ui.features.statistic.components.HomeHeader
 import com.magnus.playfut.ui.theme.spacing
 import org.koin.androidx.compose.koinViewModel
@@ -54,6 +55,11 @@ fun StatisticHomeScreen(
                             .padding(MaterialTheme.spacing.medium)
                     ) {
                         HomeHeader(matches = data.matches, totalGoals = data.totalGoals)
+
+                        HomeArtilleryRanking(
+                            list = data.artilleryRanking,
+                            maxCount = 3
+                        ) { /* TODO add click here */ }
                     }
                 }
             }
