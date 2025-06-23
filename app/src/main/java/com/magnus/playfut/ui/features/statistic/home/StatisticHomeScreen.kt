@@ -2,6 +2,8 @@ package com.magnus.playfut.ui.features.statistic.home
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -20,6 +22,7 @@ import com.magnus.playfut.ui.features.common.ErrorView
 import com.magnus.playfut.ui.features.common.LoadingView
 import com.magnus.playfut.ui.features.statistic.components.HomeArtilleryRanking
 import com.magnus.playfut.ui.features.statistic.components.HomeHeader
+import com.magnus.playfut.ui.features.statistic.components.HomeLabel
 import com.magnus.playfut.ui.theme.spacing
 import org.koin.androidx.compose.koinViewModel
 
@@ -54,8 +57,10 @@ fun StatisticHomeScreen(
                             .verticalScroll(homeScrollState)
                             .padding(MaterialTheme.spacing.medium)
                     ) {
+                        HomeLabel("Dados do Grupo")
                         HomeHeader(matches = data.matches, totalGoals = data.totalGoals)
-
+                        Spacer(Modifier.height(MaterialTheme.spacing.large))
+                        HomeLabel("Ranking de Artilharia")
                         HomeArtilleryRanking(
                             list = data.artilleryRanking,
                             maxCount = 3

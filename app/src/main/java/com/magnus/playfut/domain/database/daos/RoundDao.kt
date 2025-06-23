@@ -31,6 +31,9 @@ interface RoundDao {
     @Query("UPDATE rounds SET opened = 0 WHERE groupOwnerId = :groupId AND opened = 1")
     suspend fun closeOpenRoundsByGroup(groupId: Long)
 
+    @Query("SELECT COUNT(*) FROM rounds WHERE groupOwnerId = :groupId")
+    suspend fun getRoundCountByGroup(groupId: String): Int
+
     @Transaction
     @Query("SELECT * FROM rounds WHERE roundId = :roundId")
     suspend fun getRoundDetails(roundId: String): PojoRoundWithDetails

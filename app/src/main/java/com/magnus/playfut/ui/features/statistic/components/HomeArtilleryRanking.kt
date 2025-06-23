@@ -37,7 +37,7 @@ fun HomeArtilleryRanking(
             ContentRow(
                 number = "#",
                 player = "Player",
-                goals = "Goals",
+                goals = "Gols",
                 isSecondary = true
             )
             HorizontalDivider()
