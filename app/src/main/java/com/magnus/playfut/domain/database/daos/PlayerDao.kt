@@ -28,6 +28,9 @@ interface PlayerDao {
     @Query("SELECT * FROM players WHERE groupOwnerId = :groupId AND active = 1")
     suspend fun getPlayersByGroupId(groupId: Long): List<PlayerEntity>
 
+    @Query("SELECT COUNT(*) FROM players WHERE groupOwnerId = :groupId AND active = 1")
+    suspend fun getActivePlayersCount(groupId: Long): Int
+
     @Query(
         """
         SELECT 
@@ -36,13 +39,12 @@ interface PlayerDao {
         FROM players p
         INNER JOIN schema_player_cross_ref c ON p.playerId = c.playerId
         INNER JOIN schemas s ON c.schemaId = s.schemaId
-        WHERE p.groupOwnerId = :groupId
+        WHERE p.groupOwnerId = :groupId AND P.active = 1
         GROUP BY p.playerId
         ORDER BY roundCount DESC
-        LIMIT 1
     """
     )
-    suspend fun getMostPresentPlayer(groupId: String): PojoPlayerWithRoundCount
+    suspend fun getMostPresentPlayers(groupId: String): List<PojoPlayerWithRoundCount>
 
     @Query(
         """
@@ -56,13 +58,12 @@ interface PlayerDao {
         LEFT JOIN round_result_table rr ON s.roundId = rr.roundId
         LEFT JOIN matches m ON m.roundId = s.roundId 
             AND (m.homeTeamId = s.teamId OR m.awayTeamId = s.teamId)
-        WHERE p.groupOwnerId = :groupId
+        WHERE p.groupOwnerId = :groupId AND P.active = 1
         GROUP BY p.playerId
         ORDER BY winCount DESC
-        LIMIT 1
     """
     )
-    suspend fun getPlayerWithMostWins(groupId: String): PojoPlayerWithWinsAndMatches
+    suspend fun getPlayersWithMostWins(groupId: String): List<PojoPlayerWithWinsAndMatches>
 
     @Transaction
     @Query(
