@@ -47,7 +47,7 @@ fun HomeArtilleryRanking(
             HorizontalDivider()
         }
 
-        list.subList(0, maxCount ?: list.size).forEachIndexed { index, artillery ->
+        list.take(maxCount ?: list.size).forEachIndexed { index, artillery ->
             ContentRow(
                 number = (index + 1).toString(),
                 player = artillery.playerName,

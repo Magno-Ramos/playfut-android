@@ -90,7 +90,7 @@ fun PlayerCreateScreen(
             BottomAppBar(contentPadding = PaddingValues(horizontal = 16.dp)) {
                 Button(
                     modifier = Modifier.fillMaxWidth().height(48.dp),
-                    enabled = createState.value != ActionResultState.Loading,
+                    enabled = createState.value != ActionResultState.Loading && playerName.value.isNotBlank(),
                     onClick = { submitForm() }
                 ) {
                     Text(text = "Adicionar Jogador")

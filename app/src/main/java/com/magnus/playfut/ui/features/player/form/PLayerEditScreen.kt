@@ -109,7 +109,7 @@ fun PLayerEditScreen(
         },
         bottomBar = {
             BottomEditPlayerBar(
-                clickEnabled = !isLoading,
+                clickEnabled = !isLoading && playerName.value.isNotBlank(),
                 onClickRemove = { removePlayer() },
                 onClickSubmit = { submitForm() }
             )
@@ -146,7 +146,9 @@ fun BottomEditPlayerBar(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Button(
-                modifier = Modifier.weight(1f).height(48.dp),
+                modifier = Modifier
+                    .weight(1f)
+                    .height(48.dp),
                 enabled = clickEnabled,
                 onClick = { onClickRemove() },
                 colors = ButtonDefaults.buttonColors(
@@ -157,7 +159,9 @@ fun BottomEditPlayerBar(
                 Text(text = "Remover")
             }
             Button(
-                modifier = Modifier.weight(1f).height(48.dp),
+                modifier = Modifier
+                    .weight(1f)
+                    .height(48.dp),
                 enabled = clickEnabled,
                 onClick = { onClickSubmit() }
             ) {

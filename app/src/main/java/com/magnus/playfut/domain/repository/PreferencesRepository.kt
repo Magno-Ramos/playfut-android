@@ -9,6 +9,9 @@ import com.magnus.playfut.domain.repository.datasource.PreferencesDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
+private const val DEFAULT_TEAMS_COUNT = 2
+private const val DEFAULT_PLAYERS_COUNT = 5
+
 class PreferencesRepository(
     private val context: Context
 ) : PreferencesDataSource {
@@ -45,15 +48,21 @@ class PreferencesRepository(
 
     override fun getTeamsCount(): Flow<Int?> {
         return context.playFutDataStore.data.map { prefs ->
-            val count = prefs[teamsCountKey]
-            count?.toIntOrNull()
+            if (prefs.contains(teamsCountKey)) {
+                prefs[teamsCountKey]?.toIntOrNull()
+            } else {
+                DEFAULT_TEAMS_COUNT
+            }
         }
     }
 
     override fun getPlayersCount(): Flow<Int?> {
         return context.playFutDataStore.data.map { prefs ->
-            val count = prefs[playersCountKey]
-            count?.toIntOrNull()
+            if (prefs.contains(playersCountKey)) {
+                prefs[playersCountKey]?.toIntOrNull()
+            } else {
+                DEFAULT_PLAYERS_COUNT
+            }
         }
     }
 }

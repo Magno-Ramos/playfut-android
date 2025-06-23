@@ -26,7 +26,7 @@ class PlayerFormViewModel(
     fun createPlayer(groupId: String, name: String, type: PlayerPosition, quality: Int, playerType: PlayerType) {
         viewModelScope.launch {
             _createPlayerResult.value = ActionResultState.Loading
-            repository.createPlayer(groupId, name, type, quality, playerType)
+            repository.createPlayer(groupId, name.trim(), type, quality, playerType)
                 .onSuccess { _createPlayerResult.value = ActionResultState.Success(Unit) }
                 .onFailure { _createPlayerResult.value = ActionResultState.Error(null) }
         }
@@ -35,7 +35,7 @@ class PlayerFormViewModel(
     fun editPlayer(id: String, groupId: String, name: String, type: PlayerPosition, quality: Int) {
         viewModelScope.launch {
             _editPlayerResult.value = ActionResultState.Loading
-            repository.editPlayer(id, groupId, name, type, quality)
+            repository.editPlayer(id, groupId, name.trim(), type, quality)
                 .onSuccess { _editPlayerResult.value = ActionResultState.Success(Unit) }
                 .onFailure { _editPlayerResult.value = ActionResultState.Error(null) }
         }

@@ -41,14 +41,16 @@ class RoundSortViewModel(
     var teamSchema: List<TeamSchema>? = null
 
     fun updateTeamsCount(count: Int?) {
+        val mCount = if (count != null && count < 0) 0 else count
         viewModelScope.launch {
-            prefsRepository.saveInputTeamsCount(count)
+            prefsRepository.saveInputTeamsCount(mCount)
         }
     }
 
     fun updatePlayersCount(count: Int?) {
+        val mCount = if (count != null && count < 0) 0 else count
         viewModelScope.launch {
-            prefsRepository.saveInputPlayersCount(count)
+            prefsRepository.saveInputPlayersCount(mCount)
         }
     }
 

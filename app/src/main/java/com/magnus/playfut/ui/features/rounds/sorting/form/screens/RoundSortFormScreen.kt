@@ -102,6 +102,14 @@ fun RoundSortFormScreen(
             if (playersState.isSuccess()) {
                 BottomAppBar(contentPadding = PaddingValues(16.dp)) {
                     Button(
+                        enabled = run {
+                            val mTeamsCount = teamsCount ?: 0
+                            val mPlayersCount = playersCount ?: 0
+                            val hasTeams = mTeamsCount > 0
+                            val hasPlayers = mPlayersCount > 0
+                            val hasSelectedPlayers = selectablePlayers.count { it.selected } >= mTeamsCount
+                            hasTeams && hasPlayers && hasSelectedPlayers
+                        },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(48.dp),

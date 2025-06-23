@@ -25,7 +25,7 @@ class GroupsFormViewModel(
     fun createGroup(name: String) {
         _createGroupResult.value = Loading
         viewModelScope.launch {
-            repository.createGroup(name)
+            repository.createGroup(name.trim())
                 .onSuccess { _createGroupResult.value = Success(it) }
                 .onFailure { _createGroupResult.value = Error(null) }
         }
@@ -34,7 +34,7 @@ class GroupsFormViewModel(
     fun editGroup(id: String, name: String) {
         _editGroupResult.value = Loading
         viewModelScope.launch {
-            repository.editGroup(id, name)
+            repository.editGroup(id, name.trim())
                 .onSuccess { _editGroupResult.value = Success(it) }
                 .onFailure { _editGroupResult.value = Error(null) }
         }
