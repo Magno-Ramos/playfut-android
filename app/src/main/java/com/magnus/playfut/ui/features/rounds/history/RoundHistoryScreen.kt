@@ -99,7 +99,7 @@ private fun Content(data: List<RoundResult>) {
 
 @Composable
 private fun RoundResultItem(item: RoundResult) {
-    val roundName = "Rodada ${item.id.toInt() + 1}"
+    val roundName = "Rodada ${item.id.toInt()}"
     val date = DateTimeFormatter
         .ofPattern("dd/MM/yyyy")
         .format(item.date.toInstant().atZone(ZoneId.systemDefault()))
