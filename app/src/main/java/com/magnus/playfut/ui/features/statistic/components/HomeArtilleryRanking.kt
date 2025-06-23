@@ -30,9 +30,20 @@ fun HomeArtilleryRanking(
 ) {
     Column(
         modifier = Modifier
+            .fillMaxWidth()
             .clip(MaterialTheme.shapes.small)
             .background(MaterialTheme.colorScheme.surfaceContainer)
     ) {
+        if (list.isEmpty()) {
+            Text(
+                text = "Sem dados para mostrar",
+                modifier = Modifier.fillMaxWidth().padding(MaterialTheme.spacing.medium),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                fontSize = 14.sp,
+                textAlign = TextAlign.Center
+            )
+        }
+
         if (list.isNotEmpty()) {
             ContentRow(
                 number = "#",
@@ -118,12 +129,7 @@ private fun HomeArtilleryRankingPreview() {
                 .padding(MaterialTheme.spacing.medium)
         ) {
             HomeArtilleryRanking(
-                list = listOf(
-                    Artillery(playerName = "Player 1", totalGoals = 10),
-                    Artillery(playerName = "Player 2", totalGoals = 20),
-                    Artillery(playerName = "Player 3", totalGoals = 30),
-                    Artillery(playerName = "Player 4", totalGoals = 40)
-                ),
+                list = listOf(),
                 maxCount = 8,
                 onClickSeeAll = {}
             )
