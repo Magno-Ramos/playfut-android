@@ -20,14 +20,25 @@ import com.magnus.playfut.ui.theme.spacing
 
 @Composable
 fun HomeHeader(
-    matches: Int,
+    totalRounds: Int,
+    totalMatches: Int,
     totalGoals: Int
 ) {
     Row(horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)) {
+
+        // it saves case where, each round is played only once
+        if (totalMatches > totalRounds) {
+            Card(
+                modifier = Modifier.weight(1f),
+                title = "Rodadas",
+                value = totalRounds.toString()
+            )
+        }
+
         Card(
             modifier = Modifier.weight(1f),
             title = "Partidas",
-            value = matches.toString()
+            value = totalMatches.toString()
         )
         Card(
             modifier = Modifier.weight(1f),
@@ -44,6 +55,7 @@ private fun Card(
     value: String
 ) {
     Column(
+        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.tiny),
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .background(MaterialTheme.colorScheme.surfaceContainer, RoundedCornerShape(8.dp))
@@ -59,7 +71,7 @@ private fun Card(
         )
         Text(
             text = value,
-            fontSize = 22.sp,
+            fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSurface
         )
@@ -76,7 +88,8 @@ private fun HomeHeaderPreview() {
                 .padding(MaterialTheme.spacing.medium)
         ) {
             HomeHeader(
-                matches = 10,
+                totalRounds = 5,
+                totalMatches = 10,
                 totalGoals = 13
             )
         }

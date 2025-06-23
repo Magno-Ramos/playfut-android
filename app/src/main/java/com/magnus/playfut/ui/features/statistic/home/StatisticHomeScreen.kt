@@ -58,7 +58,11 @@ fun StatisticHomeScreen(
                             .padding(MaterialTheme.spacing.medium)
                     ) {
                         HomeLabel("Dados do Grupo")
-                        HomeHeader(matches = data.matches, totalGoals = data.totalGoals)
+                        HomeHeader(
+                            totalRounds = data.totalRounds,
+                            totalMatches = data.totalMatches,
+                            totalGoals = data.totalGoals
+                        )
                         Spacer(Modifier.height(MaterialTheme.spacing.large))
                         HomeLabel("Ranking de Artilharia")
                         HomeArtilleryRanking(

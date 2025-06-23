@@ -36,7 +36,7 @@ fun HomeArtilleryRanking(
         if (list.isNotEmpty()) {
             ContentRow(
                 number = "#",
-                player = "Player",
+                player = "Jogador",
                 goals = "Gols",
                 isSecondary = true
             )

@@ -26,18 +26,44 @@ interface PlayerDao {
     @Query("SELECT * FROM players WHERE groupOwnerId = :groupId AND active = 1")
     suspend fun getPlayersByGroupId(groupId: Long): List<PlayerEntity>
 
-    @Transaction
+    @Query(
+        """
+        SELECT p.*, COUNT(DISTINCT s.roundId) as roundCount FROM players p
+        INNER JOIN schema_player_cross_ref c ON p.playerId = c.playerId
+        INNER JOIN schemas s ON c.schemaId = s.schemaId
+        GROUP BY p.playerId
+        ORDER BY roundCount DESC
+        LIMIT 1
+    """
+    )
+    suspend fun getMostPresentPlayer(): PlayerEntity
+
     @Query("""
+        SELECT p.*, COUNT(*) as winCount FROM players p
+        INNER JOIN schema_player_cross_ref c ON p.playerId = c.playerId
+        INNER JOIN schemas s ON c.schemaId = s.schemaId
+        INNER JOIN round_result_table rr ON s.roundId = rr.roundId AND s.teamId = rr.winnerTeamId
+        GROUP BY p.playerId
+        ORDER BY winCount DESC
+        LIMIT 1
+    """)
+    suspend fun getPlayerWithMostWins(): PlayerEntity
+
+    @Transaction
+    @Query(
+        """
         SELECT P.*
         FROM Players P
         INNER JOIN schema_player_cross_ref SP_CrossRef ON P.playerId = SP_CrossRef.playerId
         INNER JOIN Schemas S ON SP_CrossRef.schemaId = S.schemaId
         INNER JOIN Teams T ON S.teamId = T.teamId
         WHERE T.teamId = :targetTeamId AND S.teamId = :targetTeamId AND S.roundId = :targetRoundId AND P.active = 1
-    """)
+    """
+    )
     suspend fun getPlayersByTeamInRound(targetTeamId: String, targetRoundId: String): List<PlayerEntity>
 
-    @Query("""
+    @Query(
+        """
         SELECT
             p.name AS playerName, 
             COUNT(s.scoreId) AS totalGoals
@@ -51,6 +77,7 @@ interface PlayerDao {
             p.name
         ORDER BY
             totalGoals DESC;
-    """)
+    """
+    )
     suspend fun getPlayersScoreRanking(groupId: String): List<Artillery>
 }
