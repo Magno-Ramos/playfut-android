@@ -23,13 +23,14 @@ import com.magnus.playfut.ui.theme.AppTheme
 import com.magnus.playfut.ui.theme.spacing
 
 @Composable
-fun HomeArtilleryRanking(
+fun StatisticsArtilleryRanking(
+    modifier: Modifier = Modifier,
     list: List<Artillery>,
     maxCount: Int? = null,
-    onClickSeeAll: () -> Unit
+    onClickSeeAll: () -> Unit = {}
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .clip(MaterialTheme.shapes.small)
             .background(MaterialTheme.colorScheme.surfaceContainer)
@@ -73,7 +74,7 @@ fun HomeArtilleryRanking(
                     .fillMaxWidth()
                     .clickable { onClickSeeAll() }
                     .padding(MaterialTheme.spacing.extraSmall),
-                text = "Ver Lista Completa",
+                text = "Ver lista completa",
                 color = MaterialTheme.colorScheme.primary,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
@@ -128,7 +129,7 @@ private fun HomeArtilleryRankingPreview() {
                 .background(MaterialTheme.colorScheme.background)
                 .padding(MaterialTheme.spacing.medium)
         ) {
-            HomeArtilleryRanking(
+            StatisticsArtilleryRanking(
                 list = listOf(),
                 maxCount = 8,
                 onClickSeeAll = {}

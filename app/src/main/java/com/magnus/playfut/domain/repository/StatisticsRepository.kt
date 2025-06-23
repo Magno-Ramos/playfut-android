@@ -3,6 +3,7 @@ package com.magnus.playfut.domain.repository
 import com.magnus.playfut.domain.database.daos.GroupDao
 import com.magnus.playfut.domain.database.daos.PlayerDao
 import com.magnus.playfut.domain.database.daos.RoundDao
+import com.magnus.playfut.domain.model.structure.Artillery
 import com.magnus.playfut.ui.features.statistic.home.PlayerMostPresentHighlight
 import com.magnus.playfut.ui.features.statistic.home.PlayerMostWinsHighlight
 import com.magnus.playfut.ui.features.statistic.home.StatisticHomeViewState
@@ -12,6 +13,11 @@ class StatisticsRepository(
     private val groupDao: GroupDao,
     private val playerDao: PlayerDao
 ) {
+
+    suspend fun fetchArtilleryRanking(groupId: String): Result<List<Artillery>> = runCatching {
+        playerDao.getPlayersScoreRanking(groupId)
+    }
+
     suspend fun fetchStatistics(groupId: String): Result<StatisticHomeViewState> = runCatching {
         val totalActivePlayersCount = playerDao.getActivePlayersCount(groupId.toLong())
         val totalRounds = roundDao.getRoundCountByGroup(groupId)

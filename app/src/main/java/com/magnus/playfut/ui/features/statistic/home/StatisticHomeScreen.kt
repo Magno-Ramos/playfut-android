@@ -27,10 +27,12 @@ import com.magnus.playfut.extensions.activity
 import com.magnus.playfut.ui.features.common.AppToolbar
 import com.magnus.playfut.ui.features.common.ErrorView
 import com.magnus.playfut.ui.features.common.LoadingView
-import com.magnus.playfut.ui.features.statistic.components.HomeArtilleryRanking
 import com.magnus.playfut.ui.features.statistic.components.HomeHeader
 import com.magnus.playfut.ui.features.statistic.components.HomeHighlightPlayer
 import com.magnus.playfut.ui.features.statistic.components.HomeLabel
+import com.magnus.playfut.ui.features.statistic.components.StatisticsArtilleryRanking
+import com.magnus.playfut.ui.features.statistic.ranking.RankingActivity
+import com.magnus.playfut.ui.features.statistic.ranking.RankingType
 import com.magnus.playfut.ui.theme.spacing
 import org.koin.androidx.compose.koinViewModel
 
@@ -42,6 +44,11 @@ fun StatisticHomeScreen(
     val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val homeScrollState = rememberScrollState()
+
+    fun openArtilleryRanking() {
+        val intent = RankingActivity.createIntent(context, groupId, RankingType.ARTILLERY)
+        context.startActivity(intent)
+    }
 
     LaunchedEffect(Unit) {
         viewModel.fetchStatistics(groupId)
@@ -100,10 +107,11 @@ fun StatisticHomeScreen(
 
                         Spacer(Modifier.height(MaterialTheme.spacing.large))
                         HomeLabel("Ranking de Artilharia")
-                        HomeArtilleryRanking(
+                        StatisticsArtilleryRanking(
                             list = data.artilleryRanking,
-                            maxCount = 3
-                        ) { /* TODO add click here */ }
+                            maxCount = 3,
+                            onClickSeeAll = { openArtilleryRanking() }
+                        )
                     }
                 }
             }

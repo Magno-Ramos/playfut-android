@@ -52,5 +52,8 @@
         <activity
             android:name=".ui.features.statistic.StatisticActivity"
             android:exported="false" />
+        <activity
+            android:name=".ui.features.statistic.ranking.RankingActivity"
+            android:exported="false" />
     </application>
 </manifest>

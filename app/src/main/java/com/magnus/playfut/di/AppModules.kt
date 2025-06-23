@@ -33,6 +33,7 @@ import com.magnus.playfut.ui.features.rounds.playing.RoundPlayingViewModel
 import com.magnus.playfut.ui.features.rounds.playing.screens.RoundPlayingTeamViewModel
 import com.magnus.playfut.ui.features.rounds.sorting.form.RoundSortViewModel
 import com.magnus.playfut.ui.features.statistic.home.StatisticHomeViewModel
+import com.magnus.playfut.ui.features.statistic.ranking.RankingViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.viewModel
@@ -86,6 +87,7 @@ val appModules = module {
     viewModel { RoundHistoryViewModel(get()) }
     viewModel { RoundPlayingTeamViewModel(get()) }
     viewModel { StatisticHomeViewModel(get()) }
+    viewModel { RankingViewModel(get()) }
     viewModel { RoundSortViewModel(get(), get(), get()) }
     viewModel { RoundPlayingViewModel(get(), get(), get(), get()) }
 }
