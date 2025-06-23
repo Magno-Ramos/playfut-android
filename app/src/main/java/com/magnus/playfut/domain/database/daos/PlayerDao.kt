@@ -6,6 +6,8 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
+import com.magnus.playfut.domain.database.entities.relations.pojo.PojoPlayerWithRoundCount
+import com.magnus.playfut.domain.database.entities.relations.pojo.PojoPlayerWithWinsAndMatches
 import com.magnus.playfut.domain.database.entities.structure.PlayerEntity
 import com.magnus.playfut.domain.model.structure.Artillery
 
@@ -28,26 +30,39 @@ interface PlayerDao {
 
     @Query(
         """
-        SELECT p.*, COUNT(DISTINCT s.roundId) as roundCount FROM players p
+        SELECT 
+            p.*, 
+            COUNT(DISTINCT s.roundId) as roundCount
+        FROM players p
         INNER JOIN schema_player_cross_ref c ON p.playerId = c.playerId
         INNER JOIN schemas s ON c.schemaId = s.schemaId
+        WHERE p.groupOwnerId = :groupId
         GROUP BY p.playerId
         ORDER BY roundCount DESC
         LIMIT 1
     """
     )
-    suspend fun getMostPresentPlayer(): PlayerEntity
+    suspend fun getMostPresentPlayer(groupId: String): PojoPlayerWithRoundCount
 
-    @Query("""
-        SELECT p.*, COUNT(*) as winCount FROM players p
+    @Query(
+        """
+        SELECT 
+            p.*, 
+            COUNT(DISTINCT CASE WHEN s.teamId = rr.winnerTeamId THEN s.roundId END) as winCount,
+            COUNT(DISTINCT m.matchId) as matchCount
+        FROM players p
         INNER JOIN schema_player_cross_ref c ON p.playerId = c.playerId
         INNER JOIN schemas s ON c.schemaId = s.schemaId
-        INNER JOIN round_result_table rr ON s.roundId = rr.roundId AND s.teamId = rr.winnerTeamId
+        LEFT JOIN round_result_table rr ON s.roundId = rr.roundId
+        LEFT JOIN matches m ON m.roundId = s.roundId 
+            AND (m.homeTeamId = s.teamId OR m.awayTeamId = s.teamId)
+        WHERE p.groupOwnerId = :groupId
         GROUP BY p.playerId
         ORDER BY winCount DESC
         LIMIT 1
-    """)
-    suspend fun getPlayerWithMostWins(): PlayerEntity
+    """
+    )
+    suspend fun getPlayerWithMostWins(groupId: String): PojoPlayerWithWinsAndMatches
 
     @Transaction
     @Query(

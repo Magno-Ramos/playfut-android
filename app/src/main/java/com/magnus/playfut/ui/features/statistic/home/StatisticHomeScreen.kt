@@ -1,20 +1,27 @@
 package com.magnus.playfut.ui.features.statistic.home
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Handshake
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.magnus.playfut.R
 import com.magnus.playfut.domain.state.StateHandler
 import com.magnus.playfut.extensions.activity
 import com.magnus.playfut.ui.features.common.AppToolbar
@@ -22,6 +29,7 @@ import com.magnus.playfut.ui.features.common.ErrorView
 import com.magnus.playfut.ui.features.common.LoadingView
 import com.magnus.playfut.ui.features.statistic.components.HomeArtilleryRanking
 import com.magnus.playfut.ui.features.statistic.components.HomeHeader
+import com.magnus.playfut.ui.features.statistic.components.HomeHighlightPlayer
 import com.magnus.playfut.ui.features.statistic.components.HomeLabel
 import com.magnus.playfut.ui.theme.spacing
 import org.koin.androidx.compose.koinViewModel
@@ -63,6 +71,33 @@ fun StatisticHomeScreen(
                             totalMatches = data.totalMatches,
                             totalGoals = data.totalGoals
                         )
+
+                        if (data.playerMostPresent != null || data.playerWithMostWins != null) {
+                            Spacer(Modifier.height(MaterialTheme.spacing.large))
+                            HomeLabel("Destaques")
+                            Column(
+                                modifier = Modifier.fillMaxWidth(),
+                                verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
+                            ) {
+                                data.playerWithMostWins?.let {
+                                    HomeHighlightPlayer(
+                                        icon = painterResource(R.drawable.crown),
+                                        player = it.player,
+                                        highlight = "Amuleto da sorte.",
+                                        description = "Venceu ${it.totalWins} das ${it.totalMatches} partidas que disputou!"
+                                    )
+                                }
+                                data.playerMostPresent?.let {
+                                    HomeHighlightPlayer(
+                                        icon = rememberVectorPainter(Icons.Outlined.Handshake),
+                                        player = it.player,
+                                        highlight = "Presença Certa.",
+                                        description = "Esteve em ${it.roundCount} das ${it.totalRounds} rodadas!"
+                                    )
+                                }
+                            }
+                        }
+
                         Spacer(Modifier.height(MaterialTheme.spacing.large))
                         HomeLabel("Ranking de Artilharia")
                         HomeArtilleryRanking(
