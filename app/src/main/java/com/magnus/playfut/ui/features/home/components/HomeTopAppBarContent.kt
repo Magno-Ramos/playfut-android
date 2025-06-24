@@ -1,7 +1,6 @@
 package com.magnus.playfut.ui.features.home.components
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -22,12 +21,6 @@ fun HomeTopAppBarContent(
             IconButton(onClick = onClickNotification) {
                 Icon(
                     imageVector = Icons.Outlined.Notifications,
-                    contentDescription = null
-                )
-            }
-            IconButton(onClick = {}) {
-                Icon(
-                    imageVector = Icons.Outlined.AccountCircle,
                     contentDescription = null
                 )
             }
