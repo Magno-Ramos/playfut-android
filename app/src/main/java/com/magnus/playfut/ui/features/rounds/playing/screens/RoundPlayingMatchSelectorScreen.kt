@@ -35,8 +35,8 @@ fun RoundPlayingMatchSelectorScreen(
     val roundState by viewModel.roundState.collectAsStateWithLifecycle()
     val teams = roundState.asSuccess()?.data?.teams.orEmpty()
 
-    var homeSelected by remember { mutableStateOf<RoundTeamItem?>(null) }
-    var awaySelected by remember { mutableStateOf<RoundTeamItem?>(null) }
+    var homeSelected by remember { mutableStateOf(teams.getHomeTeam()) }
+    var awaySelected by remember { mutableStateOf(teams.getAwayTeam()) }
 
     val homeOptions = teams.filter { it != homeSelected }.map { it.name to it.id }
     val awayOptions = teams.filter { it != awaySelected }.map { it.name to it.id }
@@ -95,4 +95,12 @@ fun RoundPlayingMatchSelectorScreen(
             )
         }
     }
+}
+
+private fun List<RoundTeamItem>.getHomeTeam(): RoundTeamItem? {
+    return if (this.size == 2) this[0] else null
+}
+
+private fun List<RoundTeamItem>.getAwayTeam(): RoundTeamItem? {
+    return if (this.size == 2) this[1] else null
 }
