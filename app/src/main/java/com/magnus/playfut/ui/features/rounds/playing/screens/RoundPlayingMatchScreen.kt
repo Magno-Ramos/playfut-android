@@ -266,7 +266,10 @@ fun RoundPlayingMatchScreen(
                         confirmButtonText = "Confirmar",
                         dismissButtonText = "Cancelar",
                         onDismissRequest = { backRunningDialogVisible = false },
-                        onConfirmation = { finishSuccess() }
+                        onConfirmation = {
+                            backRunningDialogVisible = false
+                            finishSuccess()
+                        }
                     )
                 }
             }
