@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import java.util.Date
 
 @Entity(
     tableName = "matches",
@@ -25,5 +26,6 @@ data class MatchEntity (
     val matchId: Long = 0,
     val homeTeamId: Long,
     val awayTeamId: Long,
-    val roundId: Long
+    val roundId: Long,
+    val createdAt: Date = Date()
 )

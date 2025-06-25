@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import java.util.Date
 
 @Entity(
     tableName = "schemas",
@@ -30,5 +31,6 @@ data class SchemaEntity(
     @PrimaryKey(autoGenerate = true)
     val schemaId: Long = 0,
     val teamId: Long,
-    val roundId: Long
+    val roundId: Long,
+    val createdAt: Date = Date()
 )

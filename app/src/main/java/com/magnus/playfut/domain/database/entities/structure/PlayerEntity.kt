@@ -6,6 +6,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.magnus.playfut.domain.model.structure.PlayerPosition
 import com.magnus.playfut.domain.model.structure.PlayerType
+import java.util.Date
 
 @Entity(
     tableName = "players",
@@ -29,5 +30,6 @@ data class PlayerEntity(
     val groupOwnerId: Long = 0,
     val position: PlayerPosition = PlayerPosition.UNIVERSAL,
     val type: PlayerType = PlayerType.MEMBER,
-    val active: Boolean = true
+    val active: Boolean = true,
+    val createdAt: Date = Date()
 )

@@ -25,5 +25,5 @@ data class RoundEntity(
     val roundId: Long = 0,
     val groupOwnerId: Long,
     val date: Date = Date(),
-    val opened: Boolean = true
+    val opened: Boolean = true,
 )

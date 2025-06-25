@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import java.util.Date
 
 @Entity(
     tableName = "round_result_table",
@@ -30,5 +31,6 @@ data class RoundResultEntity(
     @PrimaryKey(autoGenerate = true)
     val roundResultId: Long = 0,
     val roundId: Long,
-    val winnerTeamId: Long?
+    val winnerTeamId: Long?,
+    val createdAt: Date = Date()
 )
