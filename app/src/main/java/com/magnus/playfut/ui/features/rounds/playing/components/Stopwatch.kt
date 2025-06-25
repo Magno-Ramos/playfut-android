@@ -48,11 +48,10 @@ fun Stopwatch(
 private fun StopwatchHeader(timeInSeconds: Long) {
     val minutes = (timeInSeconds / 60).toString().padStart(2, '0')
     val seconds = (timeInSeconds % 60).toString().padStart(2, '0')
-
-    Column(
+    Row (
         modifier = Modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.tiny),
-        horizontalAlignment = Alignment.CenterHorizontally
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
             text = "Cronômetro",
