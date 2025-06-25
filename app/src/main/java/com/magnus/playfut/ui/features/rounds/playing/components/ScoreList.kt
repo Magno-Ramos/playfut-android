@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.sharp.RemoveCircleOutline
@@ -71,7 +72,7 @@ fun ScoreList(
                         )
                 ) {
                     Text(
-                        text = "${score.playerName} - ${score.teamName}",
+                        text = "⚽ Gol - ${score.playerName}",
                         fontSize = 14.sp,
                         color = MaterialTheme.colorScheme.onSurface
                     )
@@ -80,6 +81,7 @@ fun ScoreList(
                         onClick = { onClickRemove(score) }
                     ) {
                         Icon(
+                            modifier = Modifier.size(20.dp),
                             imageVector = Icons.Sharp.RemoveCircleOutline,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.error
@@ -98,18 +100,18 @@ private fun ScoreListPreview() {
         Column(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
             ScoreList(
                 scores = listOf(
-//                    RoundScoreItem(
-//                        playerId = "1",
-//                        teamId = "1",
-//                        playerName = "Magno",
-//                        teamName = "Brasil"
-//                    ),
-//                    RoundScoreItem(
-//                        playerId = "2",
-//                        teamId = "2",
-//                        playerName = "Lucas",
-//                        teamName = "Brasil"
-//                    )
+                    RoundScoreItem(
+                        playerId = "1",
+                        teamId = "1",
+                        playerName = "Magno",
+                        teamName = "Brasil"
+                    ),
+                    RoundScoreItem(
+                        playerId = "2",
+                        teamId = "2",
+                        playerName = "Lucas",
+                        teamName = "Brasil"
+                    )
                 )
             )
         }
