@@ -46,7 +46,7 @@ class RoundPlayingViewModel(
                 val group = groupRepository.getGroupById(round.data.groupId).getOrThrow()
                 val players = round.teams.map { team ->
                     playerRepository.fetchPlayersByTeam(team.id, round.data.id).getOrThrow().map { player ->
-                        RoundPlayerItem(team.id, player.id, player.name)
+                        RoundPlayerItem(team.id, player)
                     }
                 }.flatten()
 

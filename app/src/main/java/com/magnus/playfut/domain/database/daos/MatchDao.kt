@@ -18,6 +18,8 @@ interface MatchDao {
     @Query("SELECT * FROM rounds WHERE roundId = :roundId")
     suspend fun getRoundById(roundId: Long): RoundEntity
 
+    // get schema
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertScore(score: ScoreEntity): Long
 
@@ -32,12 +34,29 @@ interface MatchDao {
     @Query("UPDATE group_stats SET totalScores = totalScores + 1 WHERE groupId = :groupId")
     suspend fun increaseGroupScoreCount(groupId: Long)
 
+    // increase player stats total goals
+    @Query("UPDATE player_stats SET goals = goals + 1 WHERE playerId = :playerId")
+    suspend fun increasePlayerGoalCount(playerId: Long)
+
+    // increate player stats matches count
+    @Query("UPDATE player_stats SET matches = matches + 1 WHERE playerId = :playerId")
+    suspend fun increasePlayerMatchesCount(playerId: Long)
+
+    // increate player stats wins count
+    @Query("UPDATE player_stats SET wins = wins + 1 WHERE playerId = :playerId")
+    suspend fun increasePlayerWinsCount(playerId: Long)
+
     @Transaction
     suspend fun insertMatchWithScores(form: MatchForm): Long {
         val round = getRoundById(form.roundId.toLong())
+        val homeScores = form.scores.filter { it.scoredTeamId == form.homeTeamId }
+        val awayScores = form.scores.filter { it.scoredTeamId == form.awayTeamId }
+
         val match = MatchEntity(
             homeTeamId = form.homeTeamId.toLong(),
             awayTeamId = form.awayTeamId.toLong(),
+            homeTeamScore = homeScores.size,
+            awayTeamScore = awayScores.size,
             roundId = form.roundId.toLong()
         )
 
@@ -45,6 +64,28 @@ interface MatchDao {
 
         // update group stats
         increaseGroupMatchCount(round.groupOwnerId)
+
+        // update player stats
+        val allPlayers = form.awayPlayers + form.homePlayers
+        allPlayers.forEach { player ->
+            increasePlayerMatchesCount(player.id.toLong())
+        }
+
+        when {
+            // increase winner team count
+            match.homeTeamScore > match.awayTeamScore -> {
+                form.homePlayers.forEach {
+                    increasePlayerWinsCount(it.id.toLong())
+                }
+            }
+
+            // increase winner team count
+            match.homeTeamScore < match.awayTeamScore -> {
+                form.awayPlayers.forEach {
+                    increasePlayerWinsCount(it.id.toLong())
+                }
+            }
+        }
 
         form.scores.forEach {
             insertScore(
@@ -59,6 +100,9 @@ interface MatchDao {
 
             // update group stats
             increaseGroupScoreCount(round.groupOwnerId)
+
+            // update player stats
+            increasePlayerGoalCount(it.playerId.toLong())
         }
 
         return matchId

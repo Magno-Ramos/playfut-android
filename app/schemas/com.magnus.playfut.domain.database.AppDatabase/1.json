@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "f9b1261dd552f807f532582c31b33157",
+    "identityHash": "46cf02ac9f10bde12aead2d45aa2fe02",
     "entities": [
       {
         "tableName": "groups",
@@ -155,6 +155,54 @@
         ]
       },
       {
+        "tableName": "player_stats",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`playerId` INTEGER NOT NULL, `groupId` INTEGER NOT NULL, `rounds` INTEGER NOT NULL, `matches` INTEGER NOT NULL, `wins` INTEGER NOT NULL, `goals` INTEGER NOT NULL, PRIMARY KEY(`playerId`))",
+        "fields": [
+          {
+            "fieldPath": "playerId",
+            "columnName": "playerId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "groupId",
+            "columnName": "groupId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rounds",
+            "columnName": "rounds",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "matches",
+            "columnName": "matches",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "wins",
+            "columnName": "wins",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "goals",
+            "columnName": "goals",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "playerId"
+          ]
+        }
+      },
+      {
         "tableName": "rounds",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`roundId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `groupOwnerId` INTEGER NOT NULL, `date` INTEGER NOT NULL, `opened` INTEGER NOT NULL, FOREIGN KEY(`groupOwnerId`) REFERENCES `groups`(`groupId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
@@ -240,7 +288,7 @@
       },
       {
         "tableName": "matches",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`matchId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `homeTeamId` INTEGER NOT NULL, `awayTeamId` INTEGER NOT NULL, `roundId` INTEGER NOT NULL, `createdAt` INTEGER NOT NULL, FOREIGN KEY(`roundId`) REFERENCES `rounds`(`roundId`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`matchId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `homeTeamId` INTEGER NOT NULL, `awayTeamId` INTEGER NOT NULL, `homeTeamScore` INTEGER NOT NULL, `awayTeamScore` INTEGER NOT NULL, `roundId` INTEGER NOT NULL, `createdAt` INTEGER NOT NULL, FOREIGN KEY(`roundId`) REFERENCES `rounds`(`roundId`) ON UPDATE CASCADE ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "matchId",
@@ -257,6 +305,18 @@
           {
             "fieldPath": "awayTeamId",
             "columnName": "awayTeamId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "homeTeamScore",
+            "columnName": "homeTeamScore",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "awayTeamScore",
+            "columnName": "awayTeamScore",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -722,7 +782,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f9b1261dd552f807f532582c31b33157')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '46cf02ac9f10bde12aead2d45aa2fe02')"
     ]
   }
 }

@@ -26,6 +26,8 @@ data class MatchEntity (
     val matchId: Long = 0,
     val homeTeamId: Long,
     val awayTeamId: Long,
+    val homeTeamScore: Int,
+    val awayTeamScore: Int,
     val roundId: Long,
     val createdAt: Date = Date()
 )

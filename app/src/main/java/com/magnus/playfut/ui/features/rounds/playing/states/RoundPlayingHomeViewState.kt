@@ -1,6 +1,7 @@
 package com.magnus.playfut.ui.features.rounds.playing.states
 
 import com.magnus.playfut.domain.model.structure.Match
+import com.magnus.playfut.domain.model.structure.Player
 import com.magnus.playfut.domain.model.structure.Score
 import com.magnus.playfut.domain.model.structure.Team
 import java.util.Date
@@ -38,7 +39,7 @@ class RoundPlayingHomeViewState(
         it.isOwnGoal.not()
     }.groupBy { it.playerId }.map {
         RoundArtilleryItem(
-            name = players.find { player -> player.playerId == it.key }?.playerName,
+            name = players.find { player -> player.player.id == it.key }?.player?.name,
             goals = it.value.size
         )
     }
@@ -73,8 +74,7 @@ data class RoundScoreItem(
 
 data class RoundPlayerItem (
     val teamId: String,
-    val playerId: String,
-    val playerName: String
+    val player: Player
 )
 
 private fun getTeamName(teamId: String, teams: List<Team>): String? {

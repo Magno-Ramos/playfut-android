@@ -22,6 +22,7 @@ import com.magnus.playfut.domain.database.entities.structure.GroupEntity
 import com.magnus.playfut.domain.database.entities.structure.GroupStatsEntity
 import com.magnus.playfut.domain.database.entities.structure.MatchEntity
 import com.magnus.playfut.domain.database.entities.structure.PlayerEntity
+import com.magnus.playfut.domain.database.entities.structure.PlayerStatsEntity
 import com.magnus.playfut.domain.database.entities.structure.RoundEntity
 import com.magnus.playfut.domain.database.entities.structure.RoundResultEntity
 import com.magnus.playfut.domain.database.entities.structure.SchemaEntity
@@ -33,6 +34,7 @@ import com.magnus.playfut.domain.database.entities.structure.TeamEntity
         GroupEntity::class,
         GroupStatsEntity::class,
         PlayerEntity::class,
+        PlayerStatsEntity::class,
         RoundEntity::class,
         TeamEntity::class,
         MatchEntity::class,

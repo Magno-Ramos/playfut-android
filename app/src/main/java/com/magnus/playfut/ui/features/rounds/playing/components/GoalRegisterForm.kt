@@ -40,7 +40,7 @@ fun GoalRegisterForm(
     var playerOptions by remember {
         mutableStateOf(
             players.filter { it.teamId == teams.first().id }
-                .map { it.playerName to it.playerId }
+                .map { it.player.name to it.player.id }
         )
     }
     var selectedPlayer by remember { mutableStateOf<String?>(null) }
@@ -49,19 +49,20 @@ fun GoalRegisterForm(
     var selectedTeam by remember { mutableStateOf(teamsOptions.first().first) }
 
     fun onSelectPlayer(id: String) {
-        selectedPlayer = players.first { it.playerId == id }.playerName
+        selectedPlayer = players.first { it.player.id == id }.player.name
     }
 
     fun onSelectTeam(id: String) {
         selectedPlayer = null
         val team = teams.first { it.id == id }
         selectedTeam = team.name
-        playerOptions = players.filter { it.teamId == team.id }.map { it.playerName to it.playerId }
+        playerOptions =
+            players.filter { it.teamId == team.id }.map { it.player.name to it.player.id }
     }
 
     fun onClickRegister() {
         if (selectedPlayer == null) return
-        val player = players.first { it.playerName == selectedPlayer }
+        val player = players.first { it.player.name == selectedPlayer }
         val team = teams.first { it.name == selectedTeam }
         onClickRegisterGoal(player, team)
         selectedPlayer = null
@@ -78,7 +79,7 @@ fun GoalRegisterForm(
             color = MaterialTheme.colorScheme.onBackground
         )
         Column(verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)) {
-            InputSelect<String>(
+            InputSelect(
                 inputModifier = Modifier.border(
                     1.dp,
                     MaterialTheme.colorScheme.surfaceVariant,
@@ -89,7 +90,7 @@ fun GoalRegisterForm(
                 selectedOption = selectedTeam,
                 onOptionSelected = ::onSelectTeam
             )
-            InputSelect<String>(
+            InputSelect(
                 inputModifier = Modifier.border(
                     1.dp,
                     MaterialTheme.colorScheme.surfaceVariant,
@@ -104,7 +105,9 @@ fun GoalRegisterForm(
         Button(
             enabled = selectedPlayer != null && selectedTeam.isNotEmpty(),
             onClick = { onClickRegister() },
-            modifier = Modifier.fillMaxWidth().height(48.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(48.dp),
             shape = RoundedCornerShape(8.dp)
         ) {
             Icon(
@@ -124,18 +127,7 @@ private fun GoalRegisterFormPreview() {
         ) {
             GoalRegisterForm(
                 modifier = Modifier.padding(16.dp),
-                players = listOf(
-                    RoundPlayerItem(
-                        teamId = "1",
-                        playerId = "1",
-                        playerName = "Jogador 1"
-                    ),
-                    RoundPlayerItem(
-                        teamId = "2",
-                        playerId = "2",
-                        playerName = "Jogador 2"
-                    )
-                ),
+                players = listOf(),
                 teams = listOf(
                     RoundTeamItem(
                         id = "1",

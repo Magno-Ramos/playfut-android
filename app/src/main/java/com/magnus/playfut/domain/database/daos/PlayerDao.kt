@@ -8,12 +8,23 @@ import androidx.room.Update
 import com.magnus.playfut.domain.database.entities.relations.pojo.PojoPlayerWithRoundCount
 import com.magnus.playfut.domain.database.entities.relations.pojo.PojoPlayerWithWinsAndMatches
 import com.magnus.playfut.domain.database.entities.structure.PlayerEntity
+import com.magnus.playfut.domain.database.entities.structure.PlayerStatsEntity
 import com.magnus.playfut.domain.model.structure.Artillery
 
 @Dao
 interface PlayerDao {
     @Insert
-    suspend fun insertPlayer(player: PlayerEntity)
+    suspend fun createPlayer(player: PlayerEntity): Long
+
+    @Insert
+    suspend fun createPlayerStats(stats: PlayerStatsEntity): Long
+
+    @Transaction
+    suspend fun insertPlayer(player: PlayerEntity) {
+        val playerId = createPlayer(player)
+        val stats = PlayerStatsEntity(playerId = playerId, groupId = player.groupOwnerId)
+        createPlayerStats(stats)
+    }
 
     @Update
     suspend fun updatePlayer(player: PlayerEntity)

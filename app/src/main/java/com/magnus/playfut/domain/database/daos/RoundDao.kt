@@ -39,11 +39,13 @@ interface RoundDao {
     suspend fun getRoundDetails(roundId: String): PojoRoundWithDetails
 
     @Transaction
-    @Query("""
+    @Query(
+        """
         SELECT rr.* FROM round_result_table rr
         LEFT JOIN rounds r ON rr.roundId = r.roundId
         WHERE r.groupOwnerId = :groupId
-    """)
+    """
+    )
     suspend fun getRoundsByGroup(groupId: Long): List<PojoRoundResultWithRoundAndTeam>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -62,13 +64,18 @@ interface RoundDao {
     @Query("UPDATE group_stats SET totalRounds = totalRounds + 1 WHERE groupId = :groupId")
     suspend fun increaseGroupRoundsCount(groupId: Long)
 
+    // increase player stats rounds count
+    @Query("UPDATE player_stats SET rounds = rounds + 1 WHERE playerId = :playerId")
+    suspend fun increasePlayerRoundsCount(playerId: Long)
+
     @Query("UPDATE rounds SET opened = 0 WHERE roundId = :roundId")
     suspend fun closeRound(roundId: Long)
 
     @Transaction
     suspend fun closeRoundAndAddResult(roundId: String, winnerTeamId: String?) {
         closeRound(roundId.toLong())
-        val result = RoundResultEntity(roundId = roundId.toLong(), winnerTeamId = winnerTeamId?.toLong())
+        val result =
+            RoundResultEntity(roundId = roundId.toLong(), winnerTeamId = winnerTeamId?.toLong())
         insertRoundResult(result)
     }
 
@@ -110,6 +117,11 @@ interface RoundDao {
             }
 
             insertSchemaPlayerCrossRef(allPlayersRef)
+
+            // update player stats
+            allPlayersRef.forEach { player ->
+                increasePlayerRoundsCount(player.playerId)
+            }
         }
         return roundId
     }

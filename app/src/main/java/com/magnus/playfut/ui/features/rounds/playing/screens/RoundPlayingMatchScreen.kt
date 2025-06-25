@@ -66,7 +66,6 @@ fun RoundPlayingMatchScreen(
     val scrollState = rememberScrollState()
     val roundState by viewModel.roundState.collectAsStateWithLifecycle()
     val closeMatchState by viewModel.closeMatchState.collectAsStateWithLifecycle()
-    val allPlayers = roundState.asSuccess()?.data?.players.orEmpty()
 
     val closeMatchSheetState = rememberModalBottomSheetState()
     val scope = rememberCoroutineScope()
@@ -74,6 +73,9 @@ fun RoundPlayingMatchScreen(
 
     val homeTeam = viewModel.matchHomeTeam ?: return
     val awayTeam = viewModel.matchAwayTeam ?: return
+    val allPlayers = roundState.asSuccess()?.data?.players.orEmpty().filter {
+        it.teamId == homeTeam.id || it.teamId == awayTeam.id
+    }
 
     val teams = roundState.asSuccess()?.data?.teams.orEmpty()
         .filter { it.id == homeTeam.id || it.id == awayTeam.id }
@@ -108,6 +110,8 @@ fun RoundPlayingMatchScreen(
                 roundId = roundState.asSuccess()?.data?.roundId.orEmpty(),
                 homeTeamId = homeTeam.id,
                 awayTeamId = awayTeam.id,
+                homePlayers = allPlayers.filter { it.teamId == homeTeam.id }.map { it.player },
+                awayPlayers = allPlayers.filter { it.teamId == awayTeam.id }.map { it.player },
                 scores = scores.map {
                     MatchItemScore(
                         playerId = it.playerId,
@@ -121,9 +125,9 @@ fun RoundPlayingMatchScreen(
 
     fun onClickRegisterGoal(player: RoundPlayerItem, team: RoundTeamItem) {
         scores = scores + RoundScoreItem(
-            playerId = player.playerId,
+            playerId = player.player.id,
             teamId = team.id,
-            playerName = player.playerName,
+            playerName = player.player.name,
             teamName = team.name
         )
 
@@ -136,7 +140,7 @@ fun RoundPlayingMatchScreen(
     }
 
     fun onClickRemoveGoal(score: RoundScoreItem) {
-        removeGoalConfirmation = removeGoalConfirmation.copy(isVisible = true, score)
+        removeGoalConfirmation = removeGoalConfirmation.copy(isVisible = true, scoreItem = score)
     }
 
     fun onClickCancelRemoveGoal() {
