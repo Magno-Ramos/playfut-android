@@ -1,7 +1,6 @@
 package com.magnus.playfut.domain.database.daos
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
@@ -18,9 +17,6 @@ interface PlayerDao {
 
     @Update
     suspend fun updatePlayer(player: PlayerEntity)
-
-    @Delete
-    suspend fun deletePlayer(player: PlayerEntity)
 
     @Query("SELECT * FROM players WHERE playerId = :id")
     suspend fun getPlayerById(id: Long): PlayerEntity

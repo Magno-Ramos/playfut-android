@@ -36,6 +36,6 @@ class LocalGroupRepository (
     }
 
     override suspend fun deleteGroup(groupId: String) = runCatching {
-        dao.deleteGroup(GroupEntity(groupId = groupId.toLong()))
+        dao.deleteGroupAndAllRelated(groupId)
     }
 }

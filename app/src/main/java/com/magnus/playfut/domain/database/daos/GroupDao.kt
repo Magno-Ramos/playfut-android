@@ -1,7 +1,6 @@
 package com.magnus.playfut.domain.database.daos
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
@@ -9,35 +8,31 @@ import androidx.room.Update
 import com.magnus.playfut.domain.database.entities.relations.pojo.PojoGroupWithOpenedRoundEntity
 import com.magnus.playfut.domain.database.entities.relations.pojo.PojoGroupWithPlayersAndRoundsCount
 import com.magnus.playfut.domain.database.entities.structure.GroupEntity
+import com.magnus.playfut.domain.database.entities.structure.GroupStatsEntity
 
 @Dao
 interface GroupDao {
     @Insert
-    suspend fun insertGroup(group: GroupEntity): Long
+    suspend fun createGroup(group: GroupEntity): Long
+
+    @Insert
+    suspend fun createGroupStats(groupStats: GroupStatsEntity): Long
+
+    @Transaction
+    suspend fun insertGroup(group: GroupEntity): Long {
+        val groupId = createGroup(group)
+        return createGroupStats(GroupStatsEntity(groupId = groupId))
+    }
 
     @Update
     suspend fun updateGroup(group: GroupEntity)
 
-    @Delete
-    suspend fun deleteGroup(group: GroupEntity)
-
     @Query("SELECT* FROM `groups` WHERE groupId = :groupId")
     suspend fun getGroupById(groupId: Long): GroupEntity
 
-    @Query(
-        "SELECT COUNT(m.matchId) FROM matches m " +
-                "INNER JOIN rounds rd ON m.roundId = rd.roundId " +
-                "WHERE rd.groupOwnerId = :groupId"
-    )
-    suspend fun getMatchesCount(groupId: Long): Int
-
-    @Query("""
-        SELECT COUNT(s.scoreId) FROM scores s 
-            INNER JOIN matches m ON s.matchId = m.matchId 
-            INNER JOIN rounds rd ON m.roundId = rd.roundId 
-        WHERE rd.groupOwnerId = :groupId
-    """)
-    suspend fun getTotalGoals(groupId: Long): Int
+    // get group stats
+    @Query("SELECT * FROM group_stats WHERE groupId = :groupId")
+    suspend fun getGroupStats(groupId: String): GroupStatsEntity
 
     @Transaction
     @Query(
@@ -61,4 +56,26 @@ interface GroupDao {
     """
     )
     suspend fun getAllGroupsWithCounts(): List<PojoGroupWithPlayersAndRoundsCount>
+
+    //region delete
+    @Query("DELETE FROM group_stats WHERE groupId = :groupId")
+    suspend fun deleteGroupStats(groupId: String)
+
+    @Query("DELETE FROM players WHERE groupOwnerId = :groupId")
+    suspend fun deletePlayers(groupId: String)
+
+    @Query("DELETE FROM rounds WHERE groupOwnerId = :groupId")
+    suspend fun deleteRounds(groupId: String)
+
+    @Query("DELETE FROM `groups` WHERE groupId = :groupId")
+    suspend fun deleteGroup(groupId: String)
+
+    @Transaction
+    suspend fun deleteGroupAndAllRelated(groupId: String) {
+        deleteGroupStats(groupId)
+        deletePlayers(groupId)
+        deleteRounds(groupId)
+        deleteGroup(groupId)
+    }
+    //endregion
 }

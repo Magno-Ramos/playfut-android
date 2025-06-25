@@ -58,6 +58,10 @@ interface RoundDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertRoundResult(result: RoundResultEntity)
 
+    // increase group stats rounds count
+    @Query("UPDATE group_stats SET totalRounds = totalRounds + 1 WHERE groupId = :groupId")
+    suspend fun increaseGroupRoundsCount(groupId: Long)
+
     @Query("UPDATE rounds SET opened = 0 WHERE roundId = :roundId")
     suspend fun closeRound(roundId: Long)
 
@@ -72,6 +76,9 @@ interface RoundDao {
     suspend fun insertTeamsWithSchema(groupId: Long, schemas: List<TeamSchema>): Long {
         closeOpenRoundsByGroup(groupId)
         val roundId = insertRound(RoundEntity(groupOwnerId = groupId, opened = true))
+
+        // update group stats
+        increaseGroupRoundsCount(groupId)
 
         schemas.forEach { distributorTeamSchema ->
             val team = TeamEntity(name = distributorTeamSchema.teamName)

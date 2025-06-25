@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "e6ef1cc6668b6b6a003df94d4299fd8a",
+    "identityHash": "f9b1261dd552f807f532582c31b33157",
     "entities": [
       {
         "tableName": "groups",
@@ -29,6 +29,42 @@
         ],
         "primaryKey": {
           "autoGenerate": true,
+          "columnNames": [
+            "groupId"
+          ]
+        }
+      },
+      {
+        "tableName": "group_stats",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`groupId` INTEGER NOT NULL, `totalRounds` INTEGER NOT NULL, `totalMatches` INTEGER NOT NULL, `totalScores` INTEGER NOT NULL, PRIMARY KEY(`groupId`))",
+        "fields": [
+          {
+            "fieldPath": "groupId",
+            "columnName": "groupId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "totalRounds",
+            "columnName": "totalRounds",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "totalMatches",
+            "columnName": "totalMatches",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "totalScores",
+            "columnName": "totalScores",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
           "columnNames": [
             "groupId"
           ]
@@ -686,7 +722,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e6ef1cc6668b6b6a003df94d4299fd8a')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f9b1261dd552f807f532582c31b33157')"
     ]
   }
 }

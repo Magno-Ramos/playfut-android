@@ -19,6 +19,7 @@ import com.magnus.playfut.domain.database.daos.TeamDao
 import com.magnus.playfut.domain.database.entities.relations.crossref.CrossRefSchemaPlayer
 import com.magnus.playfut.domain.database.entities.relations.crossref.CrossRefTeamRound
 import com.magnus.playfut.domain.database.entities.structure.GroupEntity
+import com.magnus.playfut.domain.database.entities.structure.GroupStatsEntity
 import com.magnus.playfut.domain.database.entities.structure.MatchEntity
 import com.magnus.playfut.domain.database.entities.structure.PlayerEntity
 import com.magnus.playfut.domain.database.entities.structure.RoundEntity
@@ -30,6 +31,7 @@ import com.magnus.playfut.domain.database.entities.structure.TeamEntity
 @Database(
     entities = [
         GroupEntity::class,
+        GroupStatsEntity::class,
         PlayerEntity::class,
         RoundEntity::class,
         TeamEntity::class,
@@ -69,7 +71,7 @@ abstract class AppDatabase : RoomDatabase() {
                 application,
                 AppDatabase::class.java,
                 "play-fut-database"
-            ).build()
+            ).fallbackToDestructiveMigration(dropAllTables = true).build()
         }
     }
 }
