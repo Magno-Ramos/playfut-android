@@ -1,6 +1,7 @@
 package com.magnus.playfut.ui.features.rounds.playing.screens
 
 import android.media.MediaPlayer
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -79,6 +80,7 @@ fun RoundPlayingMatchScreen(
 
     val players by remember { mutableStateOf(allPlayers) }
     var removeGoalConfirmation by remember { mutableStateOf(RoundRemoveGoal(false)) }
+    var backRunningDialogVisible by remember { mutableStateOf(false) }
 
     var scores by remember { mutableStateOf(listOf<RoundScoreItem>()) }
     val homeScore = scores.count { it.teamId == homeTeam.id }
@@ -98,11 +100,6 @@ fun RoundPlayingMatchScreen(
         onDispose {
             mediaPlayer.release()
         }
-    }
-
-    if (closeMatchState.isSuccess()) {
-        navController.popBackStack(navController.graph.startDestinationId, inclusive = false)
-        viewModel.resetCloseMatchState()
     }
 
     fun applyFinishMatch() {
@@ -180,11 +177,30 @@ fun RoundPlayingMatchScreen(
         isRunning = !isRunning
     }
 
+    fun onClickBack() {
+        if (scores.isNotEmpty() || timeInSeconds > 0) {
+            backRunningDialogVisible = true
+        } else {
+            navController.popBackStack()
+        }
+    }
+
+    fun finishSuccess() {
+        navController.popBackStack(navController.graph.startDestinationId, inclusive = false)
+    }
+
+    if (closeMatchState.isSuccess()) {
+        finishSuccess()
+        viewModel.resetCloseMatchState()
+    }
+
+    BackHandler { onClickBack() }
+
     Scaffold(
         topBar = {
             AppToolbar(
                 title = "Partida",
-                onClickBack = { navController.popBackStack() }
+                onClickBack = { onClickBack() }
             )
         }
     ) { paddings ->
@@ -240,6 +256,17 @@ fun RoundPlayingMatchScreen(
                         dismissButtonText = "Cancelar",
                         onDismissRequest = { onClickCancelRemoveGoal() },
                         onConfirmation = { onClickConfirmRemoveGoal() }
+                    )
+                }
+
+                if (backRunningDialogVisible) {
+                    AppAlertDialog(
+                        dialogTitle = "Partida em Andamento",
+                        dialogText = "Você ainda não encerrou a partida, deseja realmente voltar?\n\nOs dado serão perdidos.",
+                        confirmButtonText = "Confirmar",
+                        dismissButtonText = "Cancelar",
+                        onDismissRequest = { backRunningDialogVisible = false },
+                        onConfirmation = { finishSuccess() }
                     )
                 }
             }
