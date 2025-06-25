@@ -110,11 +110,15 @@ object PlayerDistributorV3 {
                 }
             }
 
+            val substitutions = RotationGenerator.generate(startPlaying, teamFieldPlayers)
+            val substitutionsGroups = RotationGenerator.groupSubstitutionsByRounds(substitutions, teamFieldPlayers.size)
+
             TeamSchema(
                 teamName = "Time ${index + 1}",
                 goalKeepers = teamGoalKeepers,
                 startPlaying = startPlaying,
-                substitutes = teamFieldPlayers
+                substitutes = teamFieldPlayers,
+                substitutions = substitutionsGroups
             )
         }
     }
