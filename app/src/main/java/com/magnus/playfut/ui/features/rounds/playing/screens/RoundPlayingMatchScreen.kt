@@ -16,7 +16,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -39,12 +41,14 @@ import com.magnus.playfut.ui.features.rounds.playing.components.GoalCelebration
 import com.magnus.playfut.ui.features.rounds.playing.components.GoalRegisterForm
 import com.magnus.playfut.ui.features.rounds.playing.components.MatchScore
 import com.magnus.playfut.ui.features.rounds.playing.components.ScoreList
+import com.magnus.playfut.ui.features.rounds.playing.components.Stopwatch
 import com.magnus.playfut.ui.features.rounds.playing.sheets.CloseMatchConfirmActionSheet
 import com.magnus.playfut.ui.features.rounds.playing.states.RoundPlayerItem
 import com.magnus.playfut.ui.features.rounds.playing.states.RoundRemoveGoal
 import com.magnus.playfut.ui.features.rounds.playing.states.RoundScoreItem
 import com.magnus.playfut.ui.features.rounds.playing.states.RoundTeamItem
 import com.magnus.playfut.ui.theme.spacing
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
@@ -70,13 +74,25 @@ fun RoundPlayingMatchScreen(
     val homeTeam = viewModel.matchHomeTeam ?: return
     val awayTeam = viewModel.matchAwayTeam ?: return
 
-    val teams = roundState.asSuccess()?.data?.teams.orEmpty().filter { it.id == homeTeam.id || it.id == awayTeam.id }
-    var players by remember { mutableStateOf(allPlayers) }
+    val teams = roundState.asSuccess()?.data?.teams.orEmpty()
+        .filter { it.id == homeTeam.id || it.id == awayTeam.id }
+
+    val players by remember { mutableStateOf(allPlayers) }
     var removeGoalConfirmation by remember { mutableStateOf(RoundRemoveGoal(false)) }
 
     var scores by remember { mutableStateOf(listOf<RoundScoreItem>()) }
-    var homeScore = scores.count { it.teamId == homeTeam.id }
-    var awayScore = scores.count { it.teamId == awayTeam.id }
+    val homeScore = scores.count { it.teamId == homeTeam.id }
+    val awayScore = scores.count { it.teamId == awayTeam.id }
+
+    var timeInSeconds by remember { mutableLongStateOf(0L) }
+    var isRunning by remember { mutableStateOf(false) }
+
+    LaunchedEffect(isRunning) {
+        while (isRunning) {
+            delay(1000)
+            timeInSeconds++
+        }
+    }
 
     DisposableEffect(Unit) {
         onDispose {
@@ -155,6 +171,15 @@ fun RoundPlayingMatchScreen(
         }
     }
 
+    fun onStopwatchReset() {
+        isRunning = false
+        timeInSeconds = 0L
+    }
+
+    fun onStopwatchToggle() {
+        isRunning = !isRunning
+    }
+
     Scaffold(
         topBar = {
             AppToolbar(
@@ -170,6 +195,12 @@ fun RoundPlayingMatchScreen(
                     .fillMaxSize()
                     .verticalScroll(scrollState)
             ) {
+                Stopwatch(
+                    timeInSeconds = timeInSeconds,
+                    isRunning = isRunning,
+                    onReset = { onStopwatchReset() },
+                    onToggle = { onStopwatchToggle() }
+                )
                 MatchScore(
                     homeTeam = homeTeam.name,
                     awayTeam = awayTeam.name,
