@@ -32,8 +32,10 @@ fun RoundSortingForm(
     onChangePlayersCount: (String) -> Unit = {},
     onClickChangePlayers: () -> Unit = {},
 ) {
-    Column(modifier = modifier.padding(MaterialTheme.spacing.medium), verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.large)) {
-
+    Column(
+        modifier = modifier.padding(MaterialTheme.spacing.medium),
+        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.large)
+    ) {
         Column {
             Text(
                 text = "Modo de distribuição",
