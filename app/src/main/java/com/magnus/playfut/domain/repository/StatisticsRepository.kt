@@ -18,6 +18,7 @@ class StatisticsRepository(
 
     suspend fun fetchStatistics(groupId: String): Result<StatisticHomeViewState> = runCatching {
         val groupStats = groupDao.getGroupStats(groupId)
+        val playerStats = playerDao.getPlayerStats(groupId)
         val totalActivePlayersCount = playerDao.getActivePlayersCount(groupId.toLong())
         val artilleryRanking = playerDao.getPlayersScoreRanking(groupId)
 
@@ -26,16 +27,17 @@ class StatisticsRepository(
 
         // rule to show player with most wins
         if (groupStats.totalRounds > 2 && totalActivePlayersCount >= 5) {
-            val list = playerDao.getPlayersWithMostWins(groupId)
+            val list = playerStats.sortedByDescending { it.wins }
             val topPlayer = list.firstOrNull()
             if (topPlayer != null) {
-                val hasGoodWinRate = topPlayer.winCount >= topPlayer.matchCount / 2
-                val hasRelevantParticipation = topPlayer.matchCount >= groupStats.totalRounds / 2
+                val hasGoodWinRate = topPlayer.wins >= topPlayer.matches / 2
+                val hasRelevantParticipation = topPlayer.matches >= groupStats.totalRounds / 2
                 if (hasGoodWinRate && hasRelevantParticipation) {
+                    val player = playerDao.getPlayerById(topPlayer.playerId)
                     playerWithMostWins = PlayerMostWinsHighlight(
-                        player = topPlayer.player.name,
-                        totalWins = topPlayer.winCount,
-                        totalMatches = topPlayer.matchCount
+                        player = player.name,
+                        totalWins = topPlayer.wins,
+                        totalMatches = groupStats.totalMatches
                     )
                 }
             }
@@ -43,14 +45,18 @@ class StatisticsRepository(
 
         // rule to show player most present
         if (groupStats.totalRounds > 2 && totalActivePlayersCount >= 5) {
-            val list = playerDao.getMostPresentPlayers(groupId)
+            val list = playerStats.sortedByDescending { it.rounds }
             val topPlayer = list.firstOrNull()
             if (topPlayer != null) {
-                playerMostPresent = PlayerMostPresentHighlight(
-                    player = topPlayer.player.name,
-                    roundCount = topPlayer.roundCount,
-                    totalRounds = groupStats.totalRounds
-                )
+                val player = playerDao.getPlayerById(topPlayer.playerId)
+                val hasRelevantParticipation = topPlayer.matches >= groupStats.totalRounds / 2
+                if (hasRelevantParticipation) {
+                    playerMostPresent = PlayerMostPresentHighlight(
+                        player = player.name,
+                        roundCount = topPlayer.rounds,
+                        totalRounds = groupStats.totalRounds
+                    )
+                }
             }
         }
 
