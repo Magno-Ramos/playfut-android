@@ -2,6 +2,7 @@ package com.magnus.playfut.ui.features.player.form
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.magnus.playfut.domain.database.entities.structure.PlayerEntity
 import com.magnus.playfut.domain.model.structure.PlayerPosition
 import com.magnus.playfut.domain.model.structure.PlayerType
 import com.magnus.playfut.domain.repository.PlayerRepository
@@ -14,28 +15,63 @@ class PlayerFormViewModel(
     private val repository: PlayerRepository
 ) : ViewModel() {
 
-    private val _createPlayerResult = MutableStateFlow<ActionResultState<Unit>>(ActionResultState.Idle)
+    private val _createPlayerResult =
+        MutableStateFlow<ActionResultState<Unit>>(ActionResultState.Idle)
     val createPlayerResult: StateFlow<ActionResultState<Unit>> = _createPlayerResult
 
-    private val _editPlayerResult = MutableStateFlow<ActionResultState<Unit>>(ActionResultState.Idle)
+    private val _editPlayerResult =
+        MutableStateFlow<ActionResultState<Unit>>(ActionResultState.Idle)
     val editPlayerResult: StateFlow<ActionResultState<Unit>> = _editPlayerResult
 
-    private val _deletePlayerResult = MutableStateFlow<ActionResultState<Unit>>(ActionResultState.Idle)
+    private val _deletePlayerResult =
+        MutableStateFlow<ActionResultState<Unit>>(ActionResultState.Idle)
     val deletePlayerResult: StateFlow<ActionResultState<Unit>> = _deletePlayerResult
 
-    fun createPlayer(groupId: String, name: String, type: PlayerPosition, quality: Int, playerType: PlayerType) {
+    fun createPlayer(
+        groupId: String,
+        name: String,
+        type: PlayerPosition,
+        quality: Int,
+        playerType: PlayerType
+    ) {
         viewModelScope.launch {
             _createPlayerResult.value = ActionResultState.Loading
-            repository.createPlayer(groupId, name.trim(), type, quality, playerType)
+
+            val entity = PlayerEntity(
+                groupOwnerId = groupId.toLong(),
+                name = name.trim(),
+                position = type,
+                skillLevel = quality,
+                type = playerType
+            )
+
+            repository.createPlayer(entity)
                 .onSuccess { _createPlayerResult.value = ActionResultState.Success(Unit) }
                 .onFailure { _createPlayerResult.value = ActionResultState.Error(null) }
         }
     }
 
-    fun editPlayer(id: String, groupId: String, name: String, type: PlayerPosition, quality: Int) {
+    fun editPlayer(
+        id: String,
+        groupId: String,
+        name: String,
+        type: PlayerPosition,
+        quality: Int,
+        playerType: PlayerType
+    ) {
         viewModelScope.launch {
             _editPlayerResult.value = ActionResultState.Loading
-            repository.editPlayer(id, groupId, name.trim(), type, quality)
+
+            val entity = PlayerEntity(
+                playerId = id.toLong(),
+                groupOwnerId = groupId.toLong(),
+                name = name.trim(),
+                position = type,
+                skillLevel = quality,
+                type = playerType
+            )
+
+            repository.editPlayer(entity)
                 .onSuccess { _editPlayerResult.value = ActionResultState.Success(Unit) }
                 .onFailure { _editPlayerResult.value = ActionResultState.Error(null) }
         }

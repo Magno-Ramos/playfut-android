@@ -10,18 +10,6 @@ import com.magnus.playfut.domain.repository.RoundRepository
 import com.magnus.playfut.domain.repository.ScoreRepository
 import com.magnus.playfut.domain.repository.StatisticsRepository
 import com.magnus.playfut.domain.repository.TeamRepository
-import com.magnus.playfut.domain.repository.local.LocalGroupRepository
-import com.magnus.playfut.domain.repository.local.LocalMatchRepository
-import com.magnus.playfut.domain.repository.local.LocalPlayerRepository
-import com.magnus.playfut.domain.repository.local.LocalRoundRepository
-import com.magnus.playfut.domain.repository.local.LocalScoreRepository
-import com.magnus.playfut.domain.repository.local.LocalTeamRepository
-import com.magnus.playfut.domain.repository.remote.RemoteGroupRepository
-import com.magnus.playfut.domain.repository.remote.RemoteMatchRepository
-import com.magnus.playfut.domain.repository.remote.RemotePlayerRepository
-import com.magnus.playfut.domain.repository.remote.RemoteRoundRepository
-import com.magnus.playfut.domain.repository.remote.RemoteScoreRepository
-import com.magnus.playfut.domain.repository.remote.RemoteTeamRepository
 import com.magnus.playfut.ui.features.groups.form.GroupsFormViewModel
 import com.magnus.playfut.ui.features.groups.menu.GroupMenuViewModel
 import com.magnus.playfut.ui.features.groups.settings.GroupSettingsViewModel
@@ -52,30 +40,12 @@ val appModules = module {
 
     single { PreferencesRepository(androidContext()) }
 
-    single { RemoteGroupRepository(get()) }
-    single { LocalGroupRepository(get()) }
-    single { GroupRepository(get(), get(), get()) }
-
-    single { LocalRoundRepository(get()) }
-    single { RemoteRoundRepository() }
-    single { RoundRepository(get(), get(), get()) }
-
-    single { RemotePlayerRepository() }
-    single { LocalPlayerRepository(get()) }
-    single { PlayerRepository(get(), get(), get()) }
-
-    single { LocalScoreRepository(get()) }
-    single { RemoteScoreRepository() }
-    single { ScoreRepository(get(), get(), get()) }
-
-    single { LocalTeamRepository(get(), get()) }
-    single { RemoteTeamRepository() }
-    single { TeamRepository(get(), get(), get()) }
-
-    single { LocalMatchRepository(get()) }
-    single { RemoteMatchRepository() }
-    single { MatchRepository(get(), get(), get()) }
-
+    single { GroupRepository(get()) }
+    single { PlayerRepository(get()) }
+    single { MatchRepository(get()) }
+    single { RoundRepository(get()) }
+    single { ScoreRepository(get()) }
+    single { TeamRepository(get(), get()) }
     single { StatisticsRepository(get(), get()) }
 
     viewModel { HomeViewModel(get()) }

@@ -48,9 +48,9 @@ fun PLayerEditScreen(
     val snackBarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
 
-    var playerName = remember { mutableStateOf(player.name) }
-    var playerType = remember { mutableStateOf(player.position) }
-    var playerQuality = remember { mutableIntStateOf(player.skillLevel) }
+    val playerName = remember { mutableStateOf(player.name) }
+    val playerType = remember { mutableStateOf(player.position) }
+    val playerQuality = remember { mutableIntStateOf(player.skillLevel) }
 
     fun closeScreen() {
         context.activity?.onBackPressedDispatcher?.onBackPressed()
@@ -66,7 +66,8 @@ fun PLayerEditScreen(
             groupId = player.groupId,
             name = playerName.value,
             type = playerType.value,
-            quality = playerQuality.intValue
+            quality = playerQuality.intValue,
+            playerType = player.type
         )
     }
 

@@ -1,55 +1,45 @@
 package com.magnus.playfut.domain.repository
 
-import com.google.firebase.auth.FirebaseAuth
+import com.magnus.playfut.domain.database.daos.PlayerDao
+import com.magnus.playfut.domain.database.entities.structure.PlayerEntity
 import com.magnus.playfut.domain.model.structure.Artillery
 import com.magnus.playfut.domain.model.structure.Player
-import com.magnus.playfut.domain.model.structure.PlayerPosition
-import com.magnus.playfut.domain.model.structure.PlayerType
+import com.magnus.playfut.domain.model.structure.toPlayer
 import com.magnus.playfut.domain.repository.datasource.PlayerDataSource
-import com.magnus.playfut.domain.repository.local.LocalPlayerRepository
-import com.magnus.playfut.domain.repository.remote.RemotePlayerRepository
 
 class PlayerRepository(
-    private val localRepository: LocalPlayerRepository,
-    private val remoteRepository: RemotePlayerRepository,
-    private val auth: FirebaseAuth
+    private val dao: PlayerDao
 ) : PlayerDataSource {
 
-    private val source
-        get() = if (auth.currentUser != null) remoteRepository else localRepository
-
-    override suspend fun createPlayer(
-        groupId: String,
-        name: String,
-        type: PlayerPosition,
-        quality: Int,
-        playerType: PlayerType
-    ): Result<Unit> = source.createPlayer(groupId, name, type, quality, playerType)
-
-    override suspend fun editPlayer(
-        id: String,
-        groupId: String,
-        name: String,
-        type: PlayerPosition,
-        quality: Int
-    ): Result<Unit> = source.editPlayer(id, groupId, name, type, quality)
-
-    override suspend fun removePlayer(id: String): Result<Unit> {
-        return source.removePlayer(id)
+    override suspend fun createPlayer(player: PlayerEntity): Result<Unit> = runCatching {
+        dao.insertPlayer(player)
     }
 
-    override suspend fun fetchPlayers(groupId: String): Result<List<Player>> {
-        return source.fetchPlayers(groupId)
+    override suspend fun editPlayer(player: PlayerEntity): Result<Unit> = runCatching {
+        dao.updatePlayer(player)
+    }
+
+    override suspend fun removePlayer(id: String): Result<Unit> = runCatching {
+        val player = dao.getPlayerById(id.toLong())
+        dao.updatePlayer(player.copy(active = false))
+    }
+
+    override suspend fun fetchPlayers(groupId: String) = runCatching {
+        dao.getPlayersByGroupId(groupId.toLong()).map { it.toPlayer() }
     }
 
     override suspend fun fetchPlayersByTeam(
         teamId: String,
         roundId: String
     ): Result<List<Player>> {
-        return source.fetchPlayersByTeam(teamId, roundId)
+        return runCatching {
+            dao.getPlayersByTeamInRound(teamId, roundId).map {
+                it.toPlayer()
+            }
+        }
     }
 
     override suspend fun fetchPlayerScoreRanking(groupId: String): Result<List<Artillery>> {
-        return source.fetchPlayerScoreRanking(groupId)
+        return kotlin.runCatching { dao.getPlayersScoreRanking(groupId) }
     }
 }

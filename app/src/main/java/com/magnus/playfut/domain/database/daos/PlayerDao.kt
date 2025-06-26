@@ -2,6 +2,7 @@ package com.magnus.playfut.domain.database.daos
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
@@ -13,10 +14,10 @@ import com.magnus.playfut.domain.model.structure.Artillery
 
 @Dao
 interface PlayerDao {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun createPlayer(player: PlayerEntity): Long
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun createPlayerStats(stats: PlayerStatsEntity): Long
 
     @Transaction

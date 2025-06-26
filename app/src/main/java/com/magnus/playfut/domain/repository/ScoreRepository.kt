@@ -1,26 +1,19 @@
 package com.magnus.playfut.domain.repository
 
-import com.google.firebase.auth.FirebaseAuth
+import com.magnus.playfut.domain.database.daos.ScoreDao
 import com.magnus.playfut.domain.model.structure.Artillery
 import com.magnus.playfut.domain.model.structure.Score
+import com.magnus.playfut.domain.model.structure.toScore
 import com.magnus.playfut.domain.repository.datasource.ScoreDataSource
-import com.magnus.playfut.domain.repository.local.LocalScoreRepository
-import com.magnus.playfut.domain.repository.remote.RemoteScoreRepository
 
 class ScoreRepository (
-    private val localScoreRepository: LocalScoreRepository,
-    private val remoteScoreRepository: RemoteScoreRepository,
-    private val auth: FirebaseAuth
+    private val scoreDao: ScoreDao
 ) : ScoreDataSource {
-
-    private val source
-        get() = if (auth.currentUser != null) remoteScoreRepository else localScoreRepository
-
     override suspend fun getScoresByRound(roundId: String): Result<List<Score>> {
-        return source.getScoresByRound(roundId)
+        return runCatching { scoreDao.getScoresByRound(roundId).map { it.toScore() } }
     }
 
-    override suspend fun fetchPlayerGoalsInRound(targetRoundId: String): Result<List<Artillery>> {
-        return source.fetchPlayerGoalsInRound(targetRoundId)
+    override suspend fun fetchPlayerGoalsInRound(targetRoundId: String): Result<List<Artillery>> = runCatching {
+        scoreDao.fetchPlayerGoalsInRound(targetRoundId.toLong())
     }
 }

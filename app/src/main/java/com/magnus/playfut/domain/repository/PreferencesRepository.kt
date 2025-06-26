@@ -15,7 +15,7 @@ private const val DEFAULT_PLAYERS_COUNT = 5
 class PreferencesRepository(
     private val context: Context
 ) : PreferencesDataSource {
-    val Context.playFutDataStore by preferencesDataStore(name = "play_fut_preferences")
+    private val Context.playFutDataStore by preferencesDataStore(name = "play_fut_preferences")
 
     private val teamsCountKey = stringPreferencesKey("input_teams_count")
     private val playersCountKey = stringPreferencesKey("input_players_count")
