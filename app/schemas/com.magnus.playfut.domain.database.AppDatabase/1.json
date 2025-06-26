@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "46cf02ac9f10bde12aead2d45aa2fe02",
+    "identityHash": "fb7c90908d55618af1e0ae8dde0f31ae",
     "entities": [
       {
         "tableName": "groups",
@@ -288,7 +288,7 @@
       },
       {
         "tableName": "matches",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`matchId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `homeTeamId` INTEGER NOT NULL, `awayTeamId` INTEGER NOT NULL, `homeTeamScore` INTEGER NOT NULL, `awayTeamScore` INTEGER NOT NULL, `roundId` INTEGER NOT NULL, `createdAt` INTEGER NOT NULL, FOREIGN KEY(`roundId`) REFERENCES `rounds`(`roundId`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`matchId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `homeTeamId` INTEGER NOT NULL, `awayTeamId` INTEGER NOT NULL, `homeTeamScore` INTEGER NOT NULL, `awayTeamScore` INTEGER NOT NULL, `roundId` INTEGER NOT NULL, `groupId` INTEGER NOT NULL, `createdAt` INTEGER NOT NULL, FOREIGN KEY(`roundId`) REFERENCES `rounds`(`roundId`) ON UPDATE CASCADE ON DELETE CASCADE , FOREIGN KEY(`groupId`) REFERENCES `groups`(`groupId`) ON UPDATE CASCADE ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "matchId",
@@ -327,6 +327,12 @@
             "notNull": true
           },
           {
+            "fieldPath": "groupId",
+            "columnName": "groupId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
             "fieldPath": "createdAt",
             "columnName": "createdAt",
             "affinity": "INTEGER",
@@ -348,6 +354,15 @@
             ],
             "orders": [],
             "createSql": "CREATE INDEX IF NOT EXISTS `index_matches_roundId` ON `${TABLE_NAME}` (`roundId`)"
+          },
+          {
+            "name": "index_matches_groupId",
+            "unique": false,
+            "columnNames": [
+              "groupId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_matches_groupId` ON `${TABLE_NAME}` (`groupId`)"
           }
         ],
         "foreignKeys": [
@@ -361,12 +376,23 @@
             "referencedColumns": [
               "roundId"
             ]
+          },
+          {
+            "table": "groups",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "groupId"
+            ],
+            "referencedColumns": [
+              "groupId"
+            ]
           }
         ]
       },
       {
         "tableName": "scores",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`scoreId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `playerId` INTEGER NOT NULL, `roundId` INTEGER NOT NULL, `matchId` INTEGER NOT NULL, `teamIdScored` INTEGER NOT NULL, `isOwnGoal` INTEGER NOT NULL, FOREIGN KEY(`matchId`) REFERENCES `matches`(`matchId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`playerId`) REFERENCES `players`(`playerId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`roundId`) REFERENCES `rounds`(`roundId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`scoreId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `playerId` INTEGER NOT NULL, `roundId` INTEGER NOT NULL, `matchId` INTEGER NOT NULL, `groupId` INTEGER NOT NULL, `teamIdScored` INTEGER NOT NULL, `isOwnGoal` INTEGER NOT NULL, FOREIGN KEY(`matchId`) REFERENCES `matches`(`matchId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`playerId`) REFERENCES `players`(`playerId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`roundId`) REFERENCES `rounds`(`roundId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`groupId`) REFERENCES `groups`(`groupId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "scoreId",
@@ -389,6 +415,12 @@
           {
             "fieldPath": "matchId",
             "columnName": "matchId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "groupId",
+            "columnName": "groupId",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -438,6 +470,15 @@
             ],
             "orders": [],
             "createSql": "CREATE INDEX IF NOT EXISTS `index_scores_roundId` ON `${TABLE_NAME}` (`roundId`)"
+          },
+          {
+            "name": "index_scores_groupId",
+            "unique": false,
+            "columnNames": [
+              "groupId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_scores_groupId` ON `${TABLE_NAME}` (`groupId`)"
           }
         ],
         "foreignKeys": [
@@ -472,6 +513,17 @@
             ],
             "referencedColumns": [
               "roundId"
+            ]
+          },
+          {
+            "table": "groups",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "groupId"
+            ],
+            "referencedColumns": [
+              "groupId"
             ]
           }
         ]
@@ -782,7 +834,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '46cf02ac9f10bde12aead2d45aa2fe02')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'fb7c90908d55618af1e0ae8dde0f31ae')"
     ]
   }
 }

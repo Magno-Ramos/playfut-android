@@ -107,6 +107,7 @@ fun RoundPlayingMatchScreen(
     fun applyFinishMatch() {
         viewModel.closeMatch(
             MatchForm(
+                groupId = roundState.asSuccess()?.data?.groupId.orEmpty(),
                 roundId = roundState.asSuccess()?.data?.roundId.orEmpty(),
                 homeTeamId = homeTeam.id,
                 awayTeamId = awayTeam.id,

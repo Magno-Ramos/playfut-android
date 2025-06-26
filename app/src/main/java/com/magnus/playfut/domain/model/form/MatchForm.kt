@@ -3,6 +3,7 @@ package com.magnus.playfut.domain.model.form
 import com.magnus.playfut.domain.model.structure.Player
 
 data class MatchForm(
+    val groupId: String,
     val roundId: String,
     val homeTeamId: String,
     val awayTeamId: String,

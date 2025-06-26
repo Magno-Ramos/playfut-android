@@ -39,8 +39,8 @@ interface PlayerDao {
     suspend fun getActivePlayersCount(groupId: Long): Int
 
     @Query("""
-        SELECT * FROM player_stats
-        INNER JOIN players ON player_stats.playerId = players.playerId
+        SELECT P.* FROM player_stats as P
+        INNER JOIN players ON P.playerId = players.playerId
         WHERE groupId = :groupId AND players.active = 1
     """)
     suspend fun getPlayerStats(groupId: String): List<PlayerStatsEntity>

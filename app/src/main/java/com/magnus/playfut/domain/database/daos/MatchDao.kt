@@ -48,7 +48,7 @@ interface MatchDao {
 
     @Transaction
     suspend fun insertMatchWithScores(form: MatchForm): Long {
-        val round = getRoundById(form.roundId.toLong())
+        val groupId = form.groupId.toLong()
         val homeScores = form.scores.filter { it.scoredTeamId == form.homeTeamId }
         val awayScores = form.scores.filter { it.scoredTeamId == form.awayTeamId }
 
@@ -57,13 +57,14 @@ interface MatchDao {
             awayTeamId = form.awayTeamId.toLong(),
             homeTeamScore = homeScores.size,
             awayTeamScore = awayScores.size,
+            groupId = form.groupId.toLong(),
             roundId = form.roundId.toLong()
         )
 
         val matchId = insertMatch(match)
 
         // update group stats
-        increaseGroupMatchCount(round.groupOwnerId)
+        increaseGroupMatchCount(groupId)
 
         // update player stats
         val allPlayers = form.awayPlayers + form.homePlayers
@@ -94,12 +95,13 @@ interface MatchDao {
                     playerId = it.playerId.toLong(),
                     roundId = form.roundId.toLong(),
                     teamIdScored = it.scoredTeamId.toLong(),
+                    groupId = groupId,
                     isOwnGoal = it.isOwnGoal
                 )
             )
 
             // update group stats
-            increaseGroupScoreCount(round.groupOwnerId)
+            increaseGroupScoreCount(groupId)
 
             // update player stats
             increasePlayerGoalCount(it.playerId.toLong())

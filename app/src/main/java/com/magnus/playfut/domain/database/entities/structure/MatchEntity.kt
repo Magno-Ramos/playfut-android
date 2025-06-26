@@ -15,10 +15,18 @@ import java.util.Date
             childColumns = ["roundId"],
             onDelete = ForeignKey.CASCADE,
             onUpdate = ForeignKey.CASCADE
+        ),
+        ForeignKey(
+            entity = GroupEntity::class,
+            parentColumns = ["groupId"],
+            childColumns = ["groupId"],
+            onDelete = ForeignKey.CASCADE,
+            onUpdate = ForeignKey.CASCADE
         )
     ],
     indices = [
-        Index(value = ["roundId"])
+        Index(value = ["roundId"]),
+        Index(value = ["groupId"]),
     ]
 )
 data class MatchEntity (
@@ -29,5 +37,6 @@ data class MatchEntity (
     val homeTeamScore: Int,
     val awayTeamScore: Int,
     val roundId: Long,
+    val groupId: Long,
     val createdAt: Date = Date()
 )
