@@ -90,4 +90,7 @@ dependencies {
     implementation(libs.konfetti.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.datastore.preferences)
+
+    val billingVersion = "7.0.0"
+    implementation("com.android.billingclient:billing-ktx:${billingVersion}")
 }

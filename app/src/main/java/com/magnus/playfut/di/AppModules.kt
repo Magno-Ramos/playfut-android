@@ -10,6 +10,7 @@ import com.magnus.playfut.domain.repository.RoundRepository
 import com.magnus.playfut.domain.repository.ScoreRepository
 import com.magnus.playfut.domain.repository.StatisticsRepository
 import com.magnus.playfut.domain.repository.TeamRepository
+import com.magnus.playfut.domain.repository.UserRepository
 import com.magnus.playfut.ui.features.groups.form.GroupsFormViewModel
 import com.magnus.playfut.ui.features.groups.menu.GroupMenuViewModel
 import com.magnus.playfut.ui.features.groups.settings.GroupSettingsViewModel
@@ -20,6 +21,7 @@ import com.magnus.playfut.ui.features.rounds.history.RoundHistoryViewModel
 import com.magnus.playfut.ui.features.rounds.playing.RoundPlayingViewModel
 import com.magnus.playfut.ui.features.rounds.playing.screens.RoundPlayingTeamViewModel
 import com.magnus.playfut.ui.features.rounds.sorting.form.RoundSortViewModel
+import com.magnus.playfut.ui.features.splash.SplashViewModel
 import com.magnus.playfut.ui.features.statistic.home.StatisticHomeViewModel
 import com.magnus.playfut.ui.features.statistic.ranking.RankingViewModel
 import org.koin.android.ext.koin.androidApplication
@@ -40,6 +42,7 @@ val appModules = module {
 
     single { PreferencesRepository(androidContext()) }
 
+    single { UserRepository(get()) }
     single { GroupRepository(get()) }
     single { PlayerRepository(get()) }
     single { MatchRepository(get()) }
@@ -48,6 +51,7 @@ val appModules = module {
     single { TeamRepository(get(), get()) }
     single { StatisticsRepository(get(), get()) }
 
+    viewModel { SplashViewModel(get()) }
     viewModel { HomeViewModel(get()) }
     viewModel { GroupsFormViewModel(get()) }
     viewModel { GroupMenuViewModel(get()) }
