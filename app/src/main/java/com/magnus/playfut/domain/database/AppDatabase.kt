@@ -16,6 +16,7 @@ import com.magnus.playfut.domain.database.daos.RoundDao
 import com.magnus.playfut.domain.database.daos.SchemaDao
 import com.magnus.playfut.domain.database.daos.ScoreDao
 import com.magnus.playfut.domain.database.daos.TeamDao
+import com.magnus.playfut.domain.database.daos.UserDao
 import com.magnus.playfut.domain.database.entities.relations.crossref.CrossRefSchemaPlayer
 import com.magnus.playfut.domain.database.entities.relations.crossref.CrossRefTeamRound
 import com.magnus.playfut.domain.database.entities.structure.GroupEntity
@@ -28,9 +29,11 @@ import com.magnus.playfut.domain.database.entities.structure.RoundResultEntity
 import com.magnus.playfut.domain.database.entities.structure.SchemaEntity
 import com.magnus.playfut.domain.database.entities.structure.ScoreEntity
 import com.magnus.playfut.domain.database.entities.structure.TeamEntity
+import com.magnus.playfut.domain.database.entities.structure.UserEntity
 
 @Database(
     entities = [
+        UserEntity::class,
         GroupEntity::class,
         GroupStatsEntity::class,
         PlayerEntity::class,
@@ -53,18 +56,13 @@ import com.magnus.playfut.domain.database.entities.structure.TeamEntity
 )
 abstract class AppDatabase : RoomDatabase() {
 
+    abstract fun userDao(): UserDao
     abstract fun groupDao(): GroupDao
-
     abstract fun playerDao(): PlayerDao
-
     abstract fun roundDao(): RoundDao
-
     abstract fun matchDao(): MatchDao
-
     abstract fun scoreDao(): ScoreDao
-
     abstract fun teamDao(): TeamDao
-
     abstract fun schemaDao(): SchemaDao
 
     companion object {

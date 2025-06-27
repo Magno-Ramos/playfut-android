@@ -24,6 +24,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.magnus.playfut.R
 import com.magnus.playfut.domain.state.StateHandler
 import com.magnus.playfut.extensions.activity
+import com.magnus.playfut.ui.components.ProVersion
 import com.magnus.playfut.ui.features.common.AppToolbar
 import com.magnus.playfut.ui.features.common.ErrorView
 import com.magnus.playfut.ui.features.common.LoadingView
@@ -107,11 +108,19 @@ fun StatisticHomeScreen(
 
                         Spacer(Modifier.height(MaterialTheme.spacing.large))
                         HomeLabel("Ranking de Artilharia")
-                        StatisticsArtilleryRanking(
-                            list = data.artilleryRanking,
-                            maxCount = 3,
-                            onClickSeeAll = { openArtilleryRanking() }
-                        )
+                        if (viewModel.isProVersionEnabled) {
+                            StatisticsArtilleryRanking(
+                                list = data.artilleryRanking,
+                                maxCount = 3,
+                                onClickSeeAll = { openArtilleryRanking() }
+                            )
+                        } else {
+                            ProVersion(
+                                title = "Veja o ranking de goleadores do grupo",
+                                action = "Desbloquear",
+                                onClick = {}
+                            )
+                        }
                     }
                 }
             }

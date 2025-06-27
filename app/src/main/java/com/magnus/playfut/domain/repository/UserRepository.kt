@@ -1,19 +1,20 @@
 package com.magnus.playfut.domain.repository
 
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
+import com.magnus.playfut.domain.database.daos.UserDao
+import com.magnus.playfut.domain.database.entities.structure.UserEntity
 import com.magnus.playfut.domain.model.structure.User
-import com.magnus.playfut.domain.model.structure.UserAnonymously
-import com.magnus.playfut.domain.model.structure.UserRegistered
 import kotlinx.coroutines.tasks.await
 
 class UserRepository(
-    private val firebaseAuth: FirebaseAuth
+    private val firebaseAuth: FirebaseAuth,
+    private val userDao: UserDao
 ) {
+
+    var isProVersionEnabled = false
 
     /**
      * Sign in anonymously.
@@ -29,30 +30,35 @@ class UserRepository(
         val firestore = FirebaseFirestore.getInstance()
 
         val userDoc: DocumentReference
-        val firebaseUser: FirebaseUser
+        var firebaseUser = firebaseAuth.currentUser
 
-        if (firebaseAuth.currentUser != null) {
-            firebaseUser = firebaseAuth.currentUser ?: error("Failed to sign in anonymously")
-            userDoc = firestore.collection("users").document(firebaseUser.uid)
-        } else {
+        if (firebaseUser == null) {
+            // sign in anonymously
             val result = firebaseAuth.signInAnonymously().await()
             firebaseUser = result.user ?: error("Failed to sign in anonymously")
-            userDoc = firestore.collection("users").document(firebaseUser.uid)
         }
+
+        // get user from database, if it exists
+        userDao.getUserByUid(firebaseUser.uid)?.let {
+            isProVersionEnabled = it.isPro
+        }
+
+        userDoc = firestore.collection("users").document(firebaseUser.uid)
 
         var snapshot = userDoc.get().await()
         if (!snapshot.exists()) {
-            val isPro = false
-            val firstAccess = FieldValue.serverTimestamp()
-            val data = mapOf("isPro" to isPro, "firstAccess" to firstAccess)
-            userDoc.set(data).await()
+            val user = User(uid = firebaseUser.uid)
+            userDoc.set(user).await()
             snapshot = userDoc.get().await()
         }
 
-        if (firebaseUser.isAnonymous) {
-            snapshot.toObject<UserAnonymously>()
-        } else {
-            snapshot.toObject<UserRegistered>()
+        val user = snapshot.toObject<User>()
+        user?.let {
+            isProVersionEnabled = it.isPro
+            val entity = UserEntity(uid = it.uid, isPro = it.isPro)
+            userDao.insert(entity)
         }
+
+        user
     }
 }

@@ -33,8 +33,8 @@ fun ProVersion(
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small),
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onClick() }
             .clip(MaterialTheme.shapes.small)
+            .clickable { onClick() }
             .background(MaterialTheme.colorScheme.surfaceContainer)
             .padding(MaterialTheme.spacing.medium)
     ) {

@@ -31,6 +31,7 @@ import org.koin.dsl.module
 
 val appModules = module {
     single { AppDatabase.build(androidApplication()) }
+    single { get<AppDatabase>().userDao() }
     single { get<AppDatabase>().groupDao() }
     single { get<AppDatabase>().playerDao() }
     single { get<AppDatabase>().roundDao() }
@@ -42,7 +43,7 @@ val appModules = module {
 
     single { PreferencesRepository(androidContext()) }
 
-    single { UserRepository(get()) }
+    single { UserRepository(get(), get()) }
     single { GroupRepository(get()) }
     single { PlayerRepository(get()) }
     single { MatchRepository(get()) }
@@ -60,7 +61,7 @@ val appModules = module {
     viewModel { PlayerFormViewModel(get()) }
     viewModel { RoundHistoryViewModel(get()) }
     viewModel { RoundPlayingTeamViewModel(get()) }
-    viewModel { StatisticHomeViewModel(get()) }
+    viewModel { StatisticHomeViewModel(get(), get()) }
     viewModel { RankingViewModel(get()) }
     viewModel { RoundSortViewModel(get(), get(), get()) }
     viewModel { RoundPlayingViewModel(get(), get(), get(), get()) }

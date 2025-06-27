@@ -1,16 +1,13 @@
 package com.magnus.playfut.domain.model.structure
 
-interface User {
-    val uid: String
-}
+import com.google.firebase.firestore.PropertyName
+import kotlinx.serialization.Serializable
+import java.util.Date
 
-data class UserAnonymously(
-    override val uid: String = "",
-    val isPro: Boolean = false
-) : User
-
-data class UserRegistered(
-    override val uid: String,
-    val isPro: Boolean,
-    val displayName: String
-) : User
+@Serializable
+data class User(
+    val uid: String = "",
+    @PropertyName("pro")
+    val isPro: Boolean = false,
+    val firstAccess: Long = Date().time
+)
