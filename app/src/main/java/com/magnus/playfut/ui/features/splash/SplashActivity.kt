@@ -4,17 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.magnus.playfut.domain.state.StateHandler
+import com.magnus.playfut.ui.features.common.ErrorView
+import com.magnus.playfut.ui.features.common.LoadingView
 import com.magnus.playfut.ui.features.home.HomeActivity
 import com.magnus.playfut.ui.theme.AppTheme
 import org.koin.androidx.compose.koinViewModel
@@ -43,14 +40,11 @@ private fun SplashScreen(
         viewModel.signInAnonymously()
     }
 
-    StateHandler(authState) {
-        success { navigateHome() }
-        error { navigateHome() }
-    }
-
     AppTheme {
-        Box(Modifier.fillMaxSize()) {
-            CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+        StateHandler(authState) {
+            success { navigateHome() }
+            loading { LoadingView() }
+            error { ErrorView() }
         }
     }
 }

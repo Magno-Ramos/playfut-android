@@ -17,9 +17,6 @@ fun <T> UiState<T>.asError() = this as? UiState.Error
 
 fun <T> Result<T>.collectUiState(state: MutableStateFlow<UiState<T>>) {
     state.value = UiState.Loading
-    onFailure {
-        print(it)
-        state.value = UiState.Error(it)
-    }
+    onFailure { state.value = UiState.Error(it) }
     onSuccess { state.value = UiState.Success(it) }
 }
