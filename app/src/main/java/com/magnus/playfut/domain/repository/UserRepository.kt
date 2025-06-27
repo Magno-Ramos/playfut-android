@@ -7,6 +7,9 @@ import com.google.firebase.firestore.toObject
 import com.magnus.playfut.domain.database.daos.UserDao
 import com.magnus.playfut.domain.database.entities.structure.UserEntity
 import com.magnus.playfut.domain.model.structure.User
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
 class UserRepository(
@@ -14,7 +17,21 @@ class UserRepository(
     private val userDao: UserDao
 ) {
 
+    private val scope = CoroutineScope(Dispatchers.IO)
+    private val firestore = FirebaseFirestore.getInstance()
+
     var isProVersionEnabled = false
+
+    init {
+        firebaseAuth.addAuthStateListener { state ->
+            val firebaseUser = state.currentUser
+            if (firebaseUser != null) {
+                handleSignIn(firebaseUser)
+            } else {
+                handleSignOut()
+            }
+        }
+    }
 
     /**
      * Sign in anonymously.
@@ -26,7 +43,7 @@ class UserRepository(
      * @return [User]
      * @throws Exception if the sign in fails
      */
-    suspend fun signInAnonymously(): Result<User?> = runCatching {
+    suspend fun signInAnonymously(): Result<String?> = runCatching {
         var firebaseUser = firebaseAuth.currentUser
 
         if (firebaseUser == null) {
@@ -35,35 +52,33 @@ class UserRepository(
             firebaseUser = result.user ?: error("Failed to sign in anonymously")
         }
 
-        handleSignIn(firebaseUser)
+        firebaseUser.uid
     }
 
-    private suspend fun handleSignIn(firebaseUser: FirebaseUser): User? {
-        val firestore = FirebaseFirestore.getInstance()
-
-        // get user from database, if it exists
-        userDao.getUserByUid(firebaseUser.uid)?.let {
-            isProVersionEnabled = it.isPro
-        }
-
+    private fun handleSignIn(firebaseUser: FirebaseUser) {
         val userDoc = firestore
             .collection("users")
             .document(firebaseUser.uid)
 
-        var snapshot = userDoc.get().await()
-        if (!snapshot.exists()) {
-            val user = User(uid = firebaseUser.uid)
-            userDoc.set(user).await()
-            snapshot = userDoc.get().await()
-        }
+        userDoc.addSnapshotListener { value, error ->
+            if (error != null) {
+                return@addSnapshotListener
+            }
 
-        val user = snapshot.toObject<User>()
-        user?.let {
-            isProVersionEnabled = it.isPro
-            val entity = UserEntity(uid = it.uid, isPro = it.isPro)
-            userDao.insert(entity)
+            value?.toObject<User>()?.let {
+                scope.launch {
+                    isProVersionEnabled = it.isPro
+                    val entity = UserEntity(uid = it.uid, isPro = it.isPro)
+                    userDao.insert(entity)
+                }
+            }
         }
+    }
 
-        return user
+    private fun handleSignOut() {
+        scope.launch {
+            userDao.deleteAll()
+            isProVersionEnabled = false
+        }
     }
 }
