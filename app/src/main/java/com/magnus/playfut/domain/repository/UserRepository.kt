@@ -55,19 +55,41 @@ class UserRepository(
         firebaseUser.uid
     }
 
+    /**
+     * Handle sign in.
+     *
+     * Control the flow of the user storage data
+     *
+     * @param firebaseUser [FirebaseUser]
+     * @return [Unit]
+     */
     private fun handleSignIn(firebaseUser: FirebaseUser) {
         val userDoc = firestore
             .collection("users")
             .document(firebaseUser.uid)
+
+        scope.launch {
+            val snapshot = userDoc.get().await()
+
+            // if the user document does not exist, create it
+            if (!snapshot.exists()) {
+                val user = User(uid = firebaseUser.uid)
+                userDoc.set(user).await()
+            }
+        }
 
         userDoc.addSnapshotListener { value, error ->
             if (error != null) {
                 return@addSnapshotListener
             }
 
+            // read user data from firestore
             value?.toObject<User>()?.let {
                 scope.launch {
+                    // update isProVersionEnabled
                     isProVersionEnabled = it.isPro
+
+                    // update user storage data
                     val entity = UserEntity(uid = it.uid, isPro = it.isPro)
                     userDao.insert(entity)
                 }
@@ -75,6 +97,11 @@ class UserRepository(
         }
     }
 
+    /**
+     * Handle sign out.
+     *
+     * Clear the user storage data
+     */
     private fun handleSignOut() {
         scope.launch {
             userDao.deleteAll()
