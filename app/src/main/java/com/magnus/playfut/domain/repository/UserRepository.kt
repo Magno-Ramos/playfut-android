@@ -1,7 +1,7 @@
 package com.magnus.playfut.domain.repository
 
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
 import com.magnus.playfut.domain.database.daos.UserDao
@@ -27,9 +27,6 @@ class UserRepository(
      * @throws Exception if the sign in fails
      */
     suspend fun signInAnonymously(): Result<User?> = runCatching {
-        val firestore = FirebaseFirestore.getInstance()
-
-        val userDoc: DocumentReference
         var firebaseUser = firebaseAuth.currentUser
 
         if (firebaseUser == null) {
@@ -38,12 +35,20 @@ class UserRepository(
             firebaseUser = result.user ?: error("Failed to sign in anonymously")
         }
 
+        handleSignIn(firebaseUser)
+    }
+
+    private suspend fun handleSignIn(firebaseUser: FirebaseUser): User? {
+        val firestore = FirebaseFirestore.getInstance()
+
         // get user from database, if it exists
         userDao.getUserByUid(firebaseUser.uid)?.let {
             isProVersionEnabled = it.isPro
         }
 
-        userDoc = firestore.collection("users").document(firebaseUser.uid)
+        val userDoc = firestore
+            .collection("users")
+            .document(firebaseUser.uid)
 
         var snapshot = userDoc.get().await()
         if (!snapshot.exists()) {
@@ -59,6 +64,6 @@ class UserRepository(
             userDao.insert(entity)
         }
 
-        user
+        return user
     }
 }
